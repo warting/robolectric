@@ -388,6 +388,13 @@ public class ShadowTelecomManagerTest {
   }
 
   @Test
+  public void setTtySupported() {
+    assertThat(telecomService.isTtySupported()).isFalse();
+    shadowOf(telecomService).setTtySupported(true);
+    assertThat(telecomService.isTtySupported()).isTrue();
+  }
+
+  @Test
   public void canSetAndGetIsInCall() throws Exception {
     shadowOf(telecomService).setIsInCall(true);
     assertThat(telecomService.isInCall()).isTrue();
@@ -445,6 +452,18 @@ public class ShadowTelecomManagerTest {
     assertThat(intent.getAction()).isEqualTo(Intent.ACTION_DIAL_EMERGENCY);
     Uri uri = intent.getData();
     assertThat(uri.toString()).isEqualTo("tel:1234");
+  }
+
+  @Test
+  @Config(minSdk = Q)
+  public void getUserSelectedOutgoingPhoneAccount() {
+    // Check initial state
+    assertThat(telecomService.getUserSelectedOutgoingPhoneAccount()).isNull();
+
+    // Set a phone account and verify
+    PhoneAccountHandle phoneAccountHandle = createHandle("id1");
+    shadowOf(telecomService).setUserSelectedOutgoingPhoneAccount(phoneAccountHandle);
+    assertThat(telecomService.getUserSelectedOutgoingPhoneAccount()).isEqualTo(phoneAccountHandle);
   }
 
   private static PhoneAccountHandle createHandle(String id) {
