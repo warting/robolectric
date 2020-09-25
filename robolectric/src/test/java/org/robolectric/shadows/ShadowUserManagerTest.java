@@ -9,6 +9,7 @@ import static android.os.Build.VERSION_CODES.N;
 import static android.os.Build.VERSION_CODES.N_MR1;
 import static android.os.Build.VERSION_CODES.O;
 import static android.os.Build.VERSION_CODES.Q;
+import static android.os.Build.VERSION_CODES.R;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
 import static org.robolectric.Shadows.shadowOf;
@@ -36,6 +37,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
+import org.robolectric.shadow.api.Shadow;
 import org.robolectric.shadows.ShadowUserManager.UserState;
 
 @RunWith(AndroidJUnit4.class)
@@ -148,6 +150,22 @@ public class ShadowUserManagerTest {
   }
 
   @Test
+  @Config(minSdk = R)
+  public void isManagedProfile_usesContextUser() {
+    shadowOf(userManager)
+        .addProfile(
+            0, PROFILE_USER_HANDLE, PROFILE_USER_NAME, ShadowUserManager.FLAG_MANAGED_PROFILE);
+
+    assertThat(userManager.isManagedProfile()).isFalse();
+
+    Application application = ApplicationProvider.getApplicationContext();
+    ShadowContextImpl shadowContext = Shadow.extract(application.getBaseContext());
+    shadowContext.setUserId(PROFILE_USER_HANDLE);
+
+    assertThat(userManager.isManagedProfile()).isTrue();
+  }
+
+  @Test
   @Config(minSdk = N)
   public void isManagedProfileWithHandle() {
     shadowOf(userManager).addUser(12, "secondary user", 0);
@@ -217,6 +235,24 @@ public class ShadowUserManagerTest {
     long serialNumber = userManager.getUserSerialNumber(11);
     assertThat(serialNumber).isNotEqualTo(serialNumberInvalid);
     assertThat(userManager.getUserHandle((int) serialNumber)).isEqualTo(11);
+  }
+
+  @Test
+  @Config(minSdk = JELLY_BEAN_MR1)
+  public void getSerialNumberForUser_returnsSetSerialNumberForUser() {
+    UserHandle userHandle = newUserHandle(0);
+    shadowOf(userManager).setSerialNumberForUser(userHandle, 123L);
+    assertThat(userManager.getSerialNumberForUser(userHandle)).isEqualTo(123L);
+  }
+
+  @Test
+  @Config(minSdk = JELLY_BEAN_MR1)
+  public void setSerialNumberForUser_afterReset_returnsDefaultSerialNumber() {
+    UserHandle userHandle = newUserHandle(0);
+    shadowOf(userManager).setSerialNumberForUser(userHandle, 123L);
+
+    ShadowUserManager.reset();
+    assertThat(userManager.getSerialNumberForUser(userHandle)).isEqualTo(0L);
   }
 
   @Test
@@ -376,6 +412,18 @@ public class ShadowUserManagerTest {
 
   @Test
   @Config(minSdk = JELLY_BEAN_MR1)
+  public void isUserRunning_afterReset_userStateReset() {
+    UserHandle userHandle = newUserHandle(0);
+
+    shadowOf(userManager).setUserState(userHandle, UserState.STATE_RUNNING_LOCKED);
+    assertThat(userManager.isUserRunning(userHandle)).isTrue();
+
+    ShadowUserManager.reset();
+    assertThat(userManager.isUserRunning(userHandle)).isFalse();
+  }
+
+  @Test
+  @Config(minSdk = JELLY_BEAN_MR1)
   public void isUserRunningOrStopping() {
     UserHandle userHandle = newUserHandle(0);
 
@@ -480,6 +528,17 @@ public class ShadowUserManagerTest {
 
   @Test
   @Config(minSdk = JELLY_BEAN_MR1)
+  public void getUsers_afterReset_onlyHasDefaultUser() {
+    assertThat(userManager.getUsers()).hasSize(1);
+    shadowOf(userManager).addUser(10, "secondary_user", 0);
+    assertThat(userManager.getUsers()).hasSize(2);
+
+    ShadowUserManager.reset();
+    assertThat(userManager.getUsers()).hasSize(1);
+  }
+
+  @Test
+  @Config(minSdk = JELLY_BEAN_MR1)
   public void getUserInfo() {
     shadowOf(userManager).addUser(10, "secondary_user", 0);
     assertThat(userManager.getUserInfo(10)).isNotNull();
@@ -521,6 +580,153 @@ public class ShadowUserManagerTest {
     // getProfiles(userId) include user itself and asssociated profiles.
     assertThat(userManager.getProfiles(TEST_USER_HANDLE).get(0).id).isEqualTo(TEST_USER_HANDLE);
     assertThat(userManager.getProfiles(TEST_USER_HANDLE).get(1).id).isEqualTo(PROFILE_USER_HANDLE);
+  }
+
+  @Test
+  @Config(minSdk = R)
+  public void getEnabledProfiles() {
+    shadowOf(userManager).addUser(TEST_USER_HANDLE, "", 0);
+    shadowOf(userManager).addProfile(TEST_USER_HANDLE, 10, PROFILE_USER_NAME, PROFILE_USER_FLAGS);
+    shadowOf(userManager).addProfile(TEST_USER_HANDLE, 11, PROFILE_USER_NAME, PROFILE_USER_FLAGS);
+    shadowOf(userManager).setIsUserEnabled(11, false);
+
+    assertThat(userManager.getEnabledProfiles()).hasSize(2);
+    assertThat(userManager.getEnabledProfiles().get(0).getIdentifier()).isEqualTo(TEST_USER_HANDLE);
+    assertThat(userManager.getEnabledProfiles().get(1).getIdentifier()).isEqualTo(10);
+  }
+
+  @Test
+  @Config(minSdk = R)
+  public void getAllProfiles() {
+    shadowOf(userManager).addUser(TEST_USER_HANDLE, "", 0);
+    shadowOf(userManager).addProfile(TEST_USER_HANDLE, 10, PROFILE_USER_NAME, PROFILE_USER_FLAGS);
+    shadowOf(userManager).addProfile(TEST_USER_HANDLE, 11, PROFILE_USER_NAME, PROFILE_USER_FLAGS);
+    shadowOf(userManager).setIsUserEnabled(11, false);
+
+    assertThat(userManager.getAllProfiles()).hasSize(3);
+    assertThat(userManager.getAllProfiles().get(0).getIdentifier()).isEqualTo(TEST_USER_HANDLE);
+    assertThat(userManager.getAllProfiles().get(1).getIdentifier()).isEqualTo(10);
+    assertThat(userManager.getAllProfiles().get(2).getIdentifier()).isEqualTo(11);
+  }
+
+  @Test
+  @Config(minSdk = R)
+  public void getAllProfiles_afterReset_containsNoProfiles() {
+    shadowOf(userManager).addUser(TEST_USER_HANDLE, "", 0);
+    shadowOf(userManager).addProfile(TEST_USER_HANDLE, 10, PROFILE_USER_NAME, PROFILE_USER_FLAGS);
+    shadowOf(userManager).addProfile(TEST_USER_HANDLE, 11, PROFILE_USER_NAME, PROFILE_USER_FLAGS);
+    shadowOf(userManager).setIsUserEnabled(11, false);
+
+    ShadowUserManager.reset();
+    assertThat(userManager.getAllProfiles()).hasSize(1);
+    assertThat(userManager.getAllProfiles().get(0).getIdentifier()).isEqualTo(0);
+  }
+
+  @Test
+  @Config(minSdk = R)
+  public void createProfile_maxUsersReached_returnsNull() {
+    shadowOf(userManager).addUser(TEST_USER_HANDLE, "", 0);
+    shadowOf(userManager).setMaxSupportedUsers(1);
+    assertThat(
+            userManager.createProfile(
+                PROFILE_USER_NAME, UserManager.USER_TYPE_PROFILE_MANAGED, null))
+        .isNull();
+  }
+
+  @Test
+  @Config(minSdk = R)
+  public void createProfile_setsGivenUserName() {
+    shadowOf(userManager).addUser(TEST_USER_HANDLE, "", 0);
+    shadowOf(userManager).setMaxSupportedUsers(2);
+    userManager.createProfile(PROFILE_USER_NAME, UserManager.USER_TYPE_PROFILE_MANAGED, null);
+
+    Application application = ApplicationProvider.getApplicationContext();
+    ShadowContextImpl shadowContext = Shadow.extract(application.getBaseContext());
+    shadowContext.setUserId(ShadowUserManager.DEFAULT_SECONDARY_USER_ID);
+    assertThat(userManager.getUserName()).isEqualTo(PROFILE_USER_NAME);
+  }
+
+  @Test
+  @Config(minSdk = R)
+  public void createProfile_userIdIncreasesFromDefault() {
+    shadowOf(userManager).addUser(TEST_USER_HANDLE, "", 0);
+    shadowOf(userManager).setMaxSupportedUsers(3);
+    UserHandle newUser1 =
+        userManager.createProfile("profile A", UserManager.USER_TYPE_PROFILE_MANAGED, null);
+    UserHandle newUser2 =
+        userManager.createProfile("profile B", UserManager.USER_TYPE_PROFILE_MANAGED, null);
+
+    assertThat(newUser1.getIdentifier()).isEqualTo(ShadowUserManager.DEFAULT_SECONDARY_USER_ID);
+    assertThat(newUser2.getIdentifier()).isEqualTo(ShadowUserManager.DEFAULT_SECONDARY_USER_ID + 1);
+  }
+
+  @Test
+  @Config(minSdk = R)
+  public void createProfile_afterReset_userIdIncreasesFromDefault() {
+    shadowOf(userManager).addUser(TEST_USER_HANDLE, "", 0);
+    shadowOf(userManager).setMaxSupportedUsers(3);
+    userManager.createProfile("", UserManager.USER_TYPE_PROFILE_MANAGED, null);
+    ShadowUserManager.reset();
+    shadowOf(userManager).setMaxSupportedUsers(3);
+
+    UserHandle newUser1 =
+        userManager.createProfile("", UserManager.USER_TYPE_PROFILE_MANAGED, null);
+    UserHandle newUser2 =
+        userManager.createProfile("", UserManager.USER_TYPE_PROFILE_MANAGED, null);
+
+    assertThat(newUser1.getIdentifier()).isEqualTo(ShadowUserManager.DEFAULT_SECONDARY_USER_ID);
+    assertThat(newUser2.getIdentifier()).isEqualTo(ShadowUserManager.DEFAULT_SECONDARY_USER_ID + 1);
+  }
+
+  @Test
+  @Config(minSdk = R)
+  public void setUserName() {
+    shadowOf(userManager).addUser(TEST_USER_HANDLE, "", 0);
+    shadowOf(userManager)
+        .addProfile(TEST_USER_HANDLE, PROFILE_USER_HANDLE, PROFILE_USER_NAME, PROFILE_USER_FLAGS);
+
+    userManager.setUserName("new user name");
+
+    Application application = ApplicationProvider.getApplicationContext();
+    ShadowContextImpl shadowContext = Shadow.extract(application.getBaseContext());
+    shadowContext.setUserId(PROFILE_USER_HANDLE);
+    userManager.setUserName("new profile name");
+    assertThat(userManager.getUserName()).isEqualTo("new profile name");
+
+    shadowContext.setUserId(TEST_USER_HANDLE);
+    assertThat(userManager.getUserName()).isEqualTo("new user name");
+  }
+
+  @Test
+  @Config(minSdk = R)
+  public void isUserOfType() {
+    shadowOf(userManager).addUser(TEST_USER_HANDLE, "", 0);
+    shadowOf(userManager).setMaxSupportedUsers(2);
+    UserHandle newUser =
+        userManager.createProfile(PROFILE_USER_NAME, UserManager.USER_TYPE_PROFILE_MANAGED, null);
+    assertThat(userManager.isUserOfType(UserManager.USER_TYPE_PROFILE_MANAGED)).isFalse();
+
+    Application application = ApplicationProvider.getApplicationContext();
+    ShadowContextImpl shadowContext = Shadow.extract(application.getBaseContext());
+    shadowContext.setUserId(newUser.getIdentifier());
+
+    assertThat(userManager.isUserOfType(UserManager.USER_TYPE_PROFILE_MANAGED)).isTrue();
+  }
+
+  @Test
+  @Config(minSdk = JELLY_BEAN_MR1)
+  public void getMaxSupportedUsers() {
+    assertThat(UserManager.getMaxSupportedUsers()).isEqualTo(1);
+    shadowOf(userManager).setMaxSupportedUsers(5);
+    assertThat(UserManager.getMaxSupportedUsers()).isEqualTo(5);
+  }
+
+  @Test
+  @Config(minSdk = JELLY_BEAN_MR1)
+  public void getMaxSupportedUsers_afterReset_returnsDefault() {
+    shadowOf(userManager).setMaxSupportedUsers(5);
+    ShadowUserManager.reset();
+    assertThat(UserManager.getMaxSupportedUsers()).isEqualTo(1);
   }
 
   @Test
@@ -573,7 +779,6 @@ public class ShadowUserManagerTest {
     shadowOf(userManager).setUserSwitchability(UserManager.SWITCHABILITY_STATUS_OK);
     shadowOf(userManager).addUser(10, PROFILE_USER_NAME, /* flags = */ 0);
     shadowOf(userManager).switchUser(10);
-
     assertThat(userManager.getUserName()).isEqualTo(PROFILE_USER_NAME);
   }
 
