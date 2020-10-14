@@ -1,5 +1,6 @@
 package org.robolectric.shadows;
 
+import android.annotation.ColorInt;
 import android.content.pm.PackageInfo;
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -73,6 +74,7 @@ public class ShadowWebView extends ShadowViewGroup {
   private boolean canGoBackIsSet;
   private PageLoadType pageLoadType = PageLoadType.UNDEFINED;
   private HitTestResult hitTestResult = new HitTestResult();
+  private int backgroundColor = 0;
   private static final WebViewFactoryProvider WEB_VIEW_FACTORY_PROVIDER =
       ReflectionHelpers.createDeepProxy(WebViewFactoryProvider.class);
 
@@ -601,6 +603,28 @@ public class ShadowWebView extends ShadowViewGroup {
   }
 
   public static void setWebContentsDebuggingEnabled(boolean enabled) {}
+
+  /**
+   * Sets the {@link android.graphics.Color} int that should be returned from {@link
+   * #getBackgroundColor()}.
+   *
+   * <p>The method {@code android.webkit.WebView#setBackgroundColor()} sets the background as a
+   * {@link android.graphics.drawable.ColorDrawable} of the given color, and doesn't work on a test
+   * {@code WebView} instance. To simplify tests, {@link #getBackgroundColor} has been introduced to
+   * return the color int directly.
+   */
+  @Implementation
+  protected void setBackgroundColor(@ColorInt int color) {
+    backgroundColor = color;
+  }
+
+  /**
+   * Returns the {@link android.graphics.Color} int that has been set by {@link
+   * #setBackgroundColor}.
+   */
+  public int getBackgroundColor() {
+    return backgroundColor;
+  }
 
   public static class LoadDataWithBaseURL {
     public final String baseUrl;
