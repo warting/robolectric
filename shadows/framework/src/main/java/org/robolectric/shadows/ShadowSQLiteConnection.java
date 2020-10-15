@@ -753,6 +753,9 @@ static class Connections {
     }
   }
 
+
+
+
   long executeForCursorWindow(final long connectionPtr, final long statementPtr, final long windowPtr) {
       return executeStatementOperation(
           connectionPtr,
