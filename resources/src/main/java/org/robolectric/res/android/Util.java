@@ -15,15 +15,11 @@ public class Util {
   private static final boolean DEBUG = false;
 
   static short dtohs(short v) {
-    return littleEndian
-        ? v
-        : (short) ((v << 8) | (v >> 8));
+    return littleEndian ? v : (short) ((v << 8) | (v >> 8));
   }
 
   static char dtohs(char v) {
-    return littleEndian
-        ? v
-        : (char) ((v << 8) | (v >> 8));
+    return littleEndian ? v : (char) ((v << 8) | (v >> 8));
   }
 
   static int dtohl(int v) {
@@ -33,9 +29,7 @@ public class Util {
   }
 
   static short htods(short v) {
-    return littleEndian
-        ? v
-        : (short) ((v << 8) | (v >> 8));
+    return littleEndian ? v : (short) ((v << 8) | (v >> 8));
   }
 
   static int htodl(int v) {
@@ -82,11 +76,9 @@ public class Util {
     assert !assertion : String.format(message, args);
   }
 
-  static void ATRACE_CALL() {
-  }
+  static void ATRACE_CALL() {}
 
-  public static void ATRACE_NAME(String s) {
-  }
+  public static void ATRACE_NAME(String s) {}
 
   static boolean UNLIKELY(boolean b) {
     return b;
@@ -104,7 +96,7 @@ public class Util {
     System.err.println("[WARN] " + s);
   }
 
-  static String ReadUtf16StringFromDevice(char[] src, int len/*, std::string* out*/) {
+  static String ReadUtf16StringFromDevice(char[] src, int len /*, std::string* out*/) {
     char[] buf = new char[5];
     int i = 0;
     StringBuilder strBuf = new StringBuilder();

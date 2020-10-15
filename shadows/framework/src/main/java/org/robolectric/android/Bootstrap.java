@@ -19,13 +19,16 @@ public class Bootstrap {
     }
   }
 
-  public static void applyQualifiers(String qualifiersStrs, int apiLevel,
-      Configuration configuration, DisplayMetrics displayMetrics) {
+  public static void applyQualifiers(
+      String qualifiersStrs,
+      int apiLevel,
+      Configuration configuration,
+      DisplayMetrics displayMetrics) {
 
     String[] qualifiersParts = qualifiersStrs.split(" ", 0);
     int i = qualifiersParts.length - 1;
     // find the index of the left-most qualifier string that doesn't start with '+'
-    for (; i >= 0 ; i--) {
+    for (; i >= 0; i--) {
       String qualifiersStr = qualifiersParts[i];
       if (qualifiersStr.startsWith("+")) {
         qualifiersParts[i] = qualifiersStr.substring(1);
@@ -34,7 +37,7 @@ public class Bootstrap {
       }
     }
 
-    for (i = (i < 0) ? 0 : i; i < qualifiersParts.length ; i++) {
+    for (i = (i < 0) ? 0 : i; i < qualifiersParts.length; i++) {
       String qualifiersStr = qualifiersParts[i];
       int platformVersion = Qualifiers.getPlatformVersion(qualifiersStr);
       if (platformVersion != -1 && platformVersion != apiLevel) {
@@ -62,5 +65,4 @@ public class Bootstrap {
       displayMetrics.ydpi = displayMetrics.noncompatYdpi = displayMetrics.densityDpi;
     }
   }
-
 }

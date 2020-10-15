@@ -33,15 +33,21 @@ public class SandboxClassLoader extends URLClassLoader {
 
   @Inject
   public SandboxClassLoader(
-      InstrumentationConfiguration config, ResourceProvider resourceProvider,
+      InstrumentationConfiguration config,
+      ResourceProvider resourceProvider,
       ClassInstrumentor classInstrumentor) {
-    this(Thread.currentThread().getContextClassLoader(), config, resourceProvider,
+    this(
+        Thread.currentThread().getContextClassLoader(),
+        config,
+        resourceProvider,
         classInstrumentor);
   }
 
   public SandboxClassLoader(
-      ClassLoader erstwhileClassLoader, InstrumentationConfiguration config,
-      ResourceProvider resourceProvider, ClassInstrumentor classInstrumentor) {
+      ClassLoader erstwhileClassLoader,
+      InstrumentationConfiguration config,
+      ResourceProvider resourceProvider,
+      ClassInstrumentor classInstrumentor) {
     super(getClassPathUrls(erstwhileClassLoader), erstwhileClassLoader);
 
     this.config = config;
@@ -49,12 +55,13 @@ public class SandboxClassLoader extends URLClassLoader {
 
     this.classInstrumentor = classInstrumentor;
 
-    classNodeProvider = new ClassNodeProvider() {
-      @Override
-      protected byte[] getClassBytes(String internalClassName) throws ClassNotFoundException {
-        return getByteCode(internalClassName);
-      }
-    };
+    classNodeProvider =
+        new ClassNodeProvider() {
+          @Override
+          protected byte[] getClassBytes(String internalClassName) throws ClassNotFoundException {
+            return getByteCode(internalClassName);
+          }
+        };
   }
 
   private static URL[] getClassPathUrls(ClassLoader classloader) {
@@ -128,16 +135,19 @@ public class SandboxClassLoader extends URLClassLoader {
   protected Class<?> maybeInstrumentClass(String className) throws ClassNotFoundException {
     final byte[] origClassBytes = getByteCode(className);
 
-    MutableClass mutableClass = PerfStatsCollector.getInstance().measure("analyze class",
-        () -> classInstrumentor.analyzeClass(origClassBytes, config, classNodeProvider)
-    );
+    MutableClass mutableClass =
+        PerfStatsCollector.getInstance()
+            .measure(
+                "analyze class",
+                () -> classInstrumentor.analyzeClass(origClassBytes, config, classNodeProvider));
 
     try {
       final byte[] bytes;
       if (config.shouldInstrument(mutableClass)) {
-        bytes = PerfStatsCollector.getInstance().measure("instrument class",
-            () -> classInstrumentor.instrumentToBytes(mutableClass)
-        );
+        bytes =
+            PerfStatsCollector.getInstance()
+                .measure(
+                    "instrument class", () -> classInstrumentor.instrumentToBytes(mutableClass));
       } else {
         bytes = postProcessUninstrumentedClass(mutableClass, origClassBytes);
       }
@@ -179,5 +189,4 @@ public class SandboxClassLoader extends URLClassLoader {
       }
     }
   }
-
 }

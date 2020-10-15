@@ -40,7 +40,8 @@ public class ShadowDisplayManagerTest {
             ApplicationProvider.getApplicationContext().getSystemService(Context.DISPLAY_SERVICE);
   }
 
-  @Test @Config(maxSdk = JELLY_BEAN)
+  @Test
+  @Config(maxSdk = JELLY_BEAN)
   public void notSupportedInJellyBean() throws Exception {
     try {
       ShadowDisplayManager.removeDisplay(0);
@@ -88,7 +89,8 @@ public class ShadowDisplayManagerTest {
     }
   }
 
-  @Test @Config(minSdk = JELLY_BEAN_MR1)
+  @Test
+  @Config(minSdk = JELLY_BEAN_MR1)
   public void addDisplay() throws Exception {
     int displayId = ShadowDisplayManager.addDisplay("w100dp-h200dp");
     assertThat(displayId).isGreaterThan(0);
@@ -101,7 +103,8 @@ public class ShadowDisplayManagerTest {
     assertThat(display.getDisplayId()).isEqualTo(displayId);
   }
 
-  @Test @Config(minSdk = JELLY_BEAN_MR1)
+  @Test
+  @Config(minSdk = JELLY_BEAN_MR1)
   public void addDisplay_shouldNotifyListeners() throws Exception {
     List<String> events = new ArrayList<>();
     instance.registerDisplayListener(new MyDisplayListener(events), null);
@@ -109,7 +112,8 @@ public class ShadowDisplayManagerTest {
     assertThat(events).containsExactly("Added " + displayId);
   }
 
-  @Test @Config(minSdk = JELLY_BEAN_MR1)
+  @Test
+  @Config(minSdk = JELLY_BEAN_MR1)
   public void changeDisplay_shouldUpdateSmallestAndLargestNominalWidthAndHeight() throws Exception {
     Point smallest = new Point();
     Point largest = new Point();
@@ -128,8 +132,10 @@ public class ShadowDisplayManagerTest {
     assertThat(largest).isEqualTo(new Point(460, 460));
   }
 
-  @Test @Config(minSdk = JELLY_BEAN_MR1)
-  public void withQualifiers_changeDisplay_shouldUpdateSmallestAndLargestNominalWidthAndHeight() throws Exception {
+  @Test
+  @Config(minSdk = JELLY_BEAN_MR1)
+  public void withQualifiers_changeDisplay_shouldUpdateSmallestAndLargestNominalWidthAndHeight()
+      throws Exception {
     Point smallest = new Point();
     Point largest = new Point();
 
@@ -145,7 +151,8 @@ public class ShadowDisplayManagerTest {
     assertThat(largest).isEqualTo(new Point(460, 460));
   }
 
-  @Test @Config(minSdk = JELLY_BEAN_MR1)
+  @Test
+  @Config(minSdk = JELLY_BEAN_MR1)
   public void changeAndRemoveDisplay_shouldNotifyListeners() throws Exception {
     List<String> events = new ArrayList<>();
     instance.registerDisplayListener(new MyDisplayListener(events), null);
@@ -160,13 +167,12 @@ public class ShadowDisplayManagerTest {
 
     ShadowDisplayManager.removeDisplay(displayId);
 
-    assertThat(events).containsExactly(
-        "Added " + displayId,
-        "Changed " + displayId,
-        "Removed " + displayId);
+    assertThat(events)
+        .containsExactly("Added " + displayId, "Changed " + displayId, "Removed " + displayId);
   }
 
-  @Test @Config(minSdk = JELLY_BEAN_MR1)
+  @Test
+  @Config(minSdk = JELLY_BEAN_MR1)
   public void changeDisplay_shouldAllowPartialChanges() throws Exception {
     List<String> events = new ArrayList<>();
     instance.registerDisplayListener(new MyDisplayListener(events), null);
@@ -179,9 +185,7 @@ public class ShadowDisplayManagerTest {
     assertThat(display.getHeight()).isEqualTo(100);
     assertThat(display.getOrientation()).isEqualTo(Surface.ROTATION_90);
 
-    assertThat(events).containsExactly(
-        "Added " + displayId,
-        "Changed " + displayId);
+    assertThat(events).containsExactly("Added " + displayId, "Changed " + displayId);
   }
 
   @Test
@@ -234,36 +238,44 @@ public class ShadowDisplayManagerTest {
     assertThat(shadowOf(instance).getSaturationLevel()).isEqualTo(1.0f);
   }
 
-  @Test @Config(minSdk = P)
+  @Test
+  @Config(minSdk = P)
   public void setSaturationLevel_setToValueGreaterThanOne_shouldThrow() {
     try {
       instance.setSaturationLevel(1.1f);
       fail("Expected IllegalArgumentException thrown");
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
-  @Test @Config(minSdk = P)
+  @Test
+  @Config(minSdk = P)
   public void setSaturationLevel_setToNegativeValue_shouldThrow() {
     try {
       instance.setSaturationLevel(-0.1f);
       fail("Expected IllegalArgumentException thrown");
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
-  @Test @Config(minSdk = P)
+  @Test
+  @Config(minSdk = P)
   public void setSaturationLevel_setToValueGreaterThanOneViaShadow_shouldThrow() {
     try {
       shadowOf(instance).setSaturationLevel(1.1f);
       fail("Expected IllegalArgumentException thrown");
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
-  @Test @Config(minSdk = P)
+  @Test
+  @Config(minSdk = P)
   public void setSaturationLevel_setToNegativevalueViaShadow_shouldThrow() {
     try {
       shadowOf(instance).setSaturationLevel(-0.1f);
       fail("Expected IllegalArgumentException thrown");
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   @Test

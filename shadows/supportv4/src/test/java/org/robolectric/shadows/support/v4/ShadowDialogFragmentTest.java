@@ -47,16 +47,16 @@ public class ShadowDialogFragmentTest {
     dialogFragment.show(fragmentManager, "this is a tag");
     shadowMainLooper().idle();
 
-    assertThat(dialogFragment.transcript).containsExactly(
-        "onAttach",
-        "onCreate",
-        "onCreateDialog",
-        "onCreateView",
-        "onViewCreated",
-        "onActivityCreated",
-        "onStart",
-        "onResume"
-    );
+    assertThat(dialogFragment.transcript)
+        .containsExactly(
+            "onAttach",
+            "onCreate",
+            "onCreateDialog",
+            "onCreateView",
+            "onViewCreated",
+            "onActivityCreated",
+            "onStart",
+            "onResume");
 
     assertNotNull(dialogFragment.getActivity());
     assertSame(activity, dialogFragment.onAttachActivity);
@@ -67,23 +67,25 @@ public class ShadowDialogFragmentTest {
     dialogFragment.show(fragmentManager.beginTransaction(), "this is a tag");
     shadowMainLooper().idle();
 
-    assertThat(dialogFragment.transcript).containsExactly(
-        "onAttach",
-        "onCreate",
-        "onCreateDialog",
-        "onCreateView",
-        "onViewCreated",
-        "onActivityCreated",
-        "onStart",
-        "onResume"
-    );
+    assertThat(dialogFragment.transcript)
+        .containsExactly(
+            "onAttach",
+            "onCreate",
+            "onCreateDialog",
+            "onCreateView",
+            "onViewCreated",
+            "onActivityCreated",
+            "onStart",
+            "onResume");
 
     assertNotNull(dialogFragment.getActivity());
     assertSame(activity, dialogFragment.onAttachActivity);
   }
 
   @Test
-  public void show_shouldShowDialogThatWasReturnedFromOnCreateDialog_whenOnCreateDialogReturnsADialog() throws Exception {
+  public void
+      show_shouldShowDialogThatWasReturnedFromOnCreateDialog_whenOnCreateDialogReturnsADialog()
+          throws Exception {
     Dialog dialogFromOnCreateDialog = new Dialog(activity);
     dialogFragment.returnThisDialogFromOnCreateDialog(dialogFromOnCreateDialog);
     dialogFragment.show(fragmentManager, "this is a tag");
@@ -96,7 +98,8 @@ public class ShadowDialogFragmentTest {
   }
 
   @Test
-  public void show_shouldShowDialogThatWasAutomaticallyCreated_whenOnCreateDialogReturnsNull() throws Exception {
+  public void show_shouldShowDialogThatWasAutomaticallyCreated_whenOnCreateDialogReturnsNull()
+      throws Exception {
     dialogFragment.show(fragmentManager, "this is a tag");
     shadowMainLooper().idle();
 
@@ -149,7 +152,8 @@ public class ShadowDialogFragmentTest {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(
+        LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
       transcript.add("onCreateView");
       return inflater.inflate(R.layout.dialog_fragment, null);
     }

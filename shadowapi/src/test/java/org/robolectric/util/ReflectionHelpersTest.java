@@ -142,7 +142,8 @@ public class ReflectionHelpersTest {
   }
 
   @Test
-  public void callInstanceMethodReflectively_whenMultipleSignaturesExistForAMethodName_callsMethodWithCorrectSignature() {
+  public void
+      callInstanceMethodReflectively_whenMultipleSignaturesExistForAMethodName_callsMethodWithCorrectSignature() {
     ExampleDescendant example = new ExampleDescendant();
     int returnNumber =
         ReflectionHelpers.callInstanceMethod(
@@ -283,23 +284,22 @@ public class ReflectionHelpersTest {
   }
 
   @Test
-  public void callConstructorReflectively_whenMultipleSignaturesExistForTheConstructor_callsConstructorWithCorrectSignature() {
-    ExampleClass ec = ReflectionHelpers.callConstructor(ExampleClass.class, ClassParameter.from(int.class, 16));
+  public void
+      callConstructorReflectively_whenMultipleSignaturesExistForTheConstructor_callsConstructorWithCorrectSignature() {
+    ExampleClass ec =
+        ReflectionHelpers.callConstructor(ExampleClass.class, ClassParameter.from(int.class, 16));
     assertWithMessage("index").that(ec.index).isEqualTo(16);
     assertWithMessage("name").that(ec.name).isNull();
   }
 
   @SuppressWarnings("serial")
-  private static class TestError extends Error {
-  }
+  private static class TestError extends Error {}
 
   @SuppressWarnings("serial")
-  private static class TestException extends Exception {
-  }
+  private static class TestException extends Exception {}
 
   @SuppressWarnings("serial")
-  private static class TestRuntimeException extends RuntimeException {
-  }
+  private static class TestRuntimeException extends RuntimeException {}
 
   @SuppressWarnings("unused")
   private static class ExampleBase {
@@ -396,8 +396,7 @@ public class ReflectionHelpersTest {
     public String name;
     public int index;
 
-    private ExampleClass() {
-    }
+    private ExampleClass() {}
 
     private ExampleClass(String name) {
       this.name = name;

@@ -20,15 +20,16 @@ import org.robolectric.pluginapi.config.Configurer;
 public class PackagePropertiesLoader {
 
   /**
-   * We should get very high cache hit rates even with a tiny cache if we're called sequentially
-   * by multiple {@link Configurer}s for the same package.
+   * We should get very high cache hit rates even with a tiny cache if we're called sequentially by
+   * multiple {@link Configurer}s for the same package.
    */
-  private final Map<String, Properties> cache = new LinkedHashMap<String, Properties>() {
-    @Override
-    protected boolean removeEldestEntry(Map.Entry<String, Properties> eldest) {
-      return size() > 3;
-    }
-  };
+  private final Map<String, Properties> cache =
+      new LinkedHashMap<String, Properties>() {
+        @Override
+        protected boolean removeEldestEntry(Map.Entry<String, Properties> eldest) {
+          return size() > 3;
+        }
+      };
 
   /**
    * Return a {@link Properties} file for the given package name, or {@code null} if none is
@@ -37,26 +38,28 @@ public class PackagePropertiesLoader {
    * @since 3.2
    */
   public Properties getConfigProperties(@Nonnull String packageName) {
-    return cache.computeIfAbsent(packageName, s -> {
-      StringBuilder buf = new StringBuilder();
-      if (!packageName.isEmpty()) {
-        buf.append(packageName.replace('.', '/'));
-        buf.append('/');
-      }
-      buf.append(RobolectricTestRunner.CONFIG_PROPERTIES);
-      final String resourceName = buf.toString();
+    return cache.computeIfAbsent(
+        packageName,
+        s -> {
+          StringBuilder buf = new StringBuilder();
+          if (!packageName.isEmpty()) {
+            buf.append(packageName.replace('.', '/'));
+            buf.append('/');
+          }
+          buf.append(RobolectricTestRunner.CONFIG_PROPERTIES);
+          final String resourceName = buf.toString();
 
-      try (InputStream resourceAsStream = getResourceAsStream(resourceName)) {
-        if (resourceAsStream == null) {
-          return null;
-        }
-        Properties properties = new Properties();
-        properties.load(resourceAsStream);
-        return properties;
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-    });
+          try (InputStream resourceAsStream = getResourceAsStream(resourceName)) {
+            if (resourceAsStream == null) {
+              return null;
+            }
+            Properties properties = new Properties();
+            properties.load(resourceAsStream);
+            return properties;
+          } catch (IOException e) {
+            throw new RuntimeException(e);
+          }
+        });
   }
 
   // visible for testing

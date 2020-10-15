@@ -17,8 +17,7 @@ public class SingleSdkRobolectricTestRunner extends RobolectricTestRunner {
   private static final Injector DEFAULT_INJECTOR = defaultInjector().build();
 
   public static Injector.Builder defaultInjector() {
-    return RobolectricTestRunner.defaultInjector()
-        .bind(SdkPicker.class, SingleSdkPicker.class);
+    return RobolectricTestRunner.defaultInjector().bind(SdkPicker.class, SingleSdkPicker.class);
   }
 
   public SingleSdkRobolectricTestRunner(Class<?> testClass) throws InitializationError {

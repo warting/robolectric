@@ -16,24 +16,22 @@ import org.robolectric.annotation.internal.DoNotInstrument;
 import org.robolectric.annotation.internal.Instrument;
 import org.robolectric.shadow.api.Shadow;
 
-/**
- * Configuration rules for {@link SandboxClassLoader}.
- */
+/** Configuration rules for {@link SandboxClassLoader}. */
 public class InstrumentationConfiguration {
 
   public static Builder newBuilder() {
     return new Builder();
   }
 
-  static final Set<String> CLASSES_TO_ALWAYS_ACQUIRE = Sets.newHashSet(
-      RobolectricInternals.class.getName(),
-      InvokeDynamicSupport.class.getName(),
-      Shadow.class.getName(),
+  static final Set<String> CLASSES_TO_ALWAYS_ACQUIRE =
+      Sets.newHashSet(
+          RobolectricInternals.class.getName(),
+          InvokeDynamicSupport.class.getName(),
+          Shadow.class.getName(),
 
-      // these classes are deprecated and will be removed soon:
-      "org.robolectric.util.FragmentTestUtil",
-      "org.robolectric.util.FragmentTestUtil$FragmentUtilActivity"
-  );
+          // these classes are deprecated and will be removed soon:
+          "org.robolectric.util.FragmentTestUtil",
+          "org.robolectric.util.FragmentTestUtil$FragmentUtilActivity");
 
   static final Set<String> RESOURCES_TO_ALWAYS_ACQUIRE = Sets.newHashSet("build.prop");
 
@@ -79,8 +77,8 @@ public class InstrumentationConfiguration {
   /**
    * Determine if {@link SandboxClassLoader} should instrument a given class.
    *
-   * @param   mutableClass The class to check.
-   * @return  True if the class should be instrumented.
+   * @param mutableClass The class to check.
+   * @return True if the class should be instrumented.
    */
   public boolean shouldInstrument(MutableClass mutableClass) {
     return !(mutableClass.isInterface()
@@ -101,8 +99,8 @@ public class InstrumentationConfiguration {
   /**
    * Determine if {@link SandboxClassLoader} should load a given class.
    *
-   * @param   name The fully-qualified class name.
-   * @return  True if the class should be loaded.
+   * @param name The fully-qualified class name.
+   * @return True if the class should be loaded.
    */
   public boolean shouldAcquire(String name) {
     if (CLASSES_TO_ALWAYS_ACQUIRE.contains(name)) {
@@ -191,7 +189,6 @@ public class InstrumentationConfiguration {
     if (!instrumentedClasses.equals(that.instrumentedClasses)) return false;
     if (!interceptedMethods.equals(that.interceptedMethods)) return false;
 
-
     return true;
   }
 
@@ -223,7 +220,8 @@ public class InstrumentationConfiguration {
   }
 
   boolean shouldIntercept(MethodInsnNode targetMethod) {
-    if (targetMethod.name.equals("<init>")) return false; // sorry, can't strip out calls to super() in constructor
+    if (targetMethod.name.equals("<init>"))
+      return false; // sorry, can't strip out calls to super() in constructor
     return methodsToIntercept.contains(new MethodRef(targetMethod.owner, targetMethod.name))
         || methodsToIntercept.contains(new MethodRef(targetMethod.owner, "*"));
   }
@@ -251,9 +249,7 @@ public class InstrumentationConfiguration {
     public final Collection<String> packagesToNotInstrument = new HashSet<>();
     public String classesToNotInstrumentRegex;
 
-
-    public Builder() {
-    }
+    public Builder() {}
 
     public Builder(InstrumentationConfiguration classLoaderConfig) {
       instrumentedPackages.addAll(classLoaderConfig.instrumentedPackages);
@@ -317,8 +313,7 @@ public class InstrumentationConfiguration {
       return this;
     }
 
-
-      public InstrumentationConfiguration build() {
+    public InstrumentationConfiguration build() {
       return new InstrumentationConfiguration(
           classNameTranslations,
           interceptedMethods,

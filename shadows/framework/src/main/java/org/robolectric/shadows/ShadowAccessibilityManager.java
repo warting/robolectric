@@ -55,7 +55,7 @@ public class ShadowAccessibilityManager {
   public static AccessibilityManager getInstance(Context context) throws Exception {
     synchronized (sInstanceSync) {
       if (sInstance == null) {
-          sInstance = createInstance(context);
+        sInstance = createInstance(context);
       }
     }
     return sInstance;
@@ -63,15 +63,29 @@ public class ShadowAccessibilityManager {
 
   private static AccessibilityManager createInstance(Context context) throws Exception {
     if (getApiLevel() >= KITKAT) {
-      AccessibilityManager accessibilityManager = Shadow.newInstance(AccessibilityManager.class,
-          new Class[]{Context.class, IAccessibilityManager.class, int.class},
-          new Object[]{context, ReflectionHelpers.createNullProxy(IAccessibilityManager.class), 0});
-      ReflectionHelpers.setField(accessibilityManager, "mHandler", new MyHandler(context.getMainLooper(), accessibilityManager));
+      AccessibilityManager accessibilityManager =
+          Shadow.newInstance(
+              AccessibilityManager.class,
+              new Class[] {Context.class, IAccessibilityManager.class, int.class},
+              new Object[] {
+                context, ReflectionHelpers.createNullProxy(IAccessibilityManager.class), 0
+              });
+      ReflectionHelpers.setField(
+          accessibilityManager,
+          "mHandler",
+          new MyHandler(context.getMainLooper(), accessibilityManager));
       return accessibilityManager;
     } else {
-      AccessibilityManager accessibilityManager = Shadow.newInstance(AccessibilityManager.class, new Class[0], new Object[0]);
-      ReflectionHelpers.setField(accessibilityManager, "mHandler", new MyHandler(context.getMainLooper(), accessibilityManager));
-      ReflectionHelpers.setField(accessibilityManager, "mService", ReflectionHelpers.createNullProxy(IAccessibilityManager.class));
+      AccessibilityManager accessibilityManager =
+          Shadow.newInstance(AccessibilityManager.class, new Class[0], new Object[0]);
+      ReflectionHelpers.setField(
+          accessibilityManager,
+          "mHandler",
+          new MyHandler(context.getMainLooper(), accessibilityManager));
+      ReflectionHelpers.setField(
+          accessibilityManager,
+          "mService",
+          ReflectionHelpers.createNullProxy(IAccessibilityManager.class));
       return accessibilityManager;
     }
   }
@@ -107,7 +121,8 @@ public class ShadowAccessibilityManager {
     return enabledAccessibilityServiceList;
   }
 
-  public void setEnabledAccessibilityServiceList(List<AccessibilityServiceInfo> enabledAccessibilityServiceList) {
+  public void setEnabledAccessibilityServiceList(
+      List<AccessibilityServiceInfo> enabledAccessibilityServiceList) {
     this.enabledAccessibilityServiceList = enabledAccessibilityServiceList;
   }
 
@@ -116,7 +131,8 @@ public class ShadowAccessibilityManager {
     return installedAccessibilityServiceList;
   }
 
-  public void setInstalledAccessibilityServiceList(List<AccessibilityServiceInfo> installedAccessibilityServiceList) {
+  public void setInstalledAccessibilityServiceList(
+      List<AccessibilityServiceInfo> installedAccessibilityServiceList) {
     this.installedAccessibilityServiceList = installedAccessibilityServiceList;
   }
 
@@ -128,8 +144,8 @@ public class ShadowAccessibilityManager {
   }
 
   /**
-   * Returns a list of all {@linkplain AccessibilityEvent accessibility events} that have been
-   * sent via {@link #sendAccessibilityEvent}.
+   * Returns a list of all {@linkplain AccessibilityEvent accessibility events} that have been sent
+   * via {@link #sendAccessibilityEvent}.
    */
   public ImmutableList<AccessibilityEvent> getSentAccessibilityEvents() {
     return ImmutableList.copyOf(sentAccessibilityEvents);
@@ -191,7 +207,8 @@ public class ShadowAccessibilityManager {
     public void handleMessage(Message message) {
       switch (message.what) {
         case DO_SET_STATE:
-          ReflectionHelpers.callInstanceMethod(accessibilityManager, "setState", ClassParameter.from(int.class, message.arg1));
+          ReflectionHelpers.callInstanceMethod(
+              accessibilityManager, "setState", ClassParameter.from(int.class, message.arg1));
           return;
         default:
           Log.w("AccessibilityManager", "Unknown message type: " + message.what);

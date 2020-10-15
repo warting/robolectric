@@ -1,14 +1,12 @@
 package android.text.format;
 
 import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR1;
-import static android.os.Build.VERSION_CODES.KITKAT_WATCH;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import android.os.SystemClock;
 import android.util.TimeFormatException;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.SdkSuppress;
@@ -17,7 +15,6 @@ import java.util.TimeZone;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.annotation.Config;
 import org.robolectric.annotation.internal.DoNotInstrument;
 
 @DoNotInstrument
@@ -223,9 +220,6 @@ public class TimeTest {
     assertEquals(0, t.second);
   }
 
-
-
-
   @Test(expected = TimeFormatException.class)
   public void shouldThrowTimeFormatException() throws Exception {
     Time t = new Time();
@@ -271,14 +265,10 @@ public class TimeTest {
     // ICS
 
     // date_and_time
-    assertEquals(
-        "Sep 8, 1987, 2:13:12 PM",
-        t.format("%b %-e, %Y, %-l:%M:%S %p"));
+    assertEquals("Sep 8, 1987, 2:13:12 PM", t.format("%b %-e, %Y, %-l:%M:%S %p"));
 
     // hour_minute_cap_ampm
-    assertEquals(
-        "2:13PM",
-        t.format("%-l:%M%^p"));
+    assertEquals("2:13PM", t.format("%-l:%M%^p"));
   }
 
   @Test
@@ -288,8 +278,8 @@ public class TimeTest {
     assertEquals("19700101T000000", t.format2445());
 
     t.timezone = Time.TIMEZONE_UTC;
-    //2445 formatted date should hava a Z postfix
-    assertEquals("19700101T000000Z",t.format2445());
+    // 2445 formatted date should hava a Z postfix
+    assertEquals("19700101T000000Z", t.format2445());
   }
 
   @Test
@@ -349,5 +339,4 @@ public class TimeTest {
 
     assertEquals(day, julianDay);
   }
-
 }

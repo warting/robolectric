@@ -49,8 +49,7 @@ import org.robolectric.util.reflector.ForType;
 @SuppressLint("NewApi")
 public class ShadowView {
 
-  @RealObject
-  protected View realView;
+  @RealObject protected View realView;
 
   private View.OnClickListener onClickListener;
   private View.OnLongClickListener onLongClickListener;
@@ -73,8 +72,8 @@ public class ShadowView {
   private int layerType;
 
   /**
-   * Calls {@code performClick()} on a {@code View} after ensuring that it and its ancestors are visible and that it
-   * is enabled.
+   * Calls {@code performClick()} on a {@code View} after ensuring that it and its ancestors are
+   * visible and that it is enabled.
    *
    * @param view the view to click on
    * @return true if {@code View.OnClickListener}s were found and fired, false otherwise.
@@ -129,7 +128,9 @@ public class ShadowView {
   protected void __constructor__(Context context, AttributeSet attributeSet, int defStyle) {
     if (context == null) throw new NullPointerException("no context");
     this.attributeSet = attributeSet;
-    invokeConstructor(View.class, realView,
+    invokeConstructor(
+        View.class,
+        realView,
         ClassParameter.from(Context.class, context),
         ClassParameter.from(AttributeSet.class, attributeSet),
         ClassParameter.from(int.class, defStyle));
@@ -199,7 +200,10 @@ public class ShadowView {
   @Implementation
   protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
     onLayoutWasCalled = true;
-    directlyOn(realView, View.class, "onLayout",
+    directlyOn(
+        realView,
+        View.class,
+        "onLayout",
         ClassParameter.from(boolean.class, changed),
         ClassParameter.from(int.class, left),
         ClassParameter.from(int.class, top),
@@ -254,9 +258,11 @@ public class ShadowView {
   }
 
   /**
-   * Returns a string representation of this {@code View}. Unless overridden, it will be an empty string.
+   * Returns a string representation of this {@code View}. Unless overridden, it will be an empty
+   * string.
    *
-   * Robolectric extension.
+   * <p>Robolectric extension.
+   *
    * @return String representation of this view.
    */
   public String innerText() {
@@ -265,6 +271,7 @@ public class ShadowView {
 
   /**
    * Dumps the status of this {@code View} to {@code System.out}
+   *
    * @deprecated - Please use {@link androidx.test.espresso.util.HumanReadables#describe(View)}
    */
   @Deprecated
@@ -274,6 +281,7 @@ public class ShadowView {
 
   /**
    * Dumps the status of this {@code View} to {@code System.out} at the given indentation level
+   *
    * @param out Output stream.
    * @param indent Indentation level.
    * @deprecated - Please use {@link androidx.test.espresso.util.HumanReadables#describe(View)}
@@ -295,7 +303,8 @@ public class ShadowView {
   @Deprecated
   protected void dumpAttributes(PrintStream out) {
     if (realView.getId() > 0) {
-      dumpAttribute(out, "id", realView.getContext().getResources().getResourceName(realView.getId()));
+      dumpAttribute(
+          out, "id", realView.getContext().getResources().getResourceName(realView.getId()));
     }
 
     switch (realView.getVisibility()) {
@@ -320,26 +329,24 @@ public class ShadowView {
     for (int i = 0; i < indent; i++) out.print(" ");
   }
 
-  /**
-   * @return whether or not {@link #invalidate()} has been called
-   */
+  /** @return whether or not {@link #invalidate()} has been called */
   public boolean wasInvalidated() {
     return wasInvalidated;
   }
 
-  /**
-   * Clears the wasInvalidated flag
-   */
+  /** Clears the wasInvalidated flag */
   public void clearWasInvalidated() {
     wasInvalidated = false;
   }
 
   /**
-   * Utility method for clicking on views exposing testing scenarios that are not possible when using the actual app.
+   * Utility method for clicking on views exposing testing scenarios that are not possible when
+   * using the actual app.
    *
-   * If running with LooperMode PAUSED will also idle the main Looper.
+   * <p>If running with LooperMode PAUSED will also idle the main Looper.
    *
-   * @throws RuntimeException if the view is disabled or if the view or any of its parents are not visible.
+   * @throws RuntimeException if the view is disabled or if the view or any of its parents are not
+   *     visible.
    * @return Return value of the underlying click operation.
    * @deprecated - Please use Espresso for View interactions.
    */
@@ -356,37 +363,27 @@ public class ShadowView {
     return res;
   }
 
-  /**
-   * @return Touch listener, if set.
-   */
+  /** @return Touch listener, if set. */
   public View.OnTouchListener getOnTouchListener() {
     return onTouchListener;
   }
 
-  /**
-   * @return Returns click listener, if set.
-   */
+  /** @return Returns click listener, if set. */
   public View.OnClickListener getOnClickListener() {
     return onClickListener;
   }
 
-  /**
-   * @return Returns long click listener, if set.
-   */
+  /** @return Returns long click listener, if set. */
   public View.OnLongClickListener getOnLongClickListener() {
     return onLongClickListener;
   }
 
-  /**
-   * @return Returns system ui visibility change listener.
-   */
+  /** @return Returns system ui visibility change listener. */
   public View.OnSystemUiVisibilityChangeListener getOnSystemUiVisibilityChangeListener() {
     return onSystemUiVisibilityChangeListener;
   }
 
-  /**
-   * @return Returns create ContextMenu listener, if set.
-   */
+  /** @return Returns create ContextMenu listener, if set. */
   public View.OnCreateContextMenuListener getOnCreateContextMenuListener() {
     return onCreateContextMenuListener;
   }
@@ -455,7 +452,9 @@ public class ShadowView {
   @Implementation
   protected void scrollTo(int x, int y) {
     try {
-      Method method = View.class.getDeclaredMethod("onScrollChanged", new Class[]{int.class, int.class, int.class, int.class});
+      Method method =
+          View.class.getDeclaredMethod(
+              "onScrollChanged", new Class[] {int.class, int.class, int.class, int.class});
       method.setAccessible(true);
       method.invoke(realView, x, y, scrollToCoordinates.x, scrollToCoordinates.y);
     } catch (Exception e) {
@@ -537,12 +536,17 @@ public class ShadowView {
     public void run() {
       // Abort if start time has been messed with, as this simulation is only designed to handle
       // standard situations.
-      if ((animation.getStartTime() == startTime && animation.getStartOffset() == startOffset) &&
-          animation.getTransformation(startTime == Animation.START_ON_FIRST_FRAME ?
-              SystemClock.uptimeMillis() : (startTime + startOffset + elapsedTime), new Transformation()) &&
-              // We can't handle infinitely repeating animations in the current scheduling model,
-              // so abort after one iteration.
-              !(animation.getRepeatCount() == Animation.INFINITE && elapsedTime >= animation.getDuration())) {
+      if ((animation.getStartTime() == startTime && animation.getStartOffset() == startOffset)
+          && animation.getTransformation(
+              startTime == Animation.START_ON_FIRST_FRAME
+                  ? SystemClock.uptimeMillis()
+                  : (startTime + startOffset + elapsedTime),
+              new Transformation())
+          &&
+          // We can't handle infinitely repeating animations in the current scheduling model,
+          // so abort after one iteration.
+          !(animation.getRepeatCount() == Animation.INFINITE
+              && elapsedTime >= animation.getDuration())) {
         // Update startTime if it had a value of Animation.START_ON_FIRST_FRAME
         startTime = animation.getStartTime();
         // TODO: get the correct value for ShadowPausedLooper mode
@@ -624,7 +628,8 @@ public class ShadowView {
   }
 
   public void setMyParent(ViewParent viewParent) {
-    directlyOn(realView, View.class, "assignParent", ClassParameter.from(ViewParent.class, viewParent));
+    directlyOn(
+        realView, View.class, "assignParent", ClassParameter.from(ViewParent.class, viewParent));
   }
 
   @Implementation
@@ -665,12 +670,12 @@ public class ShadowView {
 
     private static class MyIWindowIdStub extends IWindowId.Stub {
       @Override
-      public void registerFocusObserver(IWindowFocusObserver iWindowFocusObserver) throws RemoteException {
-      }
+      public void registerFocusObserver(IWindowFocusObserver iWindowFocusObserver)
+          throws RemoteException {}
 
       @Override
-      public void unregisterFocusObserver(IWindowFocusObserver iWindowFocusObserver) throws RemoteException {
-      }
+      public void unregisterFocusObserver(IWindowFocusObserver iWindowFocusObserver)
+          throws RemoteException {}
 
       @Override
       public boolean isFocused() throws RemoteException {

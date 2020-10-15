@@ -40,7 +40,8 @@ public class ShadowAppWidgetManagerTest {
 
   @Test
   public void createWidget_shouldInflateViewAndAssignId() throws Exception {
-    int widgetId = shadowAppWidgetManager.createWidget(SpanishTestAppWidgetProvider.class, R.layout.main);
+    int widgetId =
+        shadowAppWidgetManager.createWidget(SpanishTestAppWidgetProvider.class, R.layout.main);
     View widgetView = shadowAppWidgetManager.getViewFor(widgetId);
 
     assertEquals("Hola", ((TextView) widgetView.findViewById(R.id.subtitle)).getText());
@@ -48,7 +49,8 @@ public class ShadowAppWidgetManagerTest {
 
   @Test
   public void getViewFor_shouldReturnSameViewEveryTimeForGivenWidgetId() throws Exception {
-    int widgetId = shadowAppWidgetManager.createWidget(SpanishTestAppWidgetProvider.class, R.layout.main);
+    int widgetId =
+        shadowAppWidgetManager.createWidget(SpanishTestAppWidgetProvider.class, R.layout.main);
     View widgetView = shadowAppWidgetManager.getViewFor(widgetId);
 
     assertNotNull(widgetView);
@@ -57,18 +59,24 @@ public class ShadowAppWidgetManagerTest {
 
   @Test
   public void createWidget_shouldAllowForMultipleInstancesOfWidgets() throws Exception {
-    int widgetId = shadowAppWidgetManager.createWidget(SpanishTestAppWidgetProvider.class, R.layout.main);
+    int widgetId =
+        shadowAppWidgetManager.createWidget(SpanishTestAppWidgetProvider.class, R.layout.main);
     View widgetView = shadowAppWidgetManager.getViewFor(widgetId);
 
-    assertNotSame(widgetId,
+    assertNotSame(
+        widgetId,
         shadowAppWidgetManager.createWidget(SpanishTestAppWidgetProvider.class, R.layout.main));
-    assertNotSame(widgetView,
-        shadowAppWidgetManager.getViewFor(shadowAppWidgetManager.createWidget(SpanishTestAppWidgetProvider.class, R.layout.main)));
+    assertNotSame(
+        widgetView,
+        shadowAppWidgetManager.getViewFor(
+            shadowAppWidgetManager.createWidget(
+                SpanishTestAppWidgetProvider.class, R.layout.main)));
   }
 
   @Test
   public void shouldReplaceLayoutIfAndOnlyIfLayoutIdIsDifferent() throws Exception {
-    int widgetId = shadowAppWidgetManager.createWidget(SpanishTestAppWidgetProvider.class, R.layout.main);
+    int widgetId =
+        shadowAppWidgetManager.createWidget(SpanishTestAppWidgetProvider.class, R.layout.main);
     View originalWidgetView = shadowAppWidgetManager.getViewFor(widgetId);
     assertContains("Main Layout", originalWidgetView);
 
@@ -90,7 +98,8 @@ public class ShadowAppWidgetManagerTest {
 
   @Test
   public void getAppWidgetIds() {
-    int expectedWidgetId = shadowAppWidgetManager.createWidget(SpanishTestAppWidgetProvider.class, R.layout.main);
+    int expectedWidgetId =
+        shadowAppWidgetManager.createWidget(SpanishTestAppWidgetProvider.class, R.layout.main);
 
     int[] appWidgetIds =
         appWidgetManager.getAppWidgetIds(
@@ -125,7 +134,7 @@ public class ShadowAppWidgetManagerTest {
   public void bindAppWidgetIdIfAllowed_shouldRecordTheBinding() throws Exception {
     ComponentName provider = new ComponentName("A", "B");
     appWidgetManager.bindAppWidgetIdIfAllowed(789, provider);
-    assertArrayEquals(new int[]{789}, appWidgetManager.getAppWidgetIds(provider));
+    assertArrayEquals(new int[] {789}, appWidgetManager.getAppWidgetIds(provider));
   }
 
   @Test
@@ -141,7 +150,8 @@ public class ShadowAppWidgetManagerTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void bindAppWidgetIdIfAllowed_shouldThrowIllegalArgumentExceptionWhenPrompted() throws Exception {
+  public void bindAppWidgetIdIfAllowed_shouldThrowIllegalArgumentExceptionWhenPrompted()
+      throws Exception {
     shadowAppWidgetManager.setValidWidgetProviderComponentName(false);
     shadowAppWidgetManager.bindAppWidgetIdIfAllowed(12345, new ComponentName("", ""));
   }

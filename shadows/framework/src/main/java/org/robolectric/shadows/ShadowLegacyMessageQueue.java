@@ -41,8 +41,7 @@ import org.robolectric.util.reflector.ForType;
 @Implements(value = MessageQueue.class, isInAndroidSdk = false)
 public class ShadowLegacyMessageQueue extends ShadowMessageQueue {
 
-  @RealObject
-  private MessageQueue realQueue;
+  @RealObject private MessageQueue realQueue;
 
   private Scheduler scheduler;
 
@@ -106,35 +105,42 @@ public class ShadowLegacyMessageQueue extends ShadowMessageQueue {
   @Implementation
   @SuppressWarnings("SynchronizeOnNonFinalField")
   protected boolean enqueueMessage(final Message msg, long when) {
-    final boolean retval = directlyOn(realQueue, MessageQueue.class, "enqueueMessage", from(Message.class, msg), from(long.class, when));
+    final boolean retval =
+        directlyOn(
+            realQueue,
+            MessageQueue.class,
+            "enqueueMessage",
+            from(Message.class, msg),
+            from(long.class, when));
     if (retval) {
-      final Runnable callback = new Runnable() {
-        @Override
-        public void run() {
-          synchronized (realQueue) {
-            Message m = getHead();
-            if (m == null) {
-              return;
-            }
-
-            Message n = shadowOf(m).getNext();
-            if (m == msg) {
-              setHead(n);
-            } else {
-              while (n != null) {
-                if (n == msg) {
-                  n = shadowOf(n).getNext();
-                  shadowOf(m).setNext(n);
-                  break;
+      final Runnable callback =
+          new Runnable() {
+            @Override
+            public void run() {
+              synchronized (realQueue) {
+                Message m = getHead();
+                if (m == null) {
+                  return;
                 }
-                m = n;
-                n = shadowOf(m).getNext();
+
+                Message n = shadowOf(m).getNext();
+                if (m == msg) {
+                  setHead(n);
+                } else {
+                  while (n != null) {
+                    if (n == msg) {
+                      n = shadowOf(n).getNext();
+                      shadowOf(m).setNext(n);
+                      break;
+                    }
+                    m = n;
+                    n = shadowOf(m).getNext();
+                  }
+                }
               }
+              dispatchMessage(msg);
             }
-          }
-          dispatchMessage(msg);
-        }
-      };
+          };
       shadowOf(msg).setScheduledRunnable(callback);
       if (when == 0) {
         scheduler.postAtFrontOfQueue(callback);

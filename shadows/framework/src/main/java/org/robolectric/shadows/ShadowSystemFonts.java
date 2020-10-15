@@ -22,15 +22,20 @@ import org.robolectric.util.ReflectionHelpers.ClassParameter;
 public class ShadowSystemFonts {
 
   @Implementation
-  protected static FontConfig.Alias[] buildSystemFallback(String xmlPath, String fontDir,
-      Result oemCustomization, ArrayMap<String, android.graphics.fonts.FontFamily[]> fallbackMap,
+  protected static FontConfig.Alias[] buildSystemFallback(
+      String xmlPath,
+      String fontDir,
+      Result oemCustomization,
+      ArrayMap<String, android.graphics.fonts.FontFamily[]> fallbackMap,
       ArrayList<Font> availableFonts) {
     return new Alias[] {new FontConfig.Alias("sans-serif", "sans-serif", 0)};
   }
 
   @Implementation
-  protected  static FontFamily[] getSystemFallback(String familyName) {
-    FontFamily[] result = directlyOn(SystemFonts.class, "getSystemFallback", ClassParameter.from(String.class, familyName));
+  protected static FontFamily[] getSystemFallback(String familyName) {
+    FontFamily[] result =
+        directlyOn(
+            SystemFonts.class, "getSystemFallback", ClassParameter.from(String.class, familyName));
     if (result == null) {
       result = new FontFamily[0];
     }

@@ -5,8 +5,8 @@ import org.junit.runners.model.Statement;
 import org.junit.runners.model.TestTimedOutException;
 
 /**
- * Similar to JUnit's {@link org.junit.internal.runners.statements.FailOnTimeout}, but runs the
- * test on the current thread (with a timer on a new thread) rather than the other way around.
+ * Similar to JUnit's {@link org.junit.internal.runners.statements.FailOnTimeout}, but runs the test
+ * on the current thread (with a timer on a new thread) rather than the other way around.
  */
 class TimeLimitedStatement extends Statement {
 

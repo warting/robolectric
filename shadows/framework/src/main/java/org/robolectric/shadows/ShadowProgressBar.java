@@ -4,5 +4,4 @@ import android.widget.ProgressBar;
 import org.robolectric.annotation.Implements;
 
 @Implements(ProgressBar.class)
-public class ShadowProgressBar extends ShadowView {
-}
+public class ShadowProgressBar extends ShadowView {}

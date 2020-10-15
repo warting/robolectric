@@ -16,9 +16,7 @@ public class ShadowProgressDialog extends ShadowAlertDialog {
 
   private int mProgressStyle;
 
-  /**
-   * @return the message displayed in the dialog
-   */
+  /** @return the message displayed in the dialog */
   @Override
   public CharSequence getMessage() {
     if (mProgressStyle == ProgressDialog.STYLE_HORIZONTAL) {
@@ -35,9 +33,7 @@ public class ShadowProgressDialog extends ShadowAlertDialog {
     directlyOn(realProgressDialog, ProgressDialog.class).setProgressStyle(style);
   }
 
-  /**
-   * @return the style of the progress dialog
-   */
+  /** @return the style of the progress dialog */
   public int getProgressStyle() {
     return mProgressStyle;
   }

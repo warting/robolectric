@@ -43,9 +43,12 @@ public class AndroidInterceptorsIntegrationTest {
             ClassParameter.from(Throwable.class, new Throwable("throw")));
         // Due to the possibility of running tests in Parallel, assertions checking stderr contents
         // should not assert equality.
-        assertThat(stream.toString().split("\\r?\\n")).asList().containsAtLeast(String.format(
-            "System.%s: hello", methodName), String.format(
-            "System.%s: worldjava.lang.Throwable: throw", methodName)).inOrder();
+        assertThat(stream.toString().split("\\r?\\n"))
+            .asList()
+            .containsAtLeast(
+                String.format("System.%s: hello", methodName),
+                String.format("System.%s: worldjava.lang.Throwable: throw", methodName))
+            .inOrder();
       }
     } finally {
       System.setErr(stderr);

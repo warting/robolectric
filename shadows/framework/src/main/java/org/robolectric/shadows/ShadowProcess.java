@@ -127,16 +127,12 @@ public class ShadowProcess {
     }
   }
 
-  /**
-   * Sets the identifier of this process.
-   */
+  /** Sets the identifier of this process. */
   public static void setUid(int uid) {
     ShadowProcess.uid = uid;
   }
 
-  /**
-   * Sets the identifier of this process.
-   */
+  /** Sets the identifier of this process. */
   public static void setPid(int pid) {
     ShadowProcess.pid = pid;
   }

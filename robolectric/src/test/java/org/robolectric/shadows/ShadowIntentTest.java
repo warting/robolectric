@@ -33,12 +33,13 @@ public class ShadowIntentTest {
   @Test
   public void resolveActivityInfo_shouldReturnActivityInfoForExistingActivity() {
     Context context = ApplicationProvider.getApplicationContext();
-      PackageManager packageManager = context.getPackageManager();
+    PackageManager packageManager = context.getPackageManager();
 
-      Intent intent = new Intent();
-      intent.setClassName(context, TEST_ACTIVITY_CLASS_NAME);
-      ActivityInfo activityInfo = intent.resolveActivityInfo(packageManager, PackageManager.GET_ACTIVITIES);
-      assertThat(activityInfo).isNotNull();
+    Intent intent = new Intent();
+    intent.setClassName(context, TEST_ACTIVITY_CLASS_NAME);
+    ActivityInfo activityInfo =
+        intent.resolveActivityInfo(packageManager, PackageManager.GET_ACTIVITIES);
+    assertThat(activityInfo).isNotNull();
   }
 
   @Test
@@ -205,7 +206,7 @@ public class ShadowIntentTest {
     assertSame(uri, intent.getData());
     assertNull(intent.getType());
   }
-  
+
   @Test
   public void testGetScheme() throws Exception {
     Intent intent = new Intent();
@@ -324,11 +325,12 @@ public class ShadowIntentTest {
     intentB.setComponent(cn);
     intentB.putExtra("FOO", 23);
 
-    int flags = Intent.FILL_IN_ACTION |
-        Intent.FILL_IN_DATA |
-        Intent.FILL_IN_CATEGORIES |
-        Intent.FILL_IN_PACKAGE |
-        Intent.FILL_IN_COMPONENT;
+    int flags =
+        Intent.FILL_IN_ACTION
+            | Intent.FILL_IN_DATA
+            | Intent.FILL_IN_CATEGORIES
+            | Intent.FILL_IN_PACKAGE
+            | Intent.FILL_IN_COMPONENT;
 
     int result = intentA.fillIn(intentB, flags);
     assertEquals("foo", intentA.getAction());
@@ -399,7 +401,8 @@ public class ShadowIntentTest {
             Uri.parse("http://www.robolectric.org"),
             ApplicationProvider.getApplicationContext(),
             Activity.class);
-    assertThat(intent.getComponent()).isEqualTo(new ComponentName("org.robolectric", "android.app.Activity"));
+    assertThat(intent.getComponent())
+        .isEqualTo(new ComponentName("org.robolectric", "android.app.Activity"));
     assertThat(intent.getAction()).isEqualTo("roboaction");
     assertThat(intent.getData()).isEqualTo(Uri.parse("http://www.robolectric.org"));
   }
@@ -410,32 +413,33 @@ public class ShadowIntentTest {
     // without causing NPE's
     Intent intent = new Intent();
 
-    assertThat(intent.putExtra("double array", new double[] { 0.0 })).isEqualTo(intent);
+    assertThat(intent.putExtra("double array", new double[] {0.0})).isEqualTo(intent);
     assertThat(intent.putExtra("int", 0)).isEqualTo(intent);
     assertThat(intent.putExtra("CharSequence", new TestCharSequence("test"))).isEqualTo(intent);
     assertThat(intent.putExtra("char", 'a')).isEqualTo(intent);
     assertThat(intent.putExtra("Bundle", new Bundle())).isEqualTo(intent);
-    assertThat(intent.putExtra("Parcelable array", new Parcelable[] { new TestParcelable(0) }))
+    assertThat(intent.putExtra("Parcelable array", new Parcelable[] {new TestParcelable(0)}))
         .isEqualTo(intent);
     assertThat(intent.putExtra("Serializable", new TestSerializable("test"))).isEqualTo(intent);
-    assertThat(intent.putExtra("int array", new int[] { 0 })).isEqualTo(intent);
+    assertThat(intent.putExtra("int array", new int[] {0})).isEqualTo(intent);
     assertThat(intent.putExtra("float", 0f)).isEqualTo(intent);
-    assertThat(intent.putExtra("byte array", new byte[] { 0 })).isEqualTo(intent);
-    assertThat(intent.putExtra("long array", new long[] { 0L })).isEqualTo(intent);
+    assertThat(intent.putExtra("byte array", new byte[] {0})).isEqualTo(intent);
+    assertThat(intent.putExtra("long array", new long[] {0L})).isEqualTo(intent);
     assertThat(intent.putExtra("Parcelable", new TestParcelable(0))).isEqualTo(intent);
-    assertThat(intent.putExtra("float array", new float[] { 0f })).isEqualTo(intent);
+    assertThat(intent.putExtra("float array", new float[] {0f})).isEqualTo(intent);
     assertThat(intent.putExtra("long", 0L)).isEqualTo(intent);
-    assertThat(intent.putExtra("String array", new String[] { "test" })).isEqualTo(intent);
+    assertThat(intent.putExtra("String array", new String[] {"test"})).isEqualTo(intent);
     assertThat(intent.putExtra("boolean", true)).isEqualTo(intent);
-    assertThat(intent.putExtra("boolean array", new boolean[] { true })).isEqualTo(intent);
+    assertThat(intent.putExtra("boolean array", new boolean[] {true})).isEqualTo(intent);
     assertThat(intent.putExtra("short", (short) 0)).isEqualTo(intent);
     assertThat(intent.putExtra("double", 0.0)).isEqualTo(intent);
-    assertThat(intent.putExtra("short array", new short[] { 0 })).isEqualTo(intent);
+    assertThat(intent.putExtra("short array", new short[] {0})).isEqualTo(intent);
     assertThat(intent.putExtra("String", "test")).isEqualTo(intent);
     assertThat(intent.putExtra("byte", (byte) 0)).isEqualTo(intent);
-    assertThat(intent.putExtra("char array", new char[] { 'a' })).isEqualTo(intent);
-    assertThat(intent.putExtra("CharSequence array",
-        new CharSequence[] { new TestCharSequence("test") }))
+    assertThat(intent.putExtra("char array", new char[] {'a'})).isEqualTo(intent);
+    assertThat(
+            intent.putExtra(
+                "CharSequence array", new CharSequence[] {new TestCharSequence("test")}))
         .isEqualTo(intent);
   }
 
@@ -484,7 +488,8 @@ public class ShadowIntentTest {
 
       TestSerializable that = (TestSerializable) o;
 
-      if (someValue != null ? !someValue.equals(that.someValue) : that.someValue != null) return false;
+      if (someValue != null ? !someValue.equals(that.someValue) : that.someValue != null)
+        return false;
 
       return true;
     }
@@ -516,6 +521,5 @@ public class ShadowIntentTest {
     public CharSequence subSequence(int start, int end) {
       return s.subSequence(start, end);
     }
-
   }
 }

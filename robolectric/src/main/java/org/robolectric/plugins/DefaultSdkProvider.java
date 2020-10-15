@@ -36,7 +36,8 @@ import org.robolectric.util.Util;
 /**
  * Robolectric's default {@link SdkProvider}.
  *
- * The list of SDKs is hard-coded. SDKs are obtained from the provided {@link DependencyResolver}.
+ * <p>The list of SDKs is hard-coded. SDKs are obtained from the provided {@link
+ * DependencyResolver}.
  */
 @SuppressWarnings("NewApi")
 @AutoService(SdkProvider.class)
@@ -118,9 +119,11 @@ public class DefaultSdkProvider implements SdkProvider {
         throw new UnsupportedClassVersionError(getUnsupportedMessage());
       }
 
-      return new DependencyJar("org.robolectric",
+      return new DependencyJar(
+          "org.robolectric",
           "android-all",
-          getAndroidVersion() + "-robolectric-" + robolectricVersion, null);
+          getAndroidVersion() + "-robolectric-" + robolectricVersion,
+          null);
     }
 
     @Override

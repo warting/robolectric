@@ -45,9 +45,7 @@ import org.robolectric.annotation.Implements;
 import org.robolectric.annotation.RealObject;
 import org.robolectric.annotation.Resetter;
 
-/**
- * Robolectric implementation of {@link android.os.UserManager}.
- */
+/** Robolectric implementation of {@link android.os.UserManager}. */
 @Implements(value = UserManager.class, minSdk = JELLY_BEAN_MR1)
 public class ShadowUserManager {
 
@@ -122,9 +120,7 @@ public class ShadowUserManager {
     return bundle != null ? bundle : new Bundle();
   }
 
-  /**
-   * Sets the value returned by {@link UserManager#getApplicationRestrictions(String)}.
-   */
+  /** Sets the value returned by {@link UserManager#getApplicationRestrictions(String)}. */
   public void setApplicationRestrictions(String packageName, Bundle restrictions) {
     applicationRestrictions.put(packageName, restrictions);
   }
@@ -151,7 +147,7 @@ public class ShadowUserManager {
   /**
    * If any profiles have been added using {@link #addProfile}, return those profiles.
    *
-   * Otherwise follow real android behaviour.
+   * <p>Otherwise follow real android behaviour.
    */
   @Implementation(minSdk = LOLLIPOP)
   protected List<UserInfo> getProfiles(int userHandle) {
@@ -182,7 +178,7 @@ public class ShadowUserManager {
     }
   }
 
-  /** Add a profile to be returned by {@link #getProfiles(int)}.**/
+  /** Add a profile to be returned by {@link #getProfiles(int)}.* */
   public void addProfile(
       int userHandle, int profileUserHandle, String profileName, int profileFlags) {
     // Don't override serial number set by setSerialNumberForUser()
@@ -232,8 +228,8 @@ public class ShadowUserManager {
   protected boolean isManagedProfile() {
     if (enforcePermissions && !hasManageUsersPermission()) {
       throw new SecurityException(
-          "You need MANAGE_USERS permission to: check if specified user a " +
-              "managed profile outside your profile group");
+          "You need MANAGE_USERS permission to: check if specified user a "
+              + "managed profile outside your profile group");
     }
     return managedProfile;
   }
@@ -263,9 +259,7 @@ public class ShadowUserManager {
     this.enforcePermissions = enforcePermissions;
   }
 
-  /**
-   * Setter for {@link UserManager#isManagedProfile()}.
-   */
+  /** Setter for {@link UserManager#isManagedProfile()}. */
   public void setManagedProfile(boolean managedProfile) {
     this.managedProfile = managedProfile;
   }
@@ -281,9 +275,7 @@ public class ShadowUserManager {
     bundle.putBoolean(restrictionKey, value);
   }
 
-  /**
-   * Removes all user restrictions set of a user identified by {@code userHandle}.
-   */
+  /** Removes all user restrictions set of a user identified by {@code userHandle}. */
   public void clearUserRestrictions(UserHandle userHandle) {
     userRestrictions.remove(userHandle.getIdentifier());
   }
@@ -344,7 +336,7 @@ public class ShadowUserManager {
   /**
    * Returns the name of the user.
    *
-   * On real Android, if a UserHandle.USER_SYSTEM user is found but does not have a name, it will
+   * <p>On real Android, if a UserHandle.USER_SYSTEM user is found but does not have a name, it will
    * return a name like "Owner". In Robolectric, the USER_SYSTEM user always has a name.
    */
   @Implementation(minSdk = Q)
@@ -363,7 +355,10 @@ public class ShadowUserManager {
   }
 
   private boolean hasManageUsersPermission() {
-    return context.getPackageManager().checkPermission(permission.MANAGE_USERS, context.getPackageName()) == PackageManager.PERMISSION_GRANTED;
+    return context
+            .getPackageManager()
+            .checkPermission(permission.MANAGE_USERS, context.getPackageName())
+        == PackageManager.PERMISSION_GRANTED;
   }
 
   private boolean hasModifyQuietModePermission() {
@@ -403,9 +398,7 @@ public class ShadowUserManager {
     }
   }
 
-  /**
-   * @return 'true' by default, or the value specified via {@link #setIsSystemUser(boolean)}
-   */
+  /** @return 'true' by default, or the value specified via {@link #setIsSystemUser(boolean)} */
   @Implementation(minSdk = M)
   protected boolean isSystemUser() {
     if (isSystemUser == false) {
@@ -444,9 +437,7 @@ public class ShadowUserManager {
     }
   }
 
-  /**
-   * @return 'false' by default, or the value specified via {@link #setIsLinkedUser(boolean)}
-   */
+  /** @return 'false' by default, or the value specified via {@link #setIsLinkedUser(boolean)} */
   @Implementation(minSdk = JELLY_BEAN_MR2)
   protected boolean isLinkedUser() {
     return isRestrictedProfile();
@@ -514,9 +505,7 @@ public class ShadowUserManager {
     }
   }
 
-  /**
-   * @see #setUserState(UserHandle, UserState)
-   */
+  /** @see #setUserState(UserHandle, UserState) */
   @Implementation
   protected boolean isUserRunning(UserHandle handle) {
     checkPermissions();
@@ -531,9 +520,7 @@ public class ShadowUserManager {
     }
   }
 
-  /**
-   * @see #setUserState(UserHandle, UserState)
-   */
+  /** @see #setUserState(UserHandle, UserState) */
   @Implementation
   protected boolean isUserRunningOrStopping(UserHandle handle) {
     checkPermissions();
@@ -569,8 +556,8 @@ public class ShadowUserManager {
   }
 
   /**
-   * Sets the current state for a given user, see {@link UserManager#isUserRunning(UserHandle)}
-   * and {@link UserManager#isUserRunningOrStopping(UserHandle)}
+   * Sets the current state for a given user, see {@link UserManager#isUserRunning(UserHandle)} and
+   * {@link UserManager#isUserRunningOrStopping(UserHandle)}
    */
   public void setUserState(UserHandle handle, UserState state) {
     userState.put(handle.getIdentifier(), state);
@@ -596,7 +583,7 @@ public class ShadowUserManager {
   /**
    * Request the quiet mode.
    *
-   * This will succeed unless {@link #setProfileIsLocked(UserHandle, boolean)} is called with
+   * <p>This will succeed unless {@link #setProfileIsLocked(UserHandle, boolean)} is called with
    * {@code true} for the managed profile, in which case it will always fail.
    */
   @Implementation(minSdk = Q)
@@ -659,7 +646,6 @@ public class ShadowUserManager {
   protected UserInfo getUserInfo(int userHandle) {
     return userInfoMap.get(userHandle);
   }
-
 
   /**
    * Sets whether switching users is allowed or not; controls the return value of {@link
@@ -792,7 +778,7 @@ public class ShadowUserManager {
     return userHandle;
   }
 
- /**
+  /**
    * Returns {@code true} by default, or the value specified via {@link #setCanSwitchUser(boolean)}.
    */
   @Implementation(minSdk = N, maxSdk = Q)

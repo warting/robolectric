@@ -22,9 +22,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.PACKAGE, ElementType.TYPE, ElementType.METHOD})
 public @interface LooperMode {
 
-  /**
-   * Specifies the different supported Looper modes.
-   */
+  /** Specifies the different supported Looper modes. */
   enum Mode {
     /**
      * Robolectric's default threading model prior to 4.4.
@@ -126,8 +124,6 @@ public @interface LooperMode {
     // RUNNING
   }
 
-  /**
-   * Set the Looper mode.
-   */
+  /** Set the Looper mode. */
   Mode value();
 }

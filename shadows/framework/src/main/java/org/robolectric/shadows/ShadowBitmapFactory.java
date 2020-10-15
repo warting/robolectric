@@ -43,12 +43,15 @@ public class ShadowBitmapFactory {
   @Implementation
   protected static Bitmap decodeResourceStream(
       Resources res, TypedValue value, InputStream is, Rect pad, BitmapFactory.Options opts) {
-    Bitmap bitmap = directlyOn(BitmapFactory.class, "decodeResourceStream",
-        ClassParameter.from(Resources.class, res),
-        ClassParameter.from(TypedValue.class, value),
-        ClassParameter.from(InputStream.class, is),
-        ClassParameter.from(Rect.class, pad),
-        ClassParameter.from(BitmapFactory.Options.class, opts));
+    Bitmap bitmap =
+        directlyOn(
+            BitmapFactory.class,
+            "decodeResourceStream",
+            ClassParameter.from(Resources.class, res),
+            ClassParameter.from(TypedValue.class, value),
+            ClassParameter.from(InputStream.class, is),
+            ClassParameter.from(Rect.class, pad),
+            ClassParameter.from(BitmapFactory.Options.class, opts));
 
     if (value != null && value.string != null && value.string.toString().contains(".9.")) {
       // todo: better support for nine-patches
@@ -146,13 +149,11 @@ public class ShadowBitmapFactory {
       // ignore
     }
 
-    String name = (is instanceof NamedStream)
-        ? is.toString().replace("stream for ", "")
-        : null;
+    String name = (is instanceof NamedStream) ? is.toString().replace("stream for ", "") : null;
     Point imageSize = (is instanceof NamedStream) ? null : getImageSizeFromStream(is);
     Bitmap bitmap = create(name, opts, imageSize);
-    ReflectionHelpers.callInstanceMethod(bitmap, "setNinePatchChunk",
-            ClassParameter.from(byte[].class, ninePatchChunk));
+    ReflectionHelpers.callInstanceMethod(
+        bitmap, "setNinePatchChunk", ClassParameter.from(byte[].class, ninePatchChunk));
     ShadowBitmap shadowBitmap = Shadow.extract(bitmap);
     shadowBitmap.createdFromStream = is;
 
@@ -196,7 +197,8 @@ public class ShadowBitmapFactory {
     return create(name, options, null);
   }
 
-  public static Bitmap create(final String name, final BitmapFactory.Options options, final Point widthAndHeight) {
+  public static Bitmap create(
+      final String name, final BitmapFactory.Options options, final Point widthAndHeight) {
     Bitmap bitmap = Shadow.newInstanceOf(Bitmap.class);
     ShadowBitmap shadowBitmap = Shadow.extract(bitmap);
     shadowBitmap.appendDescription(name == null ? "Bitmap" : "Bitmap for " + name);

@@ -21,7 +21,9 @@ public class Sandbox {
   public ClassHandler classHandler; // todo not public
   private ShadowMap shadowMap = ShadowMap.EMPTY;
 
-  public Sandbox(InstrumentationConfiguration config, ResourceProvider resourceProvider,
+  public Sandbox(
+      InstrumentationConfiguration config,
+      ResourceProvider resourceProvider,
       ClassInstrumentor classInstrumentor) {
     this(new SandboxClassLoader(config, resourceProvider, classInstrumentor));
   }
@@ -85,10 +87,11 @@ public class Sandbox {
   }
 
   public void runOnMainThread(Runnable runnable) {
-    runOnMainThread(() -> {
-      runnable.run();
-      return null;
-    });
+    runOnMainThread(
+        () -> {
+          runnable.run();
+          return null;
+        });
   }
 
   public <T> T runOnMainThread(Callable<T> callable) {

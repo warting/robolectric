@@ -63,11 +63,11 @@ public class ShadowSimpleCursorAdapterTest {
     SQLiteDatabase database = SQLiteDatabase.create(null);
     database.execSQL("CREATE TABLE table_name(_id INT PRIMARY KEY, name VARCHAR(255));");
     String[] inserts = {
-        "INSERT INTO table_name (_id, name) VALUES(1234, 'Chuck');",
-        "INSERT INTO table_name (_id, name) VALUES(1235, 'Julie');",
-        "INSERT INTO table_name (_id, name) VALUES(1236, 'Chris');",
-        "INSERT INTO table_name (_id, name) VALUES(1237, 'Brenda');",
-        "INSERT INTO table_name (_id, name) VALUES(1238, 'Jane');"
+      "INSERT INTO table_name (_id, name) VALUES(1234, 'Chuck');",
+      "INSERT INTO table_name (_id, name) VALUES(1235, 'Julie');",
+      "INSERT INTO table_name (_id, name) VALUES(1236, 'Chris');",
+      "INSERT INTO table_name (_id, name) VALUES(1237, 'Brenda');",
+      "INSERT INTO table_name (_id, name) VALUES(1238, 'Jane');"
     };
 
     for (String insert : inserts) {

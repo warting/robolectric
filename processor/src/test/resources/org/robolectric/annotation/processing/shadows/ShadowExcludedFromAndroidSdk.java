@@ -4,5 +4,4 @@ import org.robolectric.annotation.Implements;
 import com.example.objects.Dummy;
 
 @Implements(value = Dummy.class, isInAndroidSdk = false)
-public class ShadowExcludedFromAndroidSdk {
-}
+public class ShadowExcludedFromAndroidSdk {}

@@ -6,7 +6,11 @@ import libcore.util.NativeAllocationRegistry;
 import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.Implements;
 
-@Implements(value = NativeAllocationRegistry.class, minSdk = N, isInAndroidSdk = false, looseSignatures = true)
+@Implements(
+    value = NativeAllocationRegistry.class,
+    minSdk = N,
+    isInAndroidSdk = false,
+    looseSignatures = true)
 public class ShadowNativeAllocationRegistry {
 
   @Implementation

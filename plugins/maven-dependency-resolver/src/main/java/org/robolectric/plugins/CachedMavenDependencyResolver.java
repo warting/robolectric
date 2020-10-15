@@ -20,8 +20,8 @@ public class CachedMavenDependencyResolver implements DependencyResolver {
     DependencyResolver dependencyResolver = new MavenDependencyResolver();
     if (cacheDir.exists() || cacheDir.mkdir()) {
       Logger.info("Dependency cache location: %s", cacheDir.getAbsolutePath());
-      this.delegate = new CachedDependencyResolver(dependencyResolver, cacheDir,
-          60 * 60 * 24 * 1000);
+      this.delegate =
+          new CachedDependencyResolver(dependencyResolver, cacheDir, 60 * 60 * 24 * 1000);
     } else {
       this.delegate = dependencyResolver;
     }

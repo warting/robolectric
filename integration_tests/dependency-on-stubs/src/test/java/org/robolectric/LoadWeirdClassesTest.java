@@ -34,8 +34,7 @@ public class LoadWeirdClassesTest {
 
   @Test
   public void shadowOf_shouldCompile() throws Exception {
-    assumeThat("Windows is an affront to decency.",
-        File.separator, Matchers.equalTo("/"));
+    assumeThat("Windows is an affront to decency.", File.separator, Matchers.equalTo("/"));
 
     shadowOf(Robolectric.setupActivity(Activity.class));
   }

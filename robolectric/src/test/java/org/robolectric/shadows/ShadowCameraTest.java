@@ -347,8 +347,7 @@ public class ShadowCameraTest {
   private static class TestSurfaceHolder implements SurfaceHolder {
 
     @Override
-    public void addCallback(Callback callback) {
-    }
+    public void addCallback(Callback callback) {}
 
     @Override
     public Surface getSurface() {
@@ -376,31 +375,24 @@ public class ShadowCameraTest {
     }
 
     @Override
-    public void removeCallback(Callback callback) {
-    }
+    public void removeCallback(Callback callback) {}
 
     @Override
-    public void setFixedSize(int width, int height) {
-    }
+    public void setFixedSize(int width, int height) {}
 
     @Override
-    public void setFormat(int format) {
-    }
+    public void setFormat(int format) {}
 
     @Override
-    public void setKeepScreenOn(boolean screenOn) {
-    }
+    public void setKeepScreenOn(boolean screenOn) {}
 
     @Override
-    public void setSizeFromLayout() {
-    }
+    public void setSizeFromLayout() {}
 
     @Override
-    public void setType(int type) {
-    }
+    public void setType(int type) {}
 
     @Override
-    public void unlockCanvasAndPost(Canvas canvas) {
-    }
+    public void unlockCanvasAndPost(Canvas canvas) {}
   }
 }

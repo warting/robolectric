@@ -72,7 +72,7 @@ public class ShadowDateUtilsTest {
   public void formatDateTime_withPastYear() {
     String actual =
         DateUtils.formatDateTime(context, 1420099200000L, DateUtils.FORMAT_NUMERIC_DATE);
-      assertThat(actual).isEqualTo("1/1/2015");
+    assertThat(actual).isEqualTo("1/1/2015");
   }
 
   @Test
@@ -82,7 +82,7 @@ public class ShadowDateUtilsTest {
     SystemClock.setCurrentTimeMillis(today);
 
     assertThat(DateUtils.isToday(today)).isTrue();
-    assertThat(DateUtils.isToday(today + (86400 * 1000)  /* 24 hours */)).isFalse();
+    assertThat(DateUtils.isToday(today + (86400 * 1000) /* 24 hours */)).isFalse();
     assertThat(DateUtils.isToday(today + (86400 * 10000) /* 240 hours */)).isFalse();
   }
 

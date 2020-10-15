@@ -30,13 +30,12 @@ import org.robolectric.annotation.Resetter;
     shadowPicker = ShadowSystemClock.Picker.class)
 public class ShadowPausedSystemClock extends ShadowSystemClock {
   private static final long INITIAL_TIME = 100;
-  private static final int MILLIS_PER_NANO = 1000000;;
+  private static final int MILLIS_PER_NANO = 1000000;
+  ;
   private static long currentTimeMillis = INITIAL_TIME;
   private static List<Listener> listeners = new CopyOnWriteArrayList<>();
 
-  /**
-   * Callback for clock updates
-   */
+  /** Callback for clock updates */
   interface Listener {
     void clockUpdated(long newCurrentTimeMillis);
   }

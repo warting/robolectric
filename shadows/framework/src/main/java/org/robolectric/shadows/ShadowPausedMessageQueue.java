@@ -52,8 +52,7 @@ public class ShadowPausedMessageQueue extends ShadowMessageQueue {
     invokeConstructor(MessageQueue.class, realQueue, from(boolean.class, quitAllowed));
     int ptr = (int) nativeQueueRegistry.register(this);
     reflector(ReflectorMessageQueue.class, realQueue).setPtr(ptr);
-    clockListener =
-        newCurrentTimeMillis -> nativeWake(ptr);
+    clockListener = newCurrentTimeMillis -> nativeWake(ptr);
     ShadowPausedSystemClock.addListener(clockListener);
   }
 

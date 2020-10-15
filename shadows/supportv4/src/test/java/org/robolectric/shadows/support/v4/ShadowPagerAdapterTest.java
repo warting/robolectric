@@ -35,8 +35,6 @@ public class ShadowPagerAdapterTest {
     public boolean isViewFromObject(View view, Object object) {
       return false;
     }
-
-
   }
 
   private static class TestDataSetObserver extends DataSetObserver {

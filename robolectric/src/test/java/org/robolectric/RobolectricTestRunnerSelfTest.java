@@ -81,12 +81,12 @@ public class RobolectricTestRunnerSelfTest {
   @Test
   @Config(sdk = Build.VERSION_CODES.KITKAT)
   public void testVersionConfiguration() {
-    assertThat(Build.VERSION.SDK_INT)
-        .isEqualTo(Build.VERSION_CODES.KITKAT);
+    assertThat(Build.VERSION.SDK_INT).isEqualTo(Build.VERSION_CODES.KITKAT);
     assertThat(Build.VERSION.RELEASE).isEqualTo("4.4");
   }
 
-  @Test public void hamcrestMatchersDontBlowUpDuringLinking() throws Exception {
+  @Test
+  public void hamcrestMatchersDontBlowUpDuringLinking() throws Exception {
     org.junit.Assert.assertThat(true, CoreMatchers.is(true));
   }
 
@@ -104,7 +104,7 @@ public class RobolectricTestRunnerSelfTest {
     public void onCreate() {
       this.onCreateWasCalled = true;
     }
-    
+
     @Override
     public void onTerminate() {
       onTerminateCalledFromMain =

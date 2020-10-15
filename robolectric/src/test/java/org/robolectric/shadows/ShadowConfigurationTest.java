@@ -32,10 +32,10 @@ public class ShadowConfigurationTest {
   @Test
   @Config(minSdk = Build.VERSION_CODES.JELLY_BEAN_MR1)
   public void testSetLocale() {
-    configuration.setLocale( Locale.US );
+    configuration.setLocale(Locale.US);
     assertThat(configuration.locale).isEqualTo(Locale.US);
 
-    configuration.setLocale( Locale.FRANCE);
+    configuration.setLocale(Locale.FRANCE);
     assertThat(configuration.locale).isEqualTo(Locale.FRANCE);
   }
 
@@ -46,7 +46,8 @@ public class ShadowConfigurationTest {
     assertThat(configuration).isEqualTo(clone);
   }
 
-  @Test public void testToString_shouldntExplode() throws Exception {
+  @Test
+  public void testToString_shouldntExplode() throws Exception {
     assertThat(new Configuration().toString()).contains("mcc");
   }
 }

@@ -39,7 +39,8 @@ public class ShadowFingerprintManager {
 
   /**
    * Simulates a successful fingerprint authentication. An authentication request must have been
-   * issued with {@link FingerprintManager#authenticate(CryptoObject, CancellationSignal, int, AuthenticationCallback, Handler)} and not cancelled.
+   * issued with {@link FingerprintManager#authenticate(CryptoObject, CancellationSignal, int,
+   * AuthenticationCallback, Handler)} and not cancelled.
    */
   public void authenticationSucceeds() {
     if (pendingCallback == null) {
@@ -67,8 +68,9 @@ public class ShadowFingerprintManager {
   }
 
   /**
-   * Simulates a failed fingerprint authentication. An authentication request must have been
-   * issued with {@link FingerprintManager#authenticate(CryptoObject, CancellationSignal, int, AuthenticationCallback, Handler)} and not cancelled.
+   * Simulates a failed fingerprint authentication. An authentication request must have been issued
+   * with {@link FingerprintManager#authenticate(CryptoObject, CancellationSignal, int,
+   * AuthenticationCallback, Handler)} and not cancelled.
    */
   public void authenticationFails() {
     if (pendingCallback == null) {
@@ -98,10 +100,11 @@ public class ShadowFingerprintManager {
         Log.w(TAG, "authentication already canceled");
         return;
       } else {
-        cancel.setOnCancelListener(() -> {
-          this.pendingCallback = null;
-          this.pendingCryptoObject = null;
-        });
+        cancel.setOnCancelListener(
+            () -> {
+              this.pendingCallback = null;
+              this.pendingCryptoObject = null;
+            });
       }
     }
 
@@ -120,8 +123,8 @@ public class ShadowFingerprintManager {
   }
 
   /**
-   * Returns {@code false} by default, or the value specified via
-   * {@link #setHasEnrolledFingerprints(boolean)}.
+   * Returns {@code false} by default, or the value specified via {@link
+   * #setHasEnrolledFingerprints(boolean)}.
    */
   @Implementation(minSdk = M)
   protected boolean hasEnrolledFingerprints() {
@@ -137,9 +140,7 @@ public class ShadowFingerprintManager {
     return new ArrayList<>(fingerprints);
   }
 
-  /**
-   * @return Returns the finger ID for the given index.
-   */
+  /** @return Returns the finger ID for the given index. */
   public int getFingerprintId(int index) {
     return ReflectionHelpers.callInstanceMethod(
         getEnrolledFingerprints().get(index),
@@ -169,9 +170,7 @@ public class ShadowFingerprintManager {
     this.fingerprints = Arrays.asList(fingerprints);
   }
 
-  /**
-   * Sets the return value of {@link FingerprintManager#isHardwareDetected()}.
-   */
+  /** Sets the return value of {@link FingerprintManager#isHardwareDetected()}. */
   public void setIsHardwareDetected(boolean isHardwareDetected) {
     this.isHardwareDetected = isHardwareDetected;
   }

@@ -106,10 +106,10 @@ public class AndroidConfigurer {
     }
 
     // Instrumenting these classes causes a weird failure.
-    builder.doNotInstrumentClass("android.R")
-        .doNotInstrumentClass("android.R$styleable");
+    builder.doNotInstrumentClass("android.R").doNotInstrumentClass("android.R$styleable");
 
-    builder.addInstrumentedPackage("dalvik.")
+    builder
+        .addInstrumentedPackage("dalvik.")
         .addInstrumentedPackage("libcore.")
         .addInstrumentedPackage("android.")
         .addInstrumentedPackage("androidx.")

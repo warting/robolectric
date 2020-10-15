@@ -16,9 +16,7 @@ import org.robolectric.annotation.LooperMode;
 import org.robolectric.annotation.TextLayoutMode;
 import org.robolectric.annotation.TextLayoutMode.Mode;
 
-/**
- * Test Espresso on Robolectric interoperability for menus.
- */
+/** Test Espresso on Robolectric interoperability for menus. */
 @RunWith(AndroidJUnit4.class)
 @TextLayoutMode(Mode.REALISTIC)
 @LooperMode(PAUSED)

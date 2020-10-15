@@ -19,7 +19,6 @@ public class ShadowNativePluralRules {
 
   @Implementation(maxSdk = JELLY_BEAN_MR2)
   protected static int quantityForIntImpl(int address, int quantity) {
-    return quantityForIntImpl((long)address, quantity);
-
+    return quantityForIntImpl((long) address, quantity);
   }
 }

@@ -23,8 +23,7 @@ public class ShadowTabHost extends ShadowViewGroup {
   private TabHost.OnTabChangeListener listener;
   private int currentTab = -1;
 
-  @RealObject
-  private TabHost realObject;
+  @RealObject private TabHost realObject;
 
   @Implementation
   protected android.widget.TabHost.TabSpec newTabSpec(java.lang.String tag) {
@@ -108,7 +107,7 @@ public class ShadowTabHost extends ShadowViewGroup {
   protected TabWidget getTabWidget() {
     Context context = realView.getContext();
     if (context instanceof Activity) {
-      return (TabWidget) ((Activity)context).findViewById(R.id.tabs);
+      return (TabWidget) ((Activity) context).findViewById(R.id.tabs);
     } else {
       return null;
     }
@@ -127,8 +126,7 @@ public class ShadowTabHost extends ShadowViewGroup {
   @Implements(TabSpec.class)
   public static class ShadowTabSpec {
 
-    @RealObject
-    TabSpec realObject;
+    @RealObject TabSpec realObject;
     private String tag;
     private View indicatorView;
     private Intent intent;
@@ -151,9 +149,7 @@ public class ShadowTabHost extends ShadowViewGroup {
       return tag;
     }
 
-    /**
-     * @return the view object set in a call to {@code TabSpec#setIndicator(View)}
-     */
+    /** @return the view object set in a call to {@code TabSpec#setIndicator(View)} */
     public View getIndicatorAsView() {
       return this.indicatorView;
     }
@@ -194,9 +190,7 @@ public class ShadowTabHost extends ShadowViewGroup {
       return realObject;
     }
 
-    /**
-     * @return the intent object set in a call to {@code TabSpec#setContent(Intent)}
-     */
+    /** @return the intent object set in a call to {@code TabSpec#setContent(Intent)} */
     public Intent getContentAsIntent() {
       return intent;
     }

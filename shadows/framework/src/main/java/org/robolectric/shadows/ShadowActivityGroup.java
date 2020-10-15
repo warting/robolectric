@@ -14,9 +14,7 @@ public class ShadowActivityGroup extends ShadowActivity {
     return currentActivity;
   }
 
-  /**
-   * @param activity Current activity.
-   */
+  /** @param activity Current activity. */
   public void setCurrentActivity(Activity activity) {
     currentActivity = activity;
   }

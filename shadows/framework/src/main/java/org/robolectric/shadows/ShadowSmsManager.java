@@ -51,7 +51,9 @@ public class ShadowSmsManager {
       throw new IllegalArgumentException("Invalid destinationAddress");
     }
 
-    lastDataParams = new DataMessageParams(destinationAddress, scAddress, destinationPort, data, sentIntent, deliveryIntent);
+    lastDataParams =
+        new DataMessageParams(
+            destinationAddress, scAddress, destinationPort, data, sentIntent, deliveryIntent);
   }
 
   @Implementation
@@ -109,7 +111,8 @@ public class ShadowSmsManager {
       throw new IllegalArgumentException("Invalid message parts");
     }
 
-    lastTextMultipartParams = new TextMultipartParams(destinationAddress, scAddress, parts, sentIntents, deliveryIntents);
+    lastTextMultipartParams =
+        new TextMultipartParams(destinationAddress, scAddress, parts, sentIntents, deliveryIntents);
   }
 
   /** @return Parameters for last call to {@link #sendDataMessage}. */
@@ -150,7 +153,13 @@ public class ShadowSmsManager {
     private final PendingIntent sentIntent;
     private final PendingIntent deliveryIntent;
 
-    public DataMessageParams(String destinationAddress, String scAddress, short destinationPort, byte[] data, PendingIntent sentIntent, PendingIntent deliveryIntent) {
+    public DataMessageParams(
+        String destinationAddress,
+        String scAddress,
+        short destinationPort,
+        byte[] data,
+        PendingIntent sentIntent,
+        PendingIntent deliveryIntent) {
       this.destinationAddress = destinationAddress;
       this.scAddress = scAddress;
       this.destinationPort = destinationPort;
@@ -192,7 +201,12 @@ public class ShadowSmsManager {
     private final PendingIntent deliveryIntent;
     private final long messageId;
 
-    public TextSmsParams(String destinationAddress, String scAddress, String text, PendingIntent sentIntent, PendingIntent deliveryIntent) {
+    public TextSmsParams(
+        String destinationAddress,
+        String scAddress,
+        String text,
+        PendingIntent sentIntent,
+        PendingIntent deliveryIntent) {
       this(destinationAddress, scAddress, text, sentIntent, deliveryIntent, 0L);
     }
 
@@ -244,7 +258,12 @@ public class ShadowSmsManager {
     private final List<PendingIntent> deliveryIntents;
     private final long messageId;
 
-    public TextMultipartParams(String destinationAddress, String scAddress, ArrayList<String> parts, ArrayList<PendingIntent> sentIntents, ArrayList<PendingIntent> deliveryIntents) {
+    public TextMultipartParams(
+        String destinationAddress,
+        String scAddress,
+        ArrayList<String> parts,
+        ArrayList<PendingIntent> sentIntents,
+        ArrayList<PendingIntent> deliveryIntents) {
       this(destinationAddress, scAddress, parts, sentIntents, deliveryIntents, 0L);
     }
 

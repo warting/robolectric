@@ -10,8 +10,8 @@ public class MethodCallSite extends RoboCallSite {
   private final MethodHandle original;
   private final Kind kind;
 
-  public MethodCallSite(Class<?> theClass, MethodType type, String name, MethodHandle original,
-      Kind kind) {
+  public MethodCallSite(
+      Class<?> theClass, MethodType type, String name, MethodHandle original, Kind kind) {
     super(type, theClass);
     this.name = name;
     this.original = original;
@@ -34,12 +34,16 @@ public class MethodCallSite extends RoboCallSite {
     return kind == STATIC;
   }
 
-  @Override public String toString() {
-    return "RoboCallSite{" +
-        "theClass=" + getTheClass() +
-        ", original=" + original +
-        ", kind=" + kind +
-        '}';
+  @Override
+  public String toString() {
+    return "RoboCallSite{"
+        + "theClass="
+        + getTheClass()
+        + ", original="
+        + original
+        + ", kind="
+        + kind
+        + '}';
   }
 
   public enum Kind {

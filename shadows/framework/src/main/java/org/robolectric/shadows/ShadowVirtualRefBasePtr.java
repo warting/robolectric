@@ -13,24 +13,24 @@ public class ShadowVirtualRefBasePtr {
   private static final Map<Long, RefHolder> POINTERS = new HashMap<>();
   private static long nextNativeObj = 10000;
 
-  synchronized public static <T> long put(T object) {
+  public static synchronized <T> long put(T object) {
     long nativePtr = nextNativeObj++;
     POINTERS.put(nativePtr, new RefHolder<T>(object));
     return nativePtr;
   }
 
-  synchronized public static <T> T get(long nativePtr, Class<T> clazz) {
+  public static synchronized <T> T get(long nativePtr, Class<T> clazz) {
     return clazz.cast(POINTERS.get(nativePtr).nativeThing);
   }
 
   @Implementation(minSdk = LOLLIPOP)
-  synchronized public static void nIncStrong(long ptr) {
+  public static synchronized void nIncStrong(long ptr) {
     if (ptr == 0) return;
     POINTERS.get(ptr).incr();
   }
 
   @Implementation(minSdk = LOLLIPOP)
-  synchronized public static void nDecStrong(long ptr) {
+  public static synchronized void nDecStrong(long ptr) {
     if (ptr == 0) return;
     if (POINTERS.get(ptr).decr()) {
       POINTERS.remove(ptr);
@@ -45,11 +45,11 @@ public class ShadowVirtualRefBasePtr {
       this.nativeThing = object;
     }
 
-    synchronized public void incr() {
+    public synchronized void incr() {
       refCount++;
     }
 
-    synchronized public boolean decr() {
+    public synchronized boolean decr() {
       refCount--;
       return refCount == 0;
     }

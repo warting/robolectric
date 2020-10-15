@@ -68,8 +68,7 @@ public class ShadowTelecomManager {
     MANUAL,
   }
 
-  @RealObject
-  private TelecomManager realObject;
+  @RealObject private TelecomManager realObject;
 
   private final LinkedHashMap<PhoneAccountHandle, PhoneAccount> accounts = new LinkedHashMap<>();
   private final List<IncomingCallRecord> incomingCalls = new ArrayList<>();
@@ -123,8 +122,7 @@ public class ShadowTelecomManager {
 
   @Implementation
   @HiddenApi
-  public void setUserSelectedOutgoingPhoneAccount(PhoneAccountHandle accountHandle) {
-  }
+  public void setUserSelectedOutgoingPhoneAccount(PhoneAccountHandle accountHandle) {}
 
   @Implementation
   protected PhoneAccountHandle getSimCallManager() {
@@ -150,7 +148,7 @@ public class ShadowTelecomManager {
 
     for (PhoneAccountHandle handle : accounts.keySet()) {
       PhoneAccount phoneAccount = accounts.get(handle);
-      if(phoneAccount.getSupportedUriSchemes().contains(uriScheme)) {
+      if (phoneAccount.getSupportedUriSchemes().contains(uriScheme)) {
         result.add(handle);
       }
     }
@@ -169,7 +167,7 @@ public class ShadowTelecomManager {
 
     for (PhoneAccountHandle handle : accounts.keySet()) {
       PhoneAccount phoneAccount = accounts.get(handle);
-      if(!phoneAccount.isEnabled() && !includeDisabledAccounts) {
+      if (!phoneAccount.isEnabled() && !includeDisabledAccounts) {
         continue;
       }
       result.add(handle);
@@ -231,7 +229,6 @@ public class ShadowTelecomManager {
   public void clearAccounts() {
     accounts.clear();
   }
-
 
   @Implementation(minSdk = LOLLIPOP_MR1)
   @HiddenApi
@@ -589,8 +586,7 @@ public class ShadowTelecomManager {
 
   @Implementation(minSdk = M)
   @HiddenApi
-  public void enablePhoneAccount(PhoneAccountHandle handle, boolean isEnabled) {
-  }
+  public void enablePhoneAccount(PhoneAccountHandle handle, boolean isEnabled) {}
 
   public void setSimCallManager(PhoneAccountHandle simCallManager) {
     this.simCallManager = simCallManager;

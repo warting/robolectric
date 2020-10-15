@@ -12,26 +12,36 @@ import org.robolectric.shadows.testing.TestApplication;
 public class ClassNameResolverTest {
   @Test
   public void shouldResolveClassesBySimpleName() throws Exception {
-    assertEquals(TestApplication.class, ClassNameResolver.resolve("org.robolectric.shadows.testing", "TestApplication"));
+    assertEquals(
+        TestApplication.class,
+        ClassNameResolver.resolve("org.robolectric.shadows.testing", "TestApplication"));
   }
 
   @Test
   public void shouldResolveClassesByDottedSimpleName() throws Exception {
-    assertEquals(TestApplication.class, ClassNameResolver.resolve("org.robolectric.shadows.testing", ".TestApplication"));
+    assertEquals(
+        TestApplication.class,
+        ClassNameResolver.resolve("org.robolectric.shadows.testing", ".TestApplication"));
   }
 
   @Test
   public void shouldResolveClassesByFullyQualifiedName() throws Exception {
-    assertEquals(TestApplication.class, ClassNameResolver.resolve("org.robolectric.shadows.testing", "org.robolectric.shadows.testing.TestApplication"));
+    assertEquals(
+        TestApplication.class,
+        ClassNameResolver.resolve(
+            "org.robolectric.shadows.testing", "org.robolectric.shadows.testing.TestApplication"));
   }
 
   @Test
   public void shouldResolveClassesByPartiallyQualifiedName() throws Exception {
-    assertEquals(TestApplication.class, ClassNameResolver.resolve("org", ".robolectric.shadows.testing.TestApplication"));
+    assertEquals(
+        TestApplication.class,
+        ClassNameResolver.resolve("org", ".robolectric.shadows.testing.TestApplication"));
   }
 
   @Test(expected = ClassNotFoundException.class)
-  public void shouldNotResolveClassesByUndottedPartiallyQualifiedNameBecauseAndroidDoesnt() throws Exception {
+  public void shouldNotResolveClassesByUndottedPartiallyQualifiedNameBecauseAndroidDoesnt()
+      throws Exception {
     ClassNameResolver.resolve("org", "robolectric.shadows.testing.TestApplication");
   }
 }

@@ -44,7 +44,8 @@ public class ShadowNfcAdapterTest {
 
   @Test
   public void setNdefPushMesageCallback_shouldUseCallback() {
-    final NfcAdapter.CreateNdefMessageCallback callback = mock(NfcAdapter.CreateNdefMessageCallback.class);
+    final NfcAdapter.CreateNdefMessageCallback callback =
+        mock(NfcAdapter.CreateNdefMessageCallback.class);
     final Activity activity = Robolectric.setupActivity(Activity.class);
     final NfcAdapter adapter = NfcAdapter.getDefaultAdapter(activity);
 

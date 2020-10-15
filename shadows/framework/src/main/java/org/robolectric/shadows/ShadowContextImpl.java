@@ -261,7 +261,6 @@ public class ShadowContextImpl {
         initialExtras);
   }
 
-
   @Implementation
   protected void sendStickyBroadcast(Intent intent) {
     getShadowInstrumentation().sendStickyBroadcast(intent, realContextImpl);
@@ -348,9 +347,7 @@ public class ShadowContextImpl {
     }
   }
 
-  /**
-   * Behaves as {@link #startActivity}. The user parameter is ignored.
-   */
+  /** Behaves as {@link #startActivity}. The user parameter is ignored. */
   @Implementation(minSdk = LOLLIPOP)
   protected void startActivityAsUser(Intent intent, Bundle options, UserHandle user) {
     // TODO: Remove this once {@link com.android.server.wmActivityTaskManagerService} is
@@ -360,8 +357,7 @@ public class ShadowContextImpl {
         ShadowContextImpl.CLASS_NAME,
         "startActivity",
         ClassParameter.from(Intent.class, intent),
-        ClassParameter.from(Bundle.class, options)
-    );
+        ClassParameter.from(Bundle.class, options));
   }
 
   /* Set the user id returned by {@link #getUserId()}. */
@@ -435,7 +431,10 @@ public class ShadowContextImpl {
       }
       return f;
     } else {
-      return directlyOn(realContextImpl, ShadowContextImpl.CLASS_NAME, "getDatabasePath",
+      return directlyOn(
+          realContextImpl,
+          ShadowContextImpl.CLASS_NAME,
+          "getDatabasePath",
           ClassParameter.from(String.class, name));
     }
   }

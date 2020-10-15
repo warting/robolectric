@@ -39,7 +39,9 @@ public class ShadowBitmapDrawable extends ShadowDrawable {
   @Implementation
   protected Drawable mutate() {
     Bitmap bitmap = realBitmapDrawable.getBitmap();
-    BitmapDrawable real = ReflectionHelpers.callConstructor(BitmapDrawable.class, ClassParameter.from(Bitmap.class, bitmap));
+    BitmapDrawable real =
+        ReflectionHelpers.callConstructor(
+            BitmapDrawable.class, ClassParameter.from(Bitmap.class, bitmap));
     ShadowBitmapDrawable shadow = Shadow.extract(real);
     shadow.colorFilter = this.colorFilter;
     shadow.drawableCreateFromStreamSource = drawableCreateFromStreamSource;
@@ -53,8 +55,8 @@ public class ShadowBitmapDrawable extends ShadowDrawable {
   }
 
   /**
-   * Returns the resource id that this {@code BitmapDrawable} was loaded from. This lets
-   * your tests assert that the bitmap is correct without having to actually load the bitmap.
+   * Returns the resource id that this {@code BitmapDrawable} was loaded from. This lets your tests
+   * assert that the bitmap is correct without having to actually load the bitmap.
    *
    * @return resource id from which this {@code BitmapDrawable} was loaded
    * @deprecated use ShadowBitmap#getCreatedFromResId() instead.

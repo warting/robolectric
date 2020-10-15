@@ -52,8 +52,7 @@ public class BootstrapDeferringRobolectricTestRunner extends RobolectricTestRunn
 
   @Retention(RetentionPolicy.RUNTIME)
   @Target(ElementType.FIELD)
-  public @interface RoboInject {
-  }
+  public @interface RoboInject {}
 
   public static class MyTestLifecycle extends DefaultTestLifecycle {
     @Override
@@ -88,5 +87,4 @@ public class BootstrapDeferringRobolectricTestRunner extends RobolectricTestRunn
 
     void tearDownApplication();
   }
-
 }

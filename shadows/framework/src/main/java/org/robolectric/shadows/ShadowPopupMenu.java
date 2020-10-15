@@ -12,8 +12,7 @@ import org.robolectric.shadow.api.Shadow;
 @Implements(PopupMenu.class)
 public class ShadowPopupMenu {
 
-  @RealObject
-  private PopupMenu realPopupMenu;
+  @RealObject private PopupMenu realPopupMenu;
 
   private boolean isShowing;
   private PopupMenu.OnMenuItemClickListener onMenuItemClickListener;

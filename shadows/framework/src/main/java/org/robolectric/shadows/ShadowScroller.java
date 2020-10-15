@@ -74,8 +74,7 @@ public class ShadowScroller {
     started = true;
     aborted = false;
     // enqueue a dummy task so that the scheduler will actually run
-    new Handler(Looper.getMainLooper())
-        .postDelayed(() -> {}, duration);
+    new Handler(Looper.getMainLooper()).postDelayed(() -> {}, duration);
   }
 
   @Implementation

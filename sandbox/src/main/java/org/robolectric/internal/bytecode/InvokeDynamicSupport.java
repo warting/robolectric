@@ -33,14 +33,25 @@ public class InvokeDynamicSupport {
     try {
       MethodHandles.Lookup lookup = MethodHandles.lookup();
 
-      BIND_CALL_SITE = lookup.findStatic(InvokeDynamicSupport.class, "bindCallSite",
-          methodType(MethodHandle.class, MethodCallSite.class));
-      BIND_INIT_CALL_SITE = lookup.findStatic(InvokeDynamicSupport.class, "bindInitCallSite",
-          methodType(MethodHandle.class, RoboCallSite.class));
-      MethodHandle cleanStackTrace = lookup.findStatic(RobolectricInternals.class, "cleanStackTrace",
-          methodType(Throwable.class, Throwable.class));
-      EXCEPTION_HANDLER = filterArguments(throwException(void.class, Throwable.class), 0, cleanStackTrace);
-      GET_SHADOW = lookup.findVirtual(ShadowedObject.class, "$$robo$getData", methodType(Object.class));
+      BIND_CALL_SITE =
+          lookup.findStatic(
+              InvokeDynamicSupport.class,
+              "bindCallSite",
+              methodType(MethodHandle.class, MethodCallSite.class));
+      BIND_INIT_CALL_SITE =
+          lookup.findStatic(
+              InvokeDynamicSupport.class,
+              "bindInitCallSite",
+              methodType(MethodHandle.class, RoboCallSite.class));
+      MethodHandle cleanStackTrace =
+          lookup.findStatic(
+              RobolectricInternals.class,
+              "cleanStackTrace",
+              methodType(Throwable.class, Throwable.class));
+      EXCEPTION_HANDLER =
+          filterArguments(throwException(void.class, Throwable.class), 0, cleanStackTrace);
+      GET_SHADOW =
+          lookup.findVirtual(ShadowedObject.class, "$$robo$getData", methodType(Object.class));
     } catch (NoSuchMethodException | IllegalAccessException e) {
       throw new AssertionError(e);
     }
@@ -56,8 +67,9 @@ public class InvokeDynamicSupport {
   }
 
   @SuppressWarnings("UnusedDeclaration")
-  public static CallSite bootstrap(MethodHandles.Lookup caller, String name, MethodType type,
-      MethodHandle original) throws IllegalAccessException {
+  public static CallSite bootstrap(
+      MethodHandles.Lookup caller, String name, MethodType type, MethodHandle original)
+      throws IllegalAccessException {
     MethodCallSite site = new MethodCallSite(caller.lookupClass(), type, name, original, REGULAR);
 
     bindCallSite(site);
@@ -66,8 +78,9 @@ public class InvokeDynamicSupport {
   }
 
   @SuppressWarnings("UnusedDeclaration")
-  public static CallSite bootstrapStatic(MethodHandles.Lookup caller, String name, MethodType type,
-      MethodHandle original) throws IllegalAccessException {
+  public static CallSite bootstrapStatic(
+      MethodHandles.Lookup caller, String name, MethodType type, MethodHandle original)
+      throws IllegalAccessException {
     MethodCallSite site = new MethodCallSite(caller.lookupClass(), type, name, original, STATIC);
 
     bindCallSite(site);
@@ -76,8 +89,9 @@ public class InvokeDynamicSupport {
   }
 
   @SuppressWarnings("UnusedDeclaration")
-  public static CallSite bootstrapIntrinsic(MethodHandles.Lookup caller, String name,
-      MethodType type, String callee) throws IllegalAccessException {
+  public static CallSite bootstrapIntrinsic(
+      MethodHandles.Lookup caller, String name, MethodType type, String callee)
+      throws IllegalAccessException {
 
     MethodHandle mh = getMethodHandle(callee, name, type);
     if (mh == null) {
@@ -87,17 +101,20 @@ public class InvokeDynamicSupport {
     return new ConstantCallSite(mh.asType(type));
   }
 
-  private static final MethodHandle NOTHING = constant(Void.class, null).asType(methodType(void.class));
+  private static final MethodHandle NOTHING =
+      constant(Void.class, null).asType(methodType(void.class));
 
-  private static MethodHandle getMethodHandle(String className, String methodName, MethodType type) {
+  private static MethodHandle getMethodHandle(
+      String className, String methodName, MethodType type) {
     Interceptor interceptor = INTERCEPTORS.findInterceptor(className, methodName);
     if (interceptor != null) {
       try {
         // reload interceptor in sandbox...
         Class<Interceptor> theClass =
-            (Class<Interceptor>) ReflectionHelpers.loadClass(
-                RobolectricInternals.getClassLoader(),
-                interceptor.getClass().getName()).asSubclass(Interceptor.class);
+            (Class<Interceptor>)
+                ReflectionHelpers.loadClass(
+                        RobolectricInternals.getClassLoader(), interceptor.getClass().getName())
+                    .asSubclass(Interceptor.class);
         return ReflectionHelpers.newInstance(theClass).getMethodHandle(methodName, type);
       } catch (NoSuchMethodException | IllegalAccessException e) {
         throw new RuntimeException(e);
@@ -118,8 +135,8 @@ public class InvokeDynamicSupport {
 
   private static MethodHandle bindCallSite(MethodCallSite site) throws IllegalAccessException {
     MethodHandle mh =
-        RobolectricInternals.findShadowMethodHandle(site.getTheClass(), site.getName(), site.type(),
-            site.isStatic());
+        RobolectricInternals.findShadowMethodHandle(
+            site.getTheClass(), site.getName(), site.type(), site.isStatic());
 
     if (mh == null) {
       // call original code
@@ -144,8 +161,8 @@ public class InvokeDynamicSupport {
     }
   }
 
-  private static MethodHandle bindWithFallback(RoboCallSite site, MethodHandle mh,
-      MethodHandle fallback) {
+  private static MethodHandle bindWithFallback(
+      RoboCallSite site, MethodHandle mh, MethodHandle fallback) {
     SwitchPoint switchPoint = getInvalidator(site.getTheClass());
     MethodType type = site.type();
 
@@ -155,8 +172,8 @@ public class InvokeDynamicSupport {
     } catch (WrongMethodTypeException e) {
       if (site instanceof MethodCallSite) {
         MethodCallSite methodCallSite = (MethodCallSite) site;
-        throw new RuntimeException("failed to bind " + methodCallSite.thisType() + "."
-            + methodCallSite.getName(), e);
+        throw new RuntimeException(
+            "failed to bind " + methodCallSite.thisType() + "." + methodCallSite.getName(), e);
       } else {
         throw e;
       }

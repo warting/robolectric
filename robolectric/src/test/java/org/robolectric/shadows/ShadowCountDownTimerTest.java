@@ -21,21 +21,21 @@ public class ShadowCountDownTimerTest {
   @Before
   public void setUp() throws Exception {
 
-    countDownTimer = new CountDownTimer(millisInFuture, countDownInterval) {
+    countDownTimer =
+        new CountDownTimer(millisInFuture, countDownInterval) {
 
-      @Override
-      public void onFinish() {
-        msg = "onFinish() is called";
-      }
+          @Override
+          public void onFinish() {
+            msg = "onFinish() is called";
+          }
 
-      @Override
-      public void onTick(long millisUnitilFinished) {
-        msg = "onTick() is called";
-      }
-    };
+          @Override
+          public void onTick(long millisUnitilFinished) {
+            msg = "onTick() is called";
+          }
+        };
     shadowCountDownTimer = Shadows.shadowOf(countDownTimer);
   }
-
 
   @Test
   public void testInvokeOnTick() {

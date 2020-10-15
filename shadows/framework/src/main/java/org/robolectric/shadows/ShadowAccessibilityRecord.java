@@ -9,9 +9,7 @@ import org.robolectric.annotation.RealObject;
 import org.robolectric.shadow.api.Shadow;
 import org.robolectric.util.ReflectionHelpers.ClassParameter;
 
-/**
- * Shadow of {@link android.view.accessibility.AccessibilityRecord}.
- */
+/** Shadow of {@link android.view.accessibility.AccessibilityRecord}. */
 @Implements(AccessibilityRecord.class)
 public class ShadowAccessibilityRecord {
 
@@ -28,7 +26,10 @@ public class ShadowAccessibilityRecord {
   protected void setSource(View root, int virtualDescendantId) {
     this.sourceRoot = root;
     this.virtualDescendantId = virtualDescendantId;
-    Shadow.directlyOn(realRecord, AccessibilityRecord.class, "setSource",
+    Shadow.directlyOn(
+        realRecord,
+        AccessibilityRecord.class,
+        "setSource",
         ClassParameter.from(View.class, root),
         ClassParameter.from(Integer.TYPE, virtualDescendantId));
   }
@@ -37,8 +38,8 @@ public class ShadowAccessibilityRecord {
   protected void setSource(View root) {
     this.sourceRoot = root;
     this.virtualDescendantId = NO_VIRTUAL_ID;
-    Shadow.directlyOn(realRecord, AccessibilityRecord.class, "setSource",
-        ClassParameter.from(View.class, root));
+    Shadow.directlyOn(
+        realRecord, AccessibilityRecord.class, "setSource", ClassParameter.from(View.class, root));
   }
 
   /**

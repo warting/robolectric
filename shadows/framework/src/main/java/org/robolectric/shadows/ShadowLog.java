@@ -21,11 +21,11 @@ public class ShadowLog {
   public static PrintStream stream;
 
   private static final int extraLogLength = "l/: \n".length();
-  private static final Map<String, Queue<LogItem>> logsByTag = Collections.synchronizedMap(new
-      HashMap<String, Queue<LogItem>>());
+  private static final Map<String, Queue<LogItem>> logsByTag =
+      Collections.synchronizedMap(new HashMap<String, Queue<LogItem>>());
   private static final Queue<LogItem> logs = new ConcurrentLinkedQueue<>();
-  private static final Map<String, Integer> tagToLevel = Collections.synchronizedMap(new
-      HashMap<String, Integer>());
+  private static final Map<String, Integer> tagToLevel =
+      Collections.synchronizedMap(new HashMap<String, Integer>());
 
   /**
    * Whether calling {@link Log#wtf} will throw {@link TerribleFailure}. This is analogous to
@@ -136,6 +136,7 @@ public class ShadowLog {
 
   /**
    * Sets the log level of a given tag, that {@link #isLoggable} will follow.
+   *
    * @param tag A log tag
    * @param level A log level, from {@link android.util.Log}
    */
@@ -174,13 +175,26 @@ public class ShadowLog {
   protected static char levelToChar(int level) {
     final char c;
     switch (level) {
-      case Log.ASSERT: c = 'A'; break;
-      case Log.DEBUG:  c = 'D'; break;
-      case Log.ERROR:  c = 'E'; break;
-      case Log.WARN:   c = 'W'; break;
-      case Log.INFO:   c = 'I'; break;
-      case Log.VERBOSE:c = 'V'; break;
-      default:         c = '?';
+      case Log.ASSERT:
+        c = 'A';
+        break;
+      case Log.DEBUG:
+        c = 'D';
+        break;
+      case Log.ERROR:
+        c = 'E';
+        break;
+      case Log.WARN:
+        c = 'W';
+        break;
+      case Log.INFO:
+        c = 'I';
+        break;
+      case Log.VERBOSE:
+        c = 'V';
+        break;
+      default:
+        c = '?';
     }
     return c;
   }
@@ -203,6 +217,7 @@ public class ShadowLog {
 
   /**
    * Returns ordered list of all log entries.
+   *
    * @return List of log items
    */
   public static List<LogItem> getLogs() {
@@ -246,14 +261,17 @@ public class ShadowLog {
         try {
           final PrintStream file = new PrintStream(new FileOutputStream(logging), true);
           stream = file;
-          Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override public void run() {
-              try {
-                file.close();
-              } catch (Exception ignored) {
-              }
-            }
-          });
+          Runtime.getRuntime()
+              .addShutdownHook(
+                  new Thread() {
+                    @Override
+                    public void run() {
+                      try {
+                        file.close();
+                      } catch (Exception ignored) {
+                      }
+                    }
+                  });
         } catch (IOException e) {
           e.printStackTrace();
         }
@@ -314,11 +332,19 @@ public class ShadowLog {
     @Override
     public String toString() {
       return "LogItem{"
-          + "timeString='" + timeString + '\''
-          + ", type=" + type
-          + ", tag='" + tag + '\''
-          + ", msg='" + msg + '\''
-          + ", throwable=" + throwable
+          + "timeString='"
+          + timeString
+          + '\''
+          + ", type="
+          + type
+          + ", tag='"
+          + tag
+          + '\''
+          + ", msg='"
+          + msg
+          + '\''
+          + ", throwable="
+          + throwable
           + '}';
     }
   }

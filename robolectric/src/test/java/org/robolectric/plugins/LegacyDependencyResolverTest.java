@@ -46,9 +46,9 @@ public class LegacyDependencyResolverTest {
 
   @Test
   public void whenRobolectricDepsPropertiesProperty() throws Exception {
-    Path depsPath = tempDirectory
-        .createFile("deps.properties",
-            "org.robolectric\\:android-all\\:" + VERSION + ": file-123.jar");
+    Path depsPath =
+        tempDirectory.createFile(
+            "deps.properties", "org.robolectric\\:android-all\\:" + VERSION + ": file-123.jar");
     Path jarPath = tempDirectory.createFile("file-123.jar", "...");
 
     properties.setProperty("robolectric-deps.properties", depsPath.toString());
@@ -61,9 +61,9 @@ public class LegacyDependencyResolverTest {
 
   @Test
   public void whenRobolectricDepsPropertiesPropertyAndOfflineProperty() throws Exception {
-    Path depsPath = tempDirectory
-        .createFile("deps.properties",
-            "org.robolectric\\:android-all\\:" + VERSION + ": file-123.jar");
+    Path depsPath =
+        tempDirectory.createFile(
+            "deps.properties", "org.robolectric\\:android-all\\:" + VERSION + ": file-123.jar");
     Path jarPath = tempDirectory.createFile("file-123.jar", "...");
 
     properties.setProperty("robolectric-deps.properties", depsPath.toString());
@@ -77,9 +77,9 @@ public class LegacyDependencyResolverTest {
 
   @Test
   public void whenRobolectricDepsPropertiesResource() throws Exception {
-    Path depsPath = tempDirectory
-        .createFile("deps.properties",
-            "org.robolectric\\:android-all\\:" + VERSION + ": file-123.jar");
+    Path depsPath =
+        tempDirectory.createFile(
+            "deps.properties", "org.robolectric\\:android-all\\:" + VERSION + ": file-123.jar");
 
     when(mockClassLoader.getResource("robolectric-deps.properties")).thenReturn(meh(depsPath));
     DependencyResolver resolver = new LegacyDependencyResolver(properties, mockClassLoader);
@@ -110,8 +110,7 @@ public class LegacyDependencyResolverTest {
     DependencyResolver resolver = new LegacyDependencyResolver(properties, mockClassLoader);
 
     URL jarUrl = resolver.getLocalArtifactUrl(DEPENDENCY_COORDS);
-    assertThat(Fs.fromUrl(jarUrl))
-        .isEqualTo(Paths.get("/some/fake/file.jar").toAbsolutePath());
+    assertThat(Fs.fromUrl(jarUrl)).isEqualTo(Paths.get("/some/fake/file.jar").toAbsolutePath());
   }
 
   public static class FakeMavenDependencyResolver implements DependencyResolver {

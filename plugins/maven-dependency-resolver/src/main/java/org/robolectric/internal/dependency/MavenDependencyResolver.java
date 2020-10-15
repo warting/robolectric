@@ -44,11 +44,18 @@ public class MavenDependencyResolver implements DependencyResolver {
   private final File localRepositoryDir;
 
   public MavenDependencyResolver() {
-    this(MavenRoboSettings.getMavenRepositoryUrl(), MavenRoboSettings.getMavenRepositoryId(), MavenRoboSettings
-        .getMavenRepositoryUserName(), MavenRoboSettings.getMavenRepositoryPassword());
+    this(
+        MavenRoboSettings.getMavenRepositoryUrl(),
+        MavenRoboSettings.getMavenRepositoryId(),
+        MavenRoboSettings.getMavenRepositoryUserName(),
+        MavenRoboSettings.getMavenRepositoryPassword());
   }
 
-  public MavenDependencyResolver(String repositoryUrl, String repositoryId, String repositoryUserName, String repositoryPassword) {
+  public MavenDependencyResolver(
+      String repositoryUrl,
+      String repositoryId,
+      String repositoryUserName,
+      String repositoryPassword) {
     this.executorService = createExecutorService();
     this.localRepositoryDir = getLocalRepositoryDir();
     this.mavenArtifactFetcher =
@@ -66,8 +73,9 @@ public class MavenDependencyResolver implements DependencyResolver {
   }
 
   /**
-   * Get an array of local artifact URLs for the given dependencies. The order of the URLs is guaranteed to be the
-   * same as the input order of dependencies, i.e., urls[i] is the local artifact URL for dependencies[i].
+   * Get an array of local artifact URLs for the given dependencies. The order of the URLs is
+   * guaranteed to be the same as the input order of dependencies, i.e., urls[i] is the local
+   * artifact URL for dependencies[i].
    */
   @SuppressWarnings("NewApi")
   public URL[] getLocalArtifactUrls(DependencyJar... dependencies) {

@@ -17,16 +17,23 @@ public class ShadowAbsSpinner extends ShadowAdapterView {
 
   @Implementation
   protected void setSelection(int position, boolean animate) {
-    directlyOn(realAbsSpinner, AbsSpinner.class, "setSelection", ClassParameter.from(int.class, position), ClassParameter.from(boolean.class, animate));
+    directlyOn(
+        realAbsSpinner,
+        AbsSpinner.class,
+        "setSelection",
+        ClassParameter.from(int.class, position),
+        ClassParameter.from(boolean.class, animate));
     animatedTransition = animate;
   }
 
   @Implementation
   protected void setSelection(int position) {
-    directlyOn(realAbsSpinner, AbsSpinner.class, "setSelection", ClassParameter.from(int.class, position));
+    directlyOn(
+        realAbsSpinner, AbsSpinner.class, "setSelection", ClassParameter.from(int.class, position));
     SpinnerAdapter adapter = realAbsSpinner.getAdapter();
     if (getItemSelectedListener() != null && adapter != null) {
-      getItemSelectedListener().onItemSelected(realAbsSpinner, null, position, adapter.getItemId(position));
+      getItemSelectedListener()
+          .onItemSelected(realAbsSpinner, null, position, adapter.getItemId(position));
     }
   }
 

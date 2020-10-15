@@ -65,7 +65,8 @@ public class ShadowSmsManagerTest {
   public void sendMultipartMessage_shouldStoreLastSendMultimediaParameters() {
     smsManager.sendMultipartTextMessage(
         destAddress, scAddress, Lists.newArrayList("Foo", "Bar", "Baz"), null, null);
-    ShadowSmsManager.TextMultipartParams params = shadowOf(smsManager).getLastSentMultipartTextMessageParams();
+    ShadowSmsManager.TextMultipartParams params =
+        shadowOf(smsManager).getLastSentMultipartTextMessageParams();
 
     assertThat(params.getDestinationAddress()).isEqualTo(destAddress);
     assertThat(params.getScAddress()).isEqualTo(scAddress);
@@ -87,7 +88,7 @@ public class ShadowSmsManagerTest {
   @Test
   public void sendDataMessage_shouldStoreLastParameters() {
     final short destPort = 24;
-    final byte[] data = new byte[]{0, 1, 2, 3, 4};
+    final byte[] data = new byte[] {0, 1, 2, 3, 4};
     final PendingIntent sentIntent =
         PendingIntent.getActivity(ApplicationProvider.getApplicationContext(), 10, null, 0);
     final PendingIntent deliveryIntent =
@@ -95,7 +96,8 @@ public class ShadowSmsManagerTest {
 
     smsManager.sendDataMessage(destAddress, scAddress, destPort, data, sentIntent, deliveryIntent);
 
-    final ShadowSmsManager.DataMessageParams params = shadowOf(smsManager).getLastSentDataMessageParams();
+    final ShadowSmsManager.DataMessageParams params =
+        shadowOf(smsManager).getLastSentDataMessageParams();
     assertThat(params.getDestinationAddress()).isEqualTo(destAddress);
     assertThat(params.getScAddress()).isEqualTo(scAddress);
     assertThat(params.getDestinationPort()).isEqualTo(destPort);

@@ -24,8 +24,10 @@ import org.robolectric.shadows.ShadowLooper;
 @RunWith(AndroidJUnit4.class)
 public class IntentServiceControllerTest {
   private static final List<String> transcript = new ArrayList<>();
-  private final ComponentName componentName = new ComponentName("org.robolectric", MyService.class.getName());
-  private final IntentServiceController<MyService> controller = Robolectric.buildIntentService(MyService.class, new Intent());
+  private final ComponentName componentName =
+      new ComponentName("org.robolectric", MyService.class.getName());
+  private final IntentServiceController<MyService> controller =
+      Robolectric.buildIntentService(MyService.class, new Intent());
 
   @Before
   public void setUp() throws Exception {
@@ -48,7 +50,10 @@ public class IntentServiceControllerTest {
 
   @Test
   public void onBindShouldSetIntentComponentWithCustomIntentWithoutComponentSet() throws Exception {
-    MyService myService = Robolectric.buildIntentService(MyService.class, new Intent(Intent.ACTION_VIEW)).bind().get();
+    MyService myService =
+        Robolectric.buildIntentService(MyService.class, new Intent(Intent.ACTION_VIEW))
+            .bind()
+            .get();
     assertThat(myService.boundIntent.getAction()).isEqualTo(Intent.ACTION_VIEW);
     assertThat(myService.boundIntent.getComponent()).isEqualTo(componentName);
   }
@@ -168,11 +173,13 @@ public class IntentServiceControllerTest {
     }
 
     private void transcribeWhilePaused(final String event) {
-      runOnUiThread(new Runnable() {
-        @Override public void run() {
-          transcript.add(event);
-        }
-      });
+      runOnUiThread(
+          new Runnable() {
+            @Override
+            public void run() {
+              transcript.add(event);
+            }
+          });
     }
 
     private void runOnUiThread(Runnable action) {

@@ -16,7 +16,8 @@ public class ShadowDrawerLayoutTest {
 
   @Test
   public void canGetAndSetDrawerListener() throws Exception {
-    DrawerLayout drawerLayout = new DrawerLayout(Robolectric.buildActivity(Activity.class).create().get());
+    DrawerLayout drawerLayout =
+        new DrawerLayout(Robolectric.buildActivity(Activity.class).create().get());
     DrawerLayout.DrawerListener mockDrawerListener = mock(DrawerLayout.DrawerListener.class);
     drawerLayout.setDrawerListener(mockDrawerListener);
     assertThat(shadowOf(drawerLayout).getDrawerListener()).isSameInstanceAs(mockDrawerListener);

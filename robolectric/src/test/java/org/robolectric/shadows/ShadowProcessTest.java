@@ -151,4 +151,3 @@ public class ShadowProcessTest {
         .isEqualTo(THREAD_PRIORITY_LOWEST);
   }
 }
-

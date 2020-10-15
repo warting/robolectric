@@ -6,7 +6,6 @@ import org.robolectric.annotation.Implements;
 @Implements(OuterDummy2.class)
 public class ShadowOuterDummyWithErrs {
 
-  @Implements(className="com.example.objects.OuterDummy2$InnerProtected")
-  public class ShadowInnerProtected {
-  }
+  @Implements(className = "com.example.objects.OuterDummy2$InnerProtected")
+  public class ShadowInnerProtected {}
 }

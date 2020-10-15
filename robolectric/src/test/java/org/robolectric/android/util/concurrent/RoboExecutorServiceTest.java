@@ -35,12 +35,13 @@ public class RoboExecutorServiceTest {
     backgroundScheduler = Robolectric.getBackgroundThreadScheduler();
 
     backgroundScheduler.pause();
-    runnable = new Runnable() {
-      @Override
-      public void run() {
-        transcript.add("background event ran");
-      }
-    };
+    runnable =
+        new Runnable() {
+          @Override
+          public void run() {
+            transcript.add("background event ran");
+          }
+        };
   }
 
   @Test
@@ -69,13 +70,15 @@ public class RoboExecutorServiceTest {
 
   @Test
   public void submitCallable_shouldRunStuffOnBackgroundThread() throws Exception {
-    Future<String> future = executorService.submit(new Callable<String>() {
-      @Override
-      public String call() throws Exception {
-        runnable.run();
-        return "foo";
-      }
-    });
+    Future<String> future =
+        executorService.submit(
+            new Callable<String>() {
+              @Override
+              public String call() throws Exception {
+                runnable.run();
+                return "foo";
+              }
+            });
 
     assertThat(transcript).isEmpty();
     assertThat(future.isDone()).isFalse();

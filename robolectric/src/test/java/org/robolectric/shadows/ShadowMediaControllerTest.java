@@ -145,9 +145,7 @@ public final class ShadowMediaControllerTest {
   }
 
   private static PlaybackState createPlaybackState() {
-       return new PlaybackState.Builder()
-        .setState(PlaybackState.STATE_PLAYING, 0L, 0f)
-        .build();
+    return new PlaybackState.Builder().setState(PlaybackState.STATE_PLAYING, 0L, 0f).build();
   }
 
   private static MediaMetadata createMetadata(String title) {

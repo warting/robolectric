@@ -6,8 +6,7 @@ import org.robolectric.annotation.RealObject;
 
 @Implements(LayoutAnimationController.class)
 public class ShadowLayoutAnimationController {
-  @RealObject
-  private LayoutAnimationController realAnimation;
+  @RealObject private LayoutAnimationController realAnimation;
 
   private int loadedFromResourceId = -1;
 

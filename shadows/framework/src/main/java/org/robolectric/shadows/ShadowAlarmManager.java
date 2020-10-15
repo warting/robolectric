@@ -123,7 +123,11 @@ public class ShadowAlarmManager {
     return null;
   }
 
-  private void internalSet(int type, long triggerAtTime, long interval, PendingIntent operation,
+  private void internalSet(
+      int type,
+      long triggerAtTime,
+      long interval,
+      PendingIntent operation,
       PendingIntent showIntent) {
     cancel(operation);
     synchronized (scheduledAlarms) {
@@ -141,9 +145,7 @@ public class ShadowAlarmManager {
     }
   }
 
-  /**
-   * @return the next scheduled alarm after consuming it
-   */
+  /** @return the next scheduled alarm after consuming it */
   public ScheduledAlarm getNextScheduledAlarm() {
     if (scheduledAlarms.isEmpty()) {
       return null;
@@ -152,9 +154,7 @@ public class ShadowAlarmManager {
     }
   }
 
-  /**
-   * @return the most recently scheduled alarm without consuming it
-   */
+  /** @return the most recently scheduled alarm without consuming it */
   public ScheduledAlarm peekNextScheduledAlarm() {
     if (scheduledAlarms.isEmpty()) {
       return null;
@@ -163,9 +163,7 @@ public class ShadowAlarmManager {
     }
   }
 
-  /**
-   * @return all scheduled alarms
-   */
+  /** @return all scheduled alarms */
   public List<ScheduledAlarm> getScheduledAlarms() {
     return scheduledAlarms;
   }
@@ -200,9 +198,7 @@ public class ShadowAlarmManager {
     }
   }
 
-  /**
-   * Container object to hold a PendingIntent and parameters describing when to send it.
-   */
+  /** Container object to hold a PendingIntent and parameters describing when to send it. */
   public static class ScheduledAlarm implements Comparable<ScheduledAlarm> {
 
     public final int type;
@@ -216,12 +212,16 @@ public class ShadowAlarmManager {
     public final OnAlarmListener onAlarmListener;
     public final Handler handler;
 
-    public ScheduledAlarm(int type, long triggerAtTime, PendingIntent operation,
-        PendingIntent showIntent) {
+    public ScheduledAlarm(
+        int type, long triggerAtTime, PendingIntent operation, PendingIntent showIntent) {
       this(type, triggerAtTime, 0, operation, showIntent);
     }
 
-    public ScheduledAlarm(int type, long triggerAtTime, long interval, PendingIntent operation,
+    public ScheduledAlarm(
+        int type,
+        long triggerAtTime,
+        long interval,
+        PendingIntent operation,
         PendingIntent showIntent) {
       this(type, triggerAtTime, interval, operation, showIntent, null, null);
     }

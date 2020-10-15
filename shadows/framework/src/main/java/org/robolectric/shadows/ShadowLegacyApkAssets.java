@@ -25,7 +25,6 @@ public class ShadowLegacyApkAssets extends ShadowApkAssets {
     this.assetPath = path;
   }
 
-
   @Implementation
   protected String getAssetPath() {
     return assetPath;

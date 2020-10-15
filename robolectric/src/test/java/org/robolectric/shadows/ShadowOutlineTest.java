@@ -13,9 +13,9 @@ import org.robolectric.annotation.Config;
 @Config(minSdk = LOLLIPOP)
 public class ShadowOutlineTest {
 
-    @Test
-    public void setConvexPath_doesNothing() {
-        final Outline outline = new Outline();
-        outline.setConvexPath(new Path());
-    }
+  @Test
+  public void setConvexPath_doesNothing() {
+    final Outline outline = new Outline();
+    outline.setConvexPath(new Path());
+  }
 }

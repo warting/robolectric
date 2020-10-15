@@ -101,9 +101,11 @@ public class RuntimeEnvironment {
   }
 
   /**
-   * Returns a qualifier string describing the current {@link Configuration} of the system resources.
+   * Returns a qualifier string describing the current {@link Configuration} of the system
+   * resources.
    *
-   * @return a qualifier string as described (https://developer.android.com/guide/topics/resources/providing-resources.html#QualifierRules)[here].
+   * @return a qualifier string as described
+   *     (https://developer.android.com/guide/topics/resources/providing-resources.html#QualifierRules)[here].
    */
   public static String getQualifiers() {
     Resources systemResources = Resources.getSystem();
@@ -115,7 +117,8 @@ public class RuntimeEnvironment {
    *
    * @param configuration the configuration.
    * @param displayMetrics the display metrics.
-   * @return a qualifier string as described (https://developer.android.com/guide/topics/resources/providing-resources.html#QualifierRules)[here].
+   * @return a qualifier string as described
+   *     (https://developer.android.com/guide/topics/resources/providing-resources.html#QualifierRules)[here].
    */
   public static String getQualifiers(Configuration configuration, DisplayMetrics displayMetrics) {
     return ConfigurationV25.resourceQualifierString(configuration, displayMetrics);
@@ -155,7 +158,8 @@ public class RuntimeEnvironment {
   }
 
   public static Number castNativePtr(long ptr) {
-    // Weird, using a ternary here doesn't work, there's some auto promotion of boxed types happening.
+    // Weird, using a ternary here doesn't work, there's some auto promotion of boxed types
+    // happening.
     if (getApiLevel() >= LOLLIPOP) {
       return ptr;
     } else {
@@ -164,28 +168,27 @@ public class RuntimeEnvironment {
   }
 
   /**
-   * Retrieves the current master scheduler. This scheduler is always used by the main
-   * {@link android.os.Looper Looper}, and if the global scheduler option is set it is also used for
-   * the background scheduler and for all other {@link android.os.Looper Looper}s
+   * Retrieves the current master scheduler. This scheduler is always used by the main {@link
+   * android.os.Looper Looper}, and if the global scheduler option is set it is also used for the
+   * background scheduler and for all other {@link android.os.Looper Looper}s
    *
    * @return The current master scheduler.
-   * @see #setMasterScheduler(Scheduler)
-   * see org.robolectric.Robolectric#getForegroundThreadScheduler()
-   * see org.robolectric.Robolectric#getBackgroundThreadScheduler()
+   * @see #setMasterScheduler(Scheduler) see
+   *     org.robolectric.Robolectric#getForegroundThreadScheduler() see
+   *     org.robolectric.Robolectric#getBackgroundThreadScheduler()
    */
   public static Scheduler getMasterScheduler() {
     return masterScheduler;
   }
 
   /**
-   * Sets the current master scheduler. See {@link #getMasterScheduler()} for details.
-   * Note that this method is primarily intended to be called by the Robolectric core setup code.
-   * Changing the master scheduler during a test will have unpredictable results.
+   * Sets the current master scheduler. See {@link #getMasterScheduler()} for details. Note that
+   * this method is primarily intended to be called by the Robolectric core setup code. Changing the
+   * master scheduler during a test will have unpredictable results.
    *
    * @param masterScheduler the new master scheduler.
-   * @see #getMasterScheduler()
-   * see org.robolectric.Robolectric#getForegroundThreadScheduler()
-   * see org.robolectric.Robolectric#getBackgroundThreadScheduler()
+   * @see #getMasterScheduler() see org.robolectric.Robolectric#getForegroundThreadScheduler() see
+   *     org.robolectric.Robolectric#getBackgroundThreadScheduler()
    */
   public static void setMasterScheduler(Scheduler masterScheduler) {
     RuntimeEnvironment.masterScheduler = masterScheduler;

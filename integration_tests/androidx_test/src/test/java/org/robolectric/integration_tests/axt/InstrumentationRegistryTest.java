@@ -55,5 +55,4 @@ public class InstrumentationRegistryTest {
       assertThat(priorContext).isNotEqualTo(InstrumentationRegistry.getTargetContext());
     }
   }
-
 }

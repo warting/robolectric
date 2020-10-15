@@ -86,7 +86,8 @@ public class SandboxClassLoaderTest {
   }
 
   @Test
-  public void forClassesWithNoDefaultConstructor_shouldCreateOneButItShouldNotCallShadow() throws Exception {
+  public void forClassesWithNoDefaultConstructor_shouldCreateOneButItShouldNotCallShadow()
+      throws Exception {
     Constructor<?> defaultCtor = loadClass(AClassWithNoDefaultConstructor.class).getConstructor();
     assertTrue(Modifier.isPublic(defaultCtor.getModifiers()));
     defaultCtor.setAccessible(true);
@@ -102,8 +103,10 @@ public class SandboxClassLoaderTest {
     assertTrue(Modifier.isPublic(ctor.getModifiers()));
     ctor.setAccessible(true);
     Object instance = ctor.newInstance("new one");
-    assertThat(transcript).containsExactly(
-        "methodInvoked: AClassWithNoDefaultConstructor.__constructor__(java.lang.String new one)");
+    assertThat(transcript)
+        .containsExactly(
+            "methodInvoked: AClassWithNoDefaultConstructor.__constructor__(java.lang.String new"
+                + " one)");
 
     Field nameField = clazz.getDeclaredField("name");
     nameField.setAccessible(true);
@@ -146,10 +149,10 @@ public class SandboxClassLoaderTest {
     // https://bugs.openjdk.java.net/browse/JDK-8157181
     // Therefore, these fields need to be nonfinal / be made nonfinal.
     assertThat(Modifier.isFinal(roboDataField.getModifiers())).isFalse();
-    assertThat(
-        Modifier.isFinal(exampleClass.getField("STATIC_FINAL_FIELD").getModifiers())).isFalse();
-    assertThat(
-        Modifier.isFinal(exampleClass.getField("nonstaticFinalField").getModifiers())).isFalse();
+    assertThat(Modifier.isFinal(exampleClass.getField("STATIC_FINAL_FIELD").getModifiers()))
+        .isFalse();
+    assertThat(Modifier.isFinal(exampleClass.getField("nonstaticFinalField").getModifiers()))
+        .isFalse();
   }
 
   @Test
@@ -158,12 +161,14 @@ public class SandboxClassLoaderTest {
     Method normalMethod = exampleClass.getMethod("normalMethod", String.class, int.class);
 
     Object exampleInstance = exampleClass.getDeclaredConstructor().newInstance();
-    assertEquals("response from methodInvoked: AnExampleClass.normalMethod(java.lang.String"
-                     + " value1, int 123)",
+    assertEquals(
+        "response from methodInvoked: AnExampleClass.normalMethod(java.lang.String"
+            + " value1, int 123)",
         normalMethod.invoke(exampleInstance, "value1", 123));
-    assertThat(transcript).containsExactly(
-        "methodInvoked: AnExampleClass.__constructor__()",
-        "methodInvoked: AnExampleClass.normalMethod(java.lang.String value1, int 123)");
+    assertThat(transcript)
+        .containsExactly(
+            "methodInvoked: AnExampleClass.__constructor__()",
+            "methodInvoked: AnExampleClass.normalMethod(java.lang.String value1, int 123)");
   }
 
   @Test
@@ -174,12 +179,13 @@ public class SandboxClassLoaderTest {
     directMethod.setAccessible(true);
     Object exampleInstance = exampleClass.getDeclaredConstructor().newInstance();
     assertEquals("normalMethod(value1, 123)", directMethod.invoke(exampleInstance, "value1", 123));
-    assertThat(transcript).containsExactly(
-        "methodInvoked: AnExampleClass.__constructor__()");
+    assertThat(transcript).containsExactly("methodInvoked: AnExampleClass.__constructor__()");
   }
 
   @Test
-  public void soMockitoDoesntExplodeDueToTooManyMethods_shouldGenerateClassSpecificDirectAccessMethodWhichIsPrivateAndFinal() throws Exception {
+  public void
+      soMockitoDoesntExplodeDueToTooManyMethods_shouldGenerateClassSpecificDirectAccessMethodWhichIsPrivateAndFinal()
+          throws Exception {
     Class<?> exampleClass = loadClass(AnExampleClass.class);
     String methodName = shadow.directMethodName(exampleClass.getName(), "normalMethod");
     Method directMethod = exampleClass.getDeclaredMethod(methodName, String.class, int.class);
@@ -195,8 +201,9 @@ public class SandboxClassLoaderTest {
     assertEquals(
         "response from methodInvoked: AClassWithStaticMethod.staticMethod(java.lang.String value1)",
         normalMethod.invoke(null, "value1"));
-    assertThat(transcript).containsExactly(
-        "methodInvoked: AClassWithStaticMethod.staticMethod(java.lang.String value1)");
+    assertThat(transcript)
+        .containsExactly(
+            "methodInvoked: AClassWithStaticMethod.staticMethod(java.lang.String value1)");
   }
 
   @Test
@@ -216,9 +223,11 @@ public class SandboxClassLoaderTest {
     Method normalMethod = exampleClass.getMethod("normalMethodReturningInteger", int.class);
     Object exampleInstance = exampleClass.getDeclaredConstructor().newInstance();
     assertEquals(456, normalMethod.invoke(exampleInstance, 123));
-    assertThat(transcript).containsExactly(
-        "methodInvoked: AClassWithMethodReturningInteger.__constructor__()",
-        "methodInvoked: AClassWithMethodReturningInteger.normalMethodReturningInteger(int 123)");
+    assertThat(transcript)
+        .containsExactly(
+            "methodInvoked: AClassWithMethodReturningInteger.__constructor__()",
+            "methodInvoked: AClassWithMethodReturningInteger.normalMethodReturningInteger(int"
+                + " 123)");
   }
 
   @Test
@@ -229,9 +238,11 @@ public class SandboxClassLoaderTest {
     Method normalMethod = exampleClass.getMethod("normalMethodReturningDouble", double.class);
     Object exampleInstance = exampleClass.getDeclaredConstructor().newInstance();
     assertEquals(456.0, normalMethod.invoke(exampleInstance, 123d));
-    assertThat(transcript).containsExactly(
-        "methodInvoked: AClassWithMethodReturningDouble.__constructor__()",
-        "methodInvoked: AClassWithMethodReturningDouble.normalMethodReturningDouble(double 123.0)");
+    assertThat(transcript)
+        .containsExactly(
+            "methodInvoked: AClassWithMethodReturningDouble.__constructor__()",
+            "methodInvoked: AClassWithMethodReturningDouble.normalMethodReturningDouble(double"
+                + " 123.0)");
   }
 
   @Test
@@ -239,12 +250,14 @@ public class SandboxClassLoaderTest {
     Class<?> exampleClass = loadClass(AClassWithNativeMethod.class);
     Method normalMethod = exampleClass.getDeclaredMethod("nativeMethod", String.class, int.class);
     Object exampleInstance = exampleClass.getDeclaredConstructor().newInstance();
-    assertEquals("response from methodInvoked:"
-                     + " AClassWithNativeMethod.nativeMethod(java.lang.String value1, int 123)",
+    assertEquals(
+        "response from methodInvoked:"
+            + " AClassWithNativeMethod.nativeMethod(java.lang.String value1, int 123)",
         normalMethod.invoke(exampleInstance, "value1", 123));
-    assertThat(transcript).containsExactly(
-        "methodInvoked: AClassWithNativeMethod.__constructor__()",
-        "methodInvoked: AClassWithNativeMethod.nativeMethod(java.lang.String value1, int 123)");
+    assertThat(transcript)
+        .containsExactly(
+            "methodInvoked: AClassWithNativeMethod.__constructor__()",
+            "methodInvoked: AClassWithNativeMethod.nativeMethod(java.lang.String value1, int 123)");
   }
 
   @Test
@@ -272,39 +285,44 @@ public class SandboxClassLoaderTest {
     Class<?> exampleClass = loadClass(AClassWithMethodReturningBoolean.class);
     classHandler.valueToReturn = true;
 
-    Method directMethod = exampleClass.getMethod("normalMethodReturningBoolean", boolean.class, boolean[].class);
+    Method directMethod =
+        exampleClass.getMethod("normalMethodReturningBoolean", boolean.class, boolean[].class);
     directMethod.setAccessible(true);
     Object exampleInstance = exampleClass.getDeclaredConstructor().newInstance();
     assertEquals(true, directMethod.invoke(exampleInstance, true, new boolean[0]));
-    assertThat(transcript).containsExactly(
-        "methodInvoked: AClassWithMethodReturningBoolean.__constructor__()",
-        "methodInvoked: AClassWithMethodReturningBoolean.normalMethodReturningBoolean(boolean"
-            + " true, boolean[] {})");
+    assertThat(transcript)
+        .containsExactly(
+            "methodInvoked: AClassWithMethodReturningBoolean.__constructor__()",
+            "methodInvoked: AClassWithMethodReturningBoolean.normalMethodReturningBoolean(boolean"
+                + " true, boolean[] {})");
   }
 
   @Test
   public void shouldHandleMethodsReturningArray() throws Exception {
     Class<?> exampleClass = loadClass(AClassWithMethodReturningArray.class);
-    classHandler.valueToReturn = new String[]{"miao, mieuw"};
+    classHandler.valueToReturn = new String[] {"miao, mieuw"};
 
     Method directMethod = exampleClass.getMethod("normalMethodReturningArray");
     directMethod.setAccessible(true);
     Object exampleInstance = exampleClass.getDeclaredConstructor().newInstance();
-    assertThat(transcript).containsExactly(
-        "methodInvoked: AClassWithMethodReturningArray.__constructor__()");
+    assertThat(transcript)
+        .containsExactly("methodInvoked: AClassWithMethodReturningArray.__constructor__()");
     transcript.clear();
-    assertArrayEquals(new String[]{"miao, mieuw"}, (String[]) directMethod.invoke(exampleInstance));
-    assertThat(transcript).containsExactly(
-        "methodInvoked: AClassWithMethodReturningArray.normalMethodReturningArray()");
+    assertArrayEquals(
+        new String[] {"miao, mieuw"}, (String[]) directMethod.invoke(exampleInstance));
+    assertThat(transcript)
+        .containsExactly(
+            "methodInvoked: AClassWithMethodReturningArray.normalMethodReturningArray()");
   }
 
   @Test
   public void shouldInvokeShadowForEachConstructorInInheritanceTree() throws Exception {
     loadClass(AChild.class).getDeclaredConstructor().newInstance();
-    assertThat(transcript).containsExactly(
-        "methodInvoked: AGrandparent.__constructor__()",
-        "methodInvoked: AParent.__constructor__()",
-        "methodInvoked: AChild.__constructor__()");
+    assertThat(transcript)
+        .containsExactly(
+            "methodInvoked: AGrandparent.__constructor__()",
+            "methodInvoked: AParent.__constructor__()",
+            "methodInvoked: AChild.__constructor__()");
   }
 
   @Test
@@ -336,7 +354,8 @@ public class SandboxClassLoaderTest {
   }
 
   @Test
-  public void shouldGenerateClassSpecificDirectAccessMethodForConstructorWhichDoesNotCallSuper() throws Exception {
+  public void shouldGenerateClassSpecificDirectAccessMethodForConstructorWhichDoesNotCallSuper()
+      throws Exception {
     Class<?> aClass = loadClass(AClassWithFunnyConstructors.class);
     Object instance = aClass.getConstructor(String.class).newInstance("horace");
     assertThat(transcript)
@@ -350,17 +369,23 @@ public class SandboxClassLoaderTest {
             "methodInvoked: AClassWithFunnyConstructors.__constructor__(java.lang.String horace)");
     transcript.clear();
 
-    // each directly-accessible constructor body will need to be called explicitly, with the correct args...
+    // each directly-accessible constructor body will need to be called explicitly, with the correct
+    // args...
 
     Class<?> uninstrumentedParentClass = loadClass(AnUninstrumentedParent.class);
-    Method directMethod = findDirectMethod(aClass, "__constructor__", uninstrumentedParentClass, String.class);
-    Object uninstrumentedParentIn = uninstrumentedParentClass.getDeclaredConstructor(String.class).newInstance("hortense");
+    Method directMethod =
+        findDirectMethod(aClass, "__constructor__", uninstrumentedParentClass, String.class);
+    Object uninstrumentedParentIn =
+        uninstrumentedParentClass.getDeclaredConstructor(String.class).newInstance("hortense");
     assertEquals(null, directMethod.invoke(instance, uninstrumentedParentIn, "foo"));
     assertThat(transcript).isEmpty();
 
     assertEquals(null, getDeclaredFieldValue(aClass, instance, "name"));
-    Object uninstrumentedParentOut = getDeclaredFieldValue(aClass, instance, "uninstrumentedParent");
-    assertEquals("hortense", getDeclaredFieldValue(uninstrumentedParentClass, uninstrumentedParentOut, "parentName"));
+    Object uninstrumentedParentOut =
+        getDeclaredFieldValue(aClass, instance, "uninstrumentedParent");
+    assertEquals(
+        "hortense",
+        getDeclaredFieldValue(uninstrumentedParentClass, uninstrumentedParentOut, "parentName"));
 
     Method directMethod2 = findDirectMethod(aClass, "__constructor__", String.class);
     assertEquals(null, directMethod2.invoke(instance, "hortense"));
@@ -369,7 +394,9 @@ public class SandboxClassLoaderTest {
     assertEquals("hortense", getDeclaredFieldValue(aClass, instance, "name"));
   }
 
-  private Method findDirectMethod(Class<?> declaringClass, String methodName, Class<?>... argClasses) throws NoSuchMethodException {
+  private Method findDirectMethod(
+      Class<?> declaringClass, String methodName, Class<?>... argClasses)
+      throws NoSuchMethodException {
     String directMethodName = shadow.directMethodName(declaringClass.getName(), methodName);
     Method directMethod = declaringClass.getDeclaredMethod(directMethodName, argClasses);
     directMethod.setAccessible(true);
@@ -385,28 +412,30 @@ public class SandboxClassLoaderTest {
   public void shouldAlsoInstrumentEqualsAndHashCodeAndToStringWhenDeclared() throws Exception {
     Class<?> theClass = loadClass(AClassWithEqualsHashCodeToString.class);
     Object instance = theClass.getDeclaredConstructor().newInstance();
-    assertThat(transcript).containsExactly("methodInvoked:"
-                                               + " AClassWithEqualsHashCodeToString.__constructor__()");
+    assertThat(transcript)
+        .containsExactly("methodInvoked:" + " AClassWithEqualsHashCodeToString.__constructor__()");
     transcript.clear();
 
     instance.toString();
-    assertThat(transcript).containsExactly("methodInvoked:"
-                                               + " AClassWithEqualsHashCodeToString.toString()");
+    assertThat(transcript)
+        .containsExactly("methodInvoked:" + " AClassWithEqualsHashCodeToString.toString()");
     transcript.clear();
 
     classHandler.valueToReturn = true;
     //noinspection ResultOfMethodCallIgnored,ObjectEqualsNull
     instance.equals(null);
-    assertThat(transcript).containsExactly("methodInvoked:"
-                                               + " AClassWithEqualsHashCodeToString.equals(java.lang.Object"
-                                               + " null)");
+    assertThat(transcript)
+        .containsExactly(
+            "methodInvoked:"
+                + " AClassWithEqualsHashCodeToString.equals(java.lang.Object"
+                + " null)");
     transcript.clear();
 
     classHandler.valueToReturn = 42;
     //noinspection ResultOfMethodCallIgnored
     instance.hashCode();
-    assertThat(transcript).containsExactly("methodInvoked:"
-                                               + " AClassWithEqualsHashCodeToString.hashCode()");
+    assertThat(transcript)
+        .containsExactly("methodInvoked:" + " AClassWithEqualsHashCodeToString.hashCode()");
   }
 
   @Test
@@ -414,7 +443,9 @@ public class SandboxClassLoaderTest {
     setClassLoader(new SandboxClassLoader(createRemappingConfig()));
     Class<?> theClass = loadClass(AClassThatRefersToAForgettableClass.class);
     assertEquals(loadClass(AClassToRemember.class), theClass.getField("someField").getType());
-    assertEquals(Array.newInstance(loadClass(AClassToRemember.class), 0).getClass(), theClass.getField("someFields").getType());
+    assertEquals(
+        Array.newInstance(loadClass(AClassToRemember.class), 0).getClass(),
+        theClass.getField("someFields").getType());
   }
 
   private InstrumentationConfiguration createRemappingConfig() {
@@ -439,30 +470,43 @@ public class SandboxClassLoaderTest {
   public void shouldFixTypesInMethodArgsAndReturn() throws Exception {
     setClassLoader(new SandboxClassLoader(createRemappingConfig()));
     Class<?> theClass = loadClass(AClassThatRefersToAForgettableClassInMethodCalls.class);
-    assertNotNull(theClass.getDeclaredMethod("aMethod", int.class, loadClass(AClassToRemember.class), String.class));
+    assertNotNull(
+        theClass.getDeclaredMethod(
+            "aMethod", int.class, loadClass(AClassToRemember.class), String.class));
   }
 
   @Test
   public void shouldInterceptFilteredMethodInvocations() throws Exception {
-    setClassLoader(new SandboxClassLoader(configureBuilder()
-        .addInterceptedMethod(new MethodRef(AClassToForget.class, "forgettableMethod"))
-        .build()));
+    setClassLoader(
+        new SandboxClassLoader(
+            configureBuilder()
+                .addInterceptedMethod(new MethodRef(AClassToForget.class, "forgettableMethod"))
+                .build()));
 
     Class<?> theClass = loadClass(AClassThatRefersToAForgettableClass.class);
     Object instance = theClass.getDeclaredConstructor().newInstance();
-    Object output = theClass.getMethod("interactWithForgettableClass").invoke(shadow.directlyOn(instance, (Class<Object>) theClass));
+    Object output =
+        theClass
+            .getMethod("interactWithForgettableClass")
+            .invoke(shadow.directlyOn(instance, (Class<Object>) theClass));
     assertEquals("null, get this!", output);
   }
 
   @Test
   public void shouldInterceptFilteredStaticMethodInvocations() throws Exception {
-    setClassLoader(new SandboxClassLoader(configureBuilder()
-        .addInterceptedMethod(new MethodRef(AClassToForget.class, "forgettableStaticMethod"))
-        .build()));
+    setClassLoader(
+        new SandboxClassLoader(
+            configureBuilder()
+                .addInterceptedMethod(
+                    new MethodRef(AClassToForget.class, "forgettableStaticMethod"))
+                .build()));
 
     Class<?> theClass = loadClass(AClassThatRefersToAForgettableClass.class);
     Object instance = theClass.getDeclaredConstructor().newInstance();
-    Object output = theClass.getMethod("interactWithForgettableStaticMethod").invoke(shadow.directlyOn(instance, (Class<Object>) theClass));
+    Object output =
+        theClass
+            .getMethod("interactWithForgettableStaticMethod")
+            .invoke(shadow.directlyOn(instance, (Class<Object>) theClass));
     assertEquals("yess? forget this: null", output);
   }
 
@@ -476,8 +520,9 @@ public class SandboxClassLoaderTest {
   @Test
   public void byteArray_shouldBeHandledAsReturnValueFromInterceptHandler() throws Exception {
     if (InvokeDynamic.ENABLED) return;
-    classHandler.valueToReturnFromIntercept = new byte[]{10, 12, 14};
-    assertThat(invokeInterceptedMethodOnAClassToForget("byteArrayMethod")).isEqualTo(new byte[]{10, 12, 14});
+    classHandler.valueToReturnFromIntercept = new byte[] {10, 12, 14};
+    assertThat(invokeInterceptedMethodOnAClassToForget("byteArrayMethod"))
+        .isEqualTo(new byte[] {10, 12, 14});
   }
 
   @Test
@@ -490,8 +535,9 @@ public class SandboxClassLoaderTest {
   @Test
   public void intArray_shouldBeHandledAsReturnValueFromInterceptHandler() throws Exception {
     if (InvokeDynamic.ENABLED) return;
-    classHandler.valueToReturnFromIntercept = new int[]{20, 22, 24};
-    assertThat(invokeInterceptedMethodOnAClassToForget("intArrayMethod")).isEqualTo(new int[]{20, 22, 24});
+    classHandler.valueToReturnFromIntercept = new int[] {20, 22, 24};
+    assertThat(invokeInterceptedMethodOnAClassToForget("intArrayMethod"))
+        .isEqualTo(new int[] {20, 22, 24});
   }
 
   @Test
@@ -505,7 +551,8 @@ public class SandboxClassLoaderTest {
   public void longArray_shouldBeHandledAsReturnValueFromInterceptHandler() throws Exception {
     if (InvokeDynamic.ENABLED) return;
     classHandler.valueToReturnFromIntercept = new long[] {30L, 32L, 34L};
-    assertThat(invokeInterceptedMethodOnAClassToForget("longArrayMethod")).isEqualTo(new long[] {30L, 32L, 34L});
+    assertThat(invokeInterceptedMethodOnAClassToForget("longArrayMethod"))
+        .isEqualTo(new long[] {30L, 32L, 34L});
   }
 
   @Test
@@ -519,7 +566,8 @@ public class SandboxClassLoaderTest {
   public void floatArray_shouldBeHandledAsReturnValueFromInterceptHandler() throws Exception {
     if (InvokeDynamic.ENABLED) return;
     classHandler.valueToReturnFromIntercept = new float[] {50f, 52f, 54f};
-    assertThat(invokeInterceptedMethodOnAClassToForget("floatArrayMethod")).isEqualTo(new float[] {50f, 52f, 54f});
+    assertThat(invokeInterceptedMethodOnAClassToForget("floatArrayMethod"))
+        .isEqualTo(new float[] {50f, 52f, 54f});
   }
 
   @Test
@@ -533,7 +581,8 @@ public class SandboxClassLoaderTest {
   public void doubleArray_shouldBeHandledAsReturnValueFromInterceptHandler() throws Exception {
     if (InvokeDynamic.ENABLED) return;
     classHandler.valueToReturnFromIntercept = new double[] {90.0, 92.0, 94.0};
-    assertThat(invokeInterceptedMethodOnAClassToForget("doubleArrayMethod")).isEqualTo(new double[] {90.0, 92.0, 94.0});
+    assertThat(invokeInterceptedMethodOnAClassToForget("doubleArrayMethod"))
+        .isEqualTo(new double[] {90.0, 92.0, 94.0});
   }
 
   @Test
@@ -547,7 +596,8 @@ public class SandboxClassLoaderTest {
   public void shortArray_shouldBeHandledAsReturnValueFromInterceptHandler() throws Exception {
     if (InvokeDynamic.ENABLED) return;
     classHandler.valueToReturnFromIntercept = new short[] {70, 72, 74};
-    assertThat(invokeInterceptedMethodOnAClassToForget("shortArrayMethod")).isEqualTo(new short[] {70, 72, 74});
+    assertThat(invokeInterceptedMethodOnAClassToForget("shortArrayMethod"))
+        .isEqualTo(new short[] {70, 72, 74});
   }
 
   @Test
@@ -558,10 +608,13 @@ public class SandboxClassLoaderTest {
   }
 
   private Object invokeInterceptedMethodOnAClassToForget(String methodName) throws Exception {
-    setClassLoader(new SandboxClassLoader(configureBuilder()
-        .addInterceptedMethod(new MethodRef(AClassToForget.class, "*"))
-        .build()));
-    Class<?> theClass = loadClass(AClassThatRefersToAForgettableClassInMethodCallsReturningPrimitive.class);
+    setClassLoader(
+        new SandboxClassLoader(
+            configureBuilder()
+                .addInterceptedMethod(new MethodRef(AClassToForget.class, "*"))
+                .build()));
+    Class<?> theClass =
+        loadClass(AClassThatRefersToAForgettableClassInMethodCallsReturningPrimitive.class);
     Object instance = theClass.getDeclaredConstructor().newInstance();
     Method m = theClass.getDeclaredMethod(methodName);
     m.setAccessible(true);
@@ -586,31 +639,43 @@ public class SandboxClassLoaderTest {
     if (InvokeDynamic.ENABLED) return;
     classHandler.valueToReturnFromIntercept = 10L;
 
-    setClassLoader(new SandboxClassLoader(configureBuilder()
-        .addInterceptedMethod(new MethodRef(AClassToForget.class, "*"))
-        .build()));
+    setClassLoader(
+        new SandboxClassLoader(
+            configureBuilder()
+                .addInterceptedMethod(new MethodRef(AClassToForget.class, "*"))
+                .build()));
 
-    Class<?> theClass = loadClass(AClassThatRefersToAForgettableClassInMethodCallsReturningPrimitive.class);
+    Class<?> theClass =
+        loadClass(AClassThatRefersToAForgettableClassInMethodCallsReturningPrimitive.class);
     Object instance = theClass.getDeclaredConstructor().newInstance();
     shadow.directlyOn(instance, (Class<Object>) theClass, "longMethod");
-    assertThat(transcript).containsExactly(
-        "methodInvoked:"
-            + " AClassThatRefersToAForgettableClassInMethodCallsReturningPrimitive.__constructor__()",
-        "intercept:"
-            + " org/robolectric/testing/AClassToForget/longReturningMethod(Ljava/lang/String;IJ)J"
-            + " with params (str str, 123 123, 456 456)");
+    assertThat(transcript)
+        .containsExactly(
+            "methodInvoked:"
+                + " AClassThatRefersToAForgettableClassInMethodCallsReturningPrimitive.__constructor__()",
+            "intercept:"
+                + " org/robolectric/testing/AClassToForget/longReturningMethod(Ljava/lang/String;IJ)J"
+                + " with params (str str, 123 123, 456 456)");
   }
 
   @Test
   public void shouldRemapClassesWhileInterceptingMethods() throws Exception {
-    InstrumentationConfiguration config = configureBuilder()
-        .addClassNameTranslation(AClassToForget.class.getName(), AClassToRemember.class.getName())
-        .addInterceptedMethod(new MethodRef(AClassThatCallsAMethodReturningAForgettableClass.class, "getAForgettableClass"))
-        .build();
+    InstrumentationConfiguration config =
+        configureBuilder()
+            .addClassNameTranslation(
+                AClassToForget.class.getName(), AClassToRemember.class.getName())
+            .addInterceptedMethod(
+                new MethodRef(
+                    AClassThatCallsAMethodReturningAForgettableClass.class, "getAForgettableClass"))
+            .build();
 
     setClassLoader(new SandboxClassLoader(config));
     Class<?> theClass = loadClass(AClassThatCallsAMethodReturningAForgettableClass.class);
-    theClass.getMethod("callSomeMethod").invoke(shadow.directlyOn(theClass.getDeclaredConstructor().newInstance(), (Class<Object>) theClass));
+    theClass
+        .getMethod("callSomeMethod")
+        .invoke(
+            shadow.directlyOn(
+                theClass.getDeclaredConstructor().newInstance(), (Class<Object>) theClass));
   }
 
   @Test
@@ -620,15 +685,16 @@ public class SandboxClassLoaderTest {
 
   @Test
   public void shouldReverseAnArray() throws Exception {
-    assertArrayEquals(new Integer[]{5, 4, 3, 2, 1}, Util.reverse(new Integer[]{1, 2, 3, 4, 5}));
-    assertArrayEquals(new Integer[]{4, 3, 2, 1}, Util.reverse(new Integer[]{1, 2, 3, 4}));
-    assertArrayEquals(new Integer[]{1}, Util.reverse(new Integer[]{1}));
-    assertArrayEquals(new Integer[]{}, Util.reverse(new Integer[]{}));
+    assertArrayEquals(new Integer[] {5, 4, 3, 2, 1}, Util.reverse(new Integer[] {1, 2, 3, 4, 5}));
+    assertArrayEquals(new Integer[] {4, 3, 2, 1}, Util.reverse(new Integer[] {1, 2, 3, 4}));
+    assertArrayEquals(new Integer[] {1}, Util.reverse(new Integer[] {1}));
+    assertArrayEquals(new Integer[] {}, Util.reverse(new Integer[] {}));
   }
 
   /////////////////////////////
 
-  private Object getDeclaredFieldValue(Class<?> aClass, Object o, String fieldName) throws Exception {
+  private Object getDeclaredFieldValue(Class<?> aClass, Object o, String fieldName)
+      throws Exception {
     Field field = aClass.getDeclaredField(fieldName);
     field.setAccessible(true);
     return field.get(o);
@@ -645,18 +711,21 @@ public class SandboxClassLoaderTest {
     }
 
     @Override
-    public void classInitializing(Class clazz) {
-    }
+    public void classInitializing(Class clazz) {}
 
     @Override
     public Object initializing(Object instance) {
       return "a shadow!";
     }
 
-    public Object methodInvoked(Class clazz, String methodName, Object instance, String[] paramTypes, Object[] params) {
+    public Object methodInvoked(
+        Class clazz, String methodName, Object instance, String[] paramTypes, Object[] params) {
       StringBuilder buf = new StringBuilder();
-      buf.append("methodInvoked:"
-                     + " ").append(clazz.getSimpleName()).append(".").append(methodName).append("(");
+      buf.append("methodInvoked:" + " ")
+          .append(clazz.getSimpleName())
+          .append(".")
+          .append(methodName)
+          .append("(");
       for (int i = 0; i < paramTypes.length; i++) {
         if (i > 0) buf.append(", ");
         Object param = params[i];
@@ -672,12 +741,18 @@ public class SandboxClassLoaderTest {
 
     @Override
     public Plan methodInvoked(String signature, boolean isStatic, Class<?> theClass) {
-      final InvocationProfile invocationProfile = new InvocationProfile(signature, isStatic, getClass().getClassLoader());
+      final InvocationProfile invocationProfile =
+          new InvocationProfile(signature, isStatic, getClass().getClassLoader());
       return new Plan() {
         @Override
         public Object run(Object instance, Object[] params) throws Exception {
           try {
-            return methodInvoked(invocationProfile.clazz, invocationProfile.methodName, instance, invocationProfile.paramTypes, params);
+            return methodInvoked(
+                invocationProfile.clazz,
+                invocationProfile.methodName,
+                instance,
+                invocationProfile.paramTypes,
+                params);
           } catch (Throwable throwable) {
             throw new RuntimeException(throwable);
           }
@@ -690,24 +765,37 @@ public class SandboxClassLoaderTest {
       };
     }
 
-    @Override public MethodHandle getShadowCreator(Class<?> theClass) {
+    @Override
+    public MethodHandle getShadowCreator(Class<?> theClass) {
       return dropArguments(constant(String.class, "a shadow!"), 0, theClass);
     }
 
     @SuppressWarnings(value = {"UnusedDeclaration", "unused"})
     private Object invoke(InvocationProfile invocationProfile, Object instance, Object[] params) {
-      return methodInvoked(invocationProfile.clazz, invocationProfile.methodName, instance,
-          invocationProfile.paramTypes, params);
+      return methodInvoked(
+          invocationProfile.clazz,
+          invocationProfile.methodName,
+          instance,
+          invocationProfile.paramTypes,
+          params);
     }
 
-    @Override public MethodHandle findShadowMethodHandle(Class<?> theClass, String name, MethodType type,
-        boolean isStatic) throws IllegalAccessException {
+    @Override
+    public MethodHandle findShadowMethodHandle(
+        Class<?> theClass, String name, MethodType type, boolean isStatic)
+        throws IllegalAccessException {
       String signature = getSignature(theClass, name, type, isStatic);
-      InvocationProfile invocationProfile = new InvocationProfile(signature, isStatic, getClass().getClassLoader());
+      InvocationProfile invocationProfile =
+          new InvocationProfile(signature, isStatic, getClass().getClassLoader());
 
       try {
-        MethodHandle mh = MethodHandles.lookup().findVirtual(getClass(), "invoke",
-            methodType(Object.class, InvocationProfile.class, Object.class, Object[].class));
+        MethodHandle mh =
+            MethodHandles.lookup()
+                .findVirtual(
+                    getClass(),
+                    "invoke",
+                    methodType(
+                        Object.class, InvocationProfile.class, Object.class, Object[].class));
         mh = insertArguments(mh, 0, this, invocationProfile);
 
         if (isStatic) {
@@ -727,9 +815,9 @@ public class SandboxClassLoaderTest {
       return className + "/" + name + type.toMethodDescriptorString();
     }
 
-
     @Override
-    public Object intercept(String signature, Object instance, Object[] params, Class theClass) throws Throwable {
+    public Object intercept(String signature, Object instance, Object[] params, Class theClass)
+        throws Throwable {
       StringBuilder buf = new StringBuilder();
       buf.append("intercept: ").append(signature).append(" with params (");
       for (int i = 0; i < params.length; i++) {
@@ -758,9 +846,13 @@ public class SandboxClassLoaderTest {
       classLoader = new SandboxClassLoader(configureBuilder().build());
     }
 
-    setStaticField(classLoader.loadClass(InvokeDynamicSupport.class.getName()), "INTERCEPTORS",
+    setStaticField(
+        classLoader.loadClass(InvokeDynamicSupport.class.getName()),
+        "INTERCEPTORS",
         new Interceptors(Collections.<Interceptor>emptyList()));
-    setStaticField(classLoader.loadClass(Shadow.class.getName()), "SHADOW_IMPL",
+    setStaticField(
+        classLoader.loadClass(Shadow.class.getName()),
+        "SHADOW_IMPL",
         newInstance(classLoader.loadClass(ShadowImpl.class.getName())));
 
     ShadowInvalidator invalidator = Mockito.mock(ShadowInvalidator.class);

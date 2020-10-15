@@ -14,11 +14,18 @@ public class ShadowScanResult {
 
   @RealObject ScanResult realObject;
 
-  public static ScanResult newInstance(String SSID, String BSSID, String caps, int level, int frequency) {
+  public static ScanResult newInstance(
+      String SSID, String BSSID, String caps, int level, int frequency) {
     return newInstance(SSID, BSSID, caps, level, frequency, false);
   }
 
-  public static ScanResult newInstance(String SSID, String BSSID, String caps, int level, int frequency, boolean is80211McRTTResponder) {
+  public static ScanResult newInstance(
+      String SSID,
+      String BSSID,
+      String caps,
+      int level,
+      int frequency,
+      boolean is80211McRTTResponder) {
     ScanResult scanResult = Shadow.newInstanceOf(ScanResult.class);
     scanResult.SSID = SSID;
     scanResult.BSSID = BSSID;
@@ -29,20 +36,27 @@ public class ShadowScanResult {
       if (is80211McRTTResponder) {
         scanResult.setFlag(ScanResult.FLAG_80211mc_RESPONDER);
       } else {
-      scanResult.setFlag(0);
+        scanResult.setFlag(0);
       }
     }
     return scanResult;
   }
 
-  @Override @Implementation
+  @Override
+  @Implementation
   public String toString() {
-    StringBuilder sb = new StringBuilder()
-        .append("SSID: ").append(valueOrNone(realObject.SSID))
-        .append(", BSSID: ").append(valueOrNone(realObject.BSSID))
-        .append(", capabilities: ").append(valueOrNone(realObject.capabilities))
-        .append(", level: ").append(realObject.level)
-        .append(", frequency: ").append(realObject.frequency);
+    StringBuilder sb =
+        new StringBuilder()
+            .append("SSID: ")
+            .append(valueOrNone(realObject.SSID))
+            .append(", BSSID: ")
+            .append(valueOrNone(realObject.BSSID))
+            .append(", capabilities: ")
+            .append(valueOrNone(realObject.capabilities))
+            .append(", level: ")
+            .append(realObject.level)
+            .append(", frequency: ")
+            .append(realObject.frequency);
     if (Build.VERSION.SDK_INT >= P) {
       sb.append(", flags: ").append(realObject.flags);
     }

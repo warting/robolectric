@@ -12,8 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 
 /**
- * Fake {@link org.robolectric.internal.ShadowProvider} for testing
- * {@link org.robolectric.errorprone.bugpatterns.ShadowUsageCheck}.
+ * Fake {@link org.robolectric.internal.ShadowProvider} for testing {@link
+ * org.robolectric.errorprone.bugpatterns.ShadowUsageCheck}.
  */
 public class XShadows implements org.robolectric.internal.ShadowProvider {
   public static XShadowAlertDialog shadowOf(AlertDialog actual) {

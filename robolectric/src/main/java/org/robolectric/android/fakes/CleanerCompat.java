@@ -7,8 +7,8 @@ import org.robolectric.util.reflector.ForType;
 import org.robolectric.util.reflector.Static;
 
 /**
- * Wrapper for {@link java.lang.ref.Cleaner}, used by
- * {@link CleanerInterceptor} when running on Java 9+.
+ * Wrapper for {@link java.lang.ref.Cleaner}, used by {@link CleanerInterceptor} when running on
+ * Java 9+.
  */
 public class CleanerCompat {
 

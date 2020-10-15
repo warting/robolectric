@@ -35,14 +35,15 @@ public class AndroidTestEnvironmentCreateApplicationTest {
   public void shouldThrowWhenManifestContainsBadApplicationClassName() throws Exception {
     AndroidTestEnvironment.createApplication(
         newConfigWith("<application android:name=\"org.robolectric.BogusTestApplication\"/>)"),
-        null, null);
+        null,
+        null);
   }
 
   @Test
   public void shouldReturnDefaultAndroidApplicationWhenManifestDeclaresNoAppName()
       throws Exception {
-    Application application = AndroidTestEnvironment.createApplication(newConfigWith(""), null,
-        new ApplicationInfo());
+    Application application =
+        AndroidTestEnvironment.createApplication(newConfigWith(""), null, new ApplicationInfo());
     assertThat(application.getClass()).isEqualTo(Application.class);
   }
 
@@ -52,7 +53,8 @@ public class AndroidTestEnvironmentCreateApplicationTest {
         AndroidTestEnvironment.createApplication(
             newConfigWith(
                 "<application android:name=\"org.robolectric.shadows.testing.TestApplication\"/>"),
-            null, null);
+            null,
+            null);
     assertThat(application.getClass()).isEqualTo(TestApplication.class);
   }
 
@@ -78,8 +80,8 @@ public class AndroidTestEnvironmentCreateApplicationTest {
                 + "      </intent-filter>"
                 + "    </receiver>"
                 + "</application>");
-    Application application = AndroidTestEnvironment.createApplication(appManifest, null,
-        new ApplicationInfo());
+    Application application =
+        AndroidTestEnvironment.createApplication(appManifest, null, new ApplicationInfo());
     shadowOf(application).callAttach(RuntimeEnvironment.systemContext);
     registerBroadcastReceivers(application, appManifest);
 
@@ -104,7 +106,8 @@ public class AndroidTestEnvironmentCreateApplicationTest {
     Application application =
         AndroidTestEnvironment.createApplication(
             newConfigWith("<application android:name=\"" + "ClassNameToIgnore" + "\"/>"),
-            new Config.Builder().setApplication(TestFakeApp.class).build(), null);
+            new Config.Builder().setApplication(TestFakeApp.class).build(),
+            null);
     assertThat(application.getClass()).isEqualTo(TestFakeApp.class);
   }
 
@@ -113,7 +116,8 @@ public class AndroidTestEnvironmentCreateApplicationTest {
     Application application =
         AndroidTestEnvironment.createApplication(
             newConfigWith("<application android:name=\"" + "ClassNameToIgnore" + "\"/>"),
-            new Config.Builder().setApplication(TestFakeAppInner.class).build(), null);
+            new Config.Builder().setApplication(TestFakeAppInner.class).build(),
+            null);
     assertThat(application.getClass()).isEqualTo(TestFakeAppInner.class);
   }
 
@@ -122,7 +126,8 @@ public class AndroidTestEnvironmentCreateApplicationTest {
     Application application =
         AndroidTestEnvironment.createApplication(
             newConfigWith("<application android:name=\"" + FakeApp.class.getName() + "\"/>"),
-            null, null);
+            null,
+            null);
     assertThat(application.getClass()).isEqualTo(TestFakeApp.class);
   }
 
@@ -149,13 +154,14 @@ public class AndroidTestEnvironmentCreateApplicationTest {
       applicationInfo.className = "org.robolectric.BogusTestApplication";
       AndroidTestEnvironment.createApplication(null, null, applicationInfo);
       fail();
-    } catch (RuntimeException expected) { }
+    } catch (RuntimeException expected) {
+    }
   }
 
   @Test
   public void whenNoAppManifestPresent_shouldCreateGenericApplication() {
-    Application application = AndroidTestEnvironment.createApplication(null, null,
-        new ApplicationInfo());
+    Application application =
+        AndroidTestEnvironment.createApplication(null, null, new ApplicationInfo());
     assertThat(application.getClass()).isEqualTo(Application.class);
   }
 

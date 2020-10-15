@@ -61,8 +61,7 @@ import org.robolectric.util.ReflectionHelpers;
 @Implements(value = TelephonyManager.class, looseSignatures = true)
 public class ShadowTelephonyManager {
 
-  @RealObject
-  protected TelephonyManager realTelephonyManager;
+  @RealObject protected TelephonyManager realTelephonyManager;
 
   private final Map<PhoneStateListener, Integer> phoneStateRegistrations = new HashMap<>();
   private final Map<Integer, String> slotIndexToDeviceId = new HashMap<>();
@@ -521,8 +520,8 @@ public class ShadowTelephonyManager {
 
   /**
    * Sets the value to be returned by calls to {@link requestCellInfoUpdate}. Note that it does not
-   * set the value to be returned by calls to {@link getAllCellInfo}; for that, see
-   * {@link setAllCellInfo}.
+   * set the value to be returned by calls to {@link getAllCellInfo}; for that, see {@link
+   * setAllCellInfo}.
    */
   public void setCallbackCellInfos(List<CellInfo> callbackCellInfos) {
     this.callbackCellInfos = callbackCellInfos;
@@ -875,7 +874,7 @@ public class ShadowTelephonyManager {
   /**
    * Cribbed from {@link android.telephony.PhoneNumberUtils#isEmergencyNumberInternal}.
    *
-   * TODO(b/122324733) need better implementation
+   * <p>TODO(b/122324733) need better implementation
    */
   @Implementation(minSdk = Build.VERSION_CODES.Q)
   protected boolean isEmergencyNumber(String number) {
@@ -935,7 +934,6 @@ public class ShadowTelephonyManager {
       }
     }
 
-
     return false;
   }
 
@@ -946,6 +944,7 @@ public class ShadowTelephonyManager {
 
   /**
    * Implementation for {@link TelephonyManager#isDataEnabled}.
+   *
    * @return False by default, unless set with {@link TelephonyManager#setDataEnabled}.
    */
   @Implementation(minSdk = Build.VERSION_CODES.O)

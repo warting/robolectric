@@ -182,7 +182,8 @@ public class ShadowDialogTest {
   public void shouldFindViewsWithinAContentViewThatWasPreviouslySet() throws Exception {
     Dialog dialog = new Dialog(context);
     dialog.setContentView(dialog.getLayoutInflater().inflate(R.layout.main, null));
-    assertThat(dialog.<TextView>findViewById(R.id.title)).isInstanceOf((Class<? extends TextView>) TextView.class);
+    assertThat(dialog.<TextView>findViewById(R.id.title))
+        .isInstanceOf((Class<? extends TextView>) TextView.class);
   }
 
   @Test
@@ -213,7 +214,8 @@ public class ShadowDialogTest {
       onStartCalled = true;
     }
 
-    @Override public void dismiss() {
+    @Override
+    public void dismiss() {
       super.dismiss();
       wasDismissed = true;
     }

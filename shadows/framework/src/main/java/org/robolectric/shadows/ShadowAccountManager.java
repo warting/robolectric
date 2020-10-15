@@ -227,9 +227,7 @@ public class ShadowAccountManager {
     return false;
   }
 
-  /**
-   * Removes all accounts that have been added.
-   */
+  /** Removes all accounts that have been added. */
   public void removeAllAccounts() {
     passwords.clear();
     userData.clear();
@@ -474,9 +472,7 @@ public class ShadowAccountManager {
     }
   }
 
-  /**
-   * @param account User account.
-   */
+  /** @param account User account. */
   public void addAccount(Account account) {
     accounts.add(account);
     if (pendingAddFuture != null) {
@@ -488,8 +484,9 @@ public class ShadowAccountManager {
   }
 
   /**
-   * Adds an account to the AccountManager but when {@link AccountManager#getAccountsByTypeForPackage(String, String)}
-   * is called will be included if is in one of the #visibileToPackages
+   * Adds an account to the AccountManager but when {@link
+   * AccountManager#getAccountsByTypeForPackage(String, String)} is called will be included if is in
+   * one of the #visibileToPackages
    *
    * @param account User account.
    */
@@ -531,7 +528,11 @@ public class ShadowAccountManager {
     private final Activity activity;
     private final Bundle resultBundle;
 
-    RoboAccountManagerFuture(AccountManagerCallback<Bundle> callback, Handler handler, String accountType, Activity activity) {
+    RoboAccountManagerFuture(
+        AccountManagerCallback<Bundle> callback,
+        Handler handler,
+        String accountType,
+        Activity activity) {
       super(callback, handler);
 
       this.accountType = accountType;
@@ -588,9 +589,7 @@ public class ShadowAccountManager {
     this.accountFeatures.put(account, featureSet);
   }
 
-  /**
-   * @param authenticator System authenticator.
-   */
+  /** @param authenticator System authenticator. */
   public void addAuthenticator(AuthenticatorDescription authenticator) {
     authenticators.put(authenticator.type, authenticator);
   }
@@ -602,7 +601,8 @@ public class ShadowAccountManager {
   private Map<Account, String> previousNames = new HashMap<Account, String>();
 
   /**
-   * Sets the previous name for an account, which will be returned by {@link AccountManager#getPreviousName(Account)}.
+   * Sets the previous name for an account, which will be returned by {@link
+   * AccountManager#getPreviousName(Account)}.
    *
    * @param account User account.
    * @param previousName Previous account name.
@@ -645,13 +645,14 @@ public class ShadowAccountManager {
       final AccountManagerCallback<Bundle> callback,
       Handler handler) {
 
-    return start(new BaseRoboAccountManagerFuture<Bundle>(callback, handler) {
-      @Override
-      public Bundle doWork()
-          throws OperationCanceledException, IOException, AuthenticatorException {
-        return getAuthToken(account, authTokenType);
-      }
-    });
+    return start(
+        new BaseRoboAccountManagerFuture<Bundle>(callback, handler) {
+          @Override
+          public Bundle doWork()
+              throws OperationCanceledException, IOException, AuthenticatorException {
+            return getAuthToken(account, authTokenType);
+          }
+        });
   }
 
   private Bundle getAuthToken(Account account, String authTokenType)
@@ -683,18 +684,20 @@ public class ShadowAccountManager {
       final String[] features,
       AccountManagerCallback<Boolean> callback,
       Handler handler) {
-    return start(new BaseRoboAccountManagerFuture<Boolean>(callback, handler) {
-      @Override
-      public Boolean doWork() throws OperationCanceledException, IOException, AuthenticatorException {
-        Set<String> availableFeatures = accountFeatures.get(account);
-        for (String feature : features) {
-          if (!availableFeatures.contains(feature)) {
-            return false;
+    return start(
+        new BaseRoboAccountManagerFuture<Boolean>(callback, handler) {
+          @Override
+          public Boolean doWork()
+              throws OperationCanceledException, IOException, AuthenticatorException {
+            Set<String> availableFeatures = accountFeatures.get(account);
+            for (String feature : features) {
+              if (!availableFeatures.contains(feature)) {
+                return false;
+              }
+            }
+            return true;
           }
-        }
-        return true;
-      }
-    });
+        });
   }
 
   @Implementation
@@ -740,7 +743,8 @@ public class ShadowAccountManager {
 
     Account[] accountsByType = getAccountsByType(type);
     for (Account account : accountsByType) {
-      if (packageVisibileAccounts.containsKey(account) && packageVisibileAccounts.get(account).contains(packageName)) {
+      if (packageVisibileAccounts.containsKey(account)
+          && packageVisibileAccounts.get(account).contains(packageName)) {
         result.add(account);
       }
     }
@@ -834,10 +838,12 @@ public class ShadowAccountManager {
     }
 
     @Override
-    public T getResult(long timeout, TimeUnit unit) throws OperationCanceledException, IOException, AuthenticatorException {
+    public T getResult(long timeout, TimeUnit unit)
+        throws OperationCanceledException, IOException, AuthenticatorException {
       return getResult();
     }
 
-    public abstract T doWork() throws OperationCanceledException, IOException, AuthenticatorException;
+    public abstract T doWork()
+        throws OperationCanceledException, IOException, AuthenticatorException;
   }
 }

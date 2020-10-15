@@ -14,5 +14,4 @@ public class SdkPicker extends DefaultSdkPicker {
   public SdkPicker(@Nonnull SdkCollection sdkCollection, Properties systemProperties) {
     super(sdkCollection, systemProperties);
   }
-
 }

@@ -114,8 +114,7 @@ public final class ShadowShortcutManagerTest {
   public void testRemoveDynamicShortcuts() throws Exception {
     ShortcutInfo shortcut1 = createShortcut("id1");
     ShortcutInfo shortcut2 = createShortcut("id2");
-    shortcutManager.addDynamicShortcuts(
-        ImmutableList.of(shortcut1, shortcut2));
+    shortcutManager.addDynamicShortcuts(ImmutableList.of(shortcut1, shortcut2));
     assertThat(shortcutManager.getDynamicShortcuts()).hasSize(2);
 
     shortcutManager.removeDynamicShortcuts(ImmutableList.of("id1"));
@@ -139,8 +138,7 @@ public final class ShadowShortcutManagerTest {
   public void testUpdateShortcut_dynamic() throws Exception {
     ShortcutInfo shortcut1 = createShortcutWithLabel("id1", "original");
     ShortcutInfo shortcutUpdated = createShortcutWithLabel("id1", "updated");
-    shortcutManager.addDynamicShortcuts(
-        ImmutableList.of(shortcut1));
+    shortcutManager.addDynamicShortcuts(ImmutableList.of(shortcut1));
     assertThat(shortcutManager.getDynamicShortcuts()).containsExactly(shortcut1);
 
     shortcutManager.updateShortcuts(ImmutableList.of(shortcutUpdated));
@@ -152,8 +150,7 @@ public final class ShadowShortcutManagerTest {
   public void testUpdateShortcut_pinned() throws Exception {
     ShortcutInfo shortcut1 = createShortcutWithLabel("id1", "original");
     ShortcutInfo shortcutUpdated = createShortcutWithLabel("id1", "updated");
-    shortcutManager.requestPinShortcut(
-        shortcut1, null /* resultIntent */);
+    shortcutManager.requestPinShortcut(shortcut1, null /* resultIntent */);
     assertThat(shortcutManager.getPinnedShortcuts()).containsExactly(shortcut1);
 
     shortcutManager.updateShortcuts(ImmutableList.of(shortcutUpdated));

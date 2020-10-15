@@ -11,13 +11,11 @@ import org.robolectric.annotation.RealObject;
 import org.robolectric.shadow.api.Shadow;
 import org.robolectric.util.ReflectionHelpers.ClassParameter;
 
-
 @Implements(PorterDuffColorFilter.class)
 public class ShadowPorterDuffColorFilter {
   private int color;
   private PorterDuff.Mode mode;
   @RealObject private PorterDuffColorFilter realPorterDuffColorFilter;
-
 
   @Implementation
   protected void __constructor__(int color, PorterDuff.Mode mode) {
@@ -43,7 +41,8 @@ public class ShadowPorterDuffColorFilter {
     this.mode = mode;
   }
 
-  @Override @Implementation
+  @Override
+  @Implementation
   public boolean equals(Object object) {
     if (this == object) {
       return true;
@@ -55,22 +54,20 @@ public class ShadowPorterDuffColorFilter {
     return (color == other.getColor() && mode.nativeInt == other.getMode().nativeInt);
   }
 
-  @Override @Implementation
+  @Override
+  @Implementation
   public int hashCode() {
     return 31 * mode.hashCode() + color;
   }
 
-  /**
-   * @return Returns the ARGB color used to tint the source pixels when this filter
-   * is applied.
-   */
+  /** @return Returns the ARGB color used to tint the source pixels when this filter is applied. */
   public int getColor() {
     return color;
   }
 
   /**
-   * @return Returns the Porter-Duff mode used to composite this color filter's
-   * color with the source pixel when this filter is applied.
+   * @return Returns the Porter-Duff mode used to composite this color filter's color with the
+   *     source pixel when this filter is applied.
    */
   public PorterDuff.Mode getMode() {
     return mode;

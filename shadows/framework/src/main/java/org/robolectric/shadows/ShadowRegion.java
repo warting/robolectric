@@ -10,7 +10,8 @@ import org.robolectric.annotation.Implements;
 public class ShadowRegion {
   public static long nextId = 1;
 
-  @HiddenApi @Implementation
+  @HiddenApi
+  @Implementation
   public static Number nativeConstructor() {
     return RuntimeEnvironment.castNativePtr(nextId++);
   }

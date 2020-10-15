@@ -7,6 +7,5 @@ import org.robolectric.annotation.Resetter;
 @Implements(className = "com.example.objects.Private")
 public class ShadowPrivate {
   @Resetter
-  public static void resetMethod() {
-  }
+  public static void resetMethod() {}
 }

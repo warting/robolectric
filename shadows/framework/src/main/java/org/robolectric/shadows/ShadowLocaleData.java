@@ -17,9 +17,7 @@ import org.robolectric.shadow.api.Shadow;
 import org.robolectric.util.reflector.Accessor;
 import org.robolectric.util.reflector.ForType;
 
-/**
- * Robolectric only supports en_US regardless of the default locale set in the JVM.
- */
+/** Robolectric only supports en_US regardless of the default locale set in the JVM. */
 @Implements(value = LocaleData.class, isInAndroidSdk = false)
 public class ShadowLocaleData {
   public static final String REAL_CLASS_NAME = "libcore.icu.LocaleData";
@@ -35,8 +33,8 @@ public class ShadowLocaleData {
   }
 
   private static void setEnUsLocaleData(LocaleData localeData) {
-    localeData.amPm = new String[]{"AM", "PM"};
-    localeData.eras = new String[]{"BC", "AD"};
+    localeData.amPm = new String[] {"AM", "PM"};
+    localeData.eras = new String[] {"BC", "AD"};
 
     localeData.firstDayOfWeek = 1;
     localeData.minimalDaysInFirstWeek = 1;
@@ -65,7 +63,7 @@ public class ShadowLocaleData {
       localeData.tinyMonthNames =
           new String[] {"J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"};
       localeData.tinyStandAloneMonthNames = localeData.tinyMonthNames;
-      localeData.tinyWeekdayNames = new String[]{"", "S", "M", "T", "W", "T", "F", "S"};
+      localeData.tinyWeekdayNames = new String[] {"", "S", "M", "T", "W", "T", "F", "S"};
       localeData.tinyStandAloneWeekdayNames = localeData.tinyWeekdayNames;
 
       localeData.yesterday = "Yesterday";

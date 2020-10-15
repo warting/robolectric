@@ -26,11 +26,15 @@ public class TempDirectory {
 
     // Use a manual hook that actually clears the directory
     // This is necessary because File.deleteOnExit won't delete non empty directories
-    Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-      @Override public void run() {
-        destroy();
-      }
-    }));
+    Runtime.getRuntime()
+        .addShutdownHook(
+            new Thread(
+                new Runnable() {
+                  @Override
+                  public void run() {
+                    destroy();
+                  }
+                }));
   }
 
   public Path createFile(String name, String contents) {
@@ -75,20 +79,23 @@ public class TempDirectory {
   }
 
   private void clearDirectory(final Path directory) throws IOException {
-    Files.walkFileTree(directory, new SimpleFileVisitor<Path>() {
-      @Override
-      public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-        Files.delete(file);
-        return FileVisitResult.CONTINUE;
-      }
+    Files.walkFileTree(
+        directory,
+        new SimpleFileVisitor<Path>() {
+          @Override
+          public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+              throws IOException {
+            Files.delete(file);
+            return FileVisitResult.CONTINUE;
+          }
 
-      @Override
-      public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-        if (!dir.equals(directory)) {
-          Files.delete(dir);
-        }
-        return FileVisitResult.CONTINUE;
-      }
-    });
+          @Override
+          public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+            if (!dir.equals(directory)) {
+              Files.delete(dir);
+            }
+            return FileVisitResult.CONTINUE;
+          }
+        });
   }
 }

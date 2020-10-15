@@ -57,7 +57,8 @@ public class LocalUiController implements UiController {
     return true;
   }
 
-  // TODO(b/80130000): implementation copied from espresso's UIControllerImpl. Refactor code into common location
+  // TODO(b/80130000): implementation copied from espresso's UIControllerImpl. Refactor code into
+  // common location
   @Override
   public boolean injectString(String str) throws InjectEventSecurityException {
     checkNotNull(str);

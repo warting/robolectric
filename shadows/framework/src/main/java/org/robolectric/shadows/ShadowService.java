@@ -58,7 +58,9 @@ public class ShadowService extends ShadowContextWrapper {
     lastForegroundNotification = notification;
     lastForegroundNotificationAttached = true;
     notification.flags |= Notification.FLAG_FOREGROUND_SERVICE;
-    NotificationManager nm = (NotificationManager)RuntimeEnvironment.application.getSystemService(Context.NOTIFICATION_SERVICE);
+    NotificationManager nm =
+        (NotificationManager)
+            RuntimeEnvironment.application.getSystemService(Context.NOTIFICATION_SERVICE);
     nm.notify(id, notification);
   }
 
@@ -79,7 +81,9 @@ public class ShadowService extends ShadowContextWrapper {
   }
 
   private void removeForegroundNotification() {
-    NotificationManager nm = (NotificationManager)RuntimeEnvironment.application.getSystemService(Context.NOTIFICATION_SERVICE);
+    NotificationManager nm =
+        (NotificationManager)
+            RuntimeEnvironment.application.getSystemService(Context.NOTIFICATION_SERVICE);
     nm.cancel(lastForegroundNotificationId);
     lastForegroundNotification = null;
     lastForegroundNotificationAttached = false;
@@ -94,16 +98,14 @@ public class ShadowService extends ShadowContextWrapper {
   }
 
   /**
-   * Returns whether the last foreground notification is still "attached" to the service,
-   * meaning it will be removed when the service is destroyed.
+   * Returns whether the last foreground notification is still "attached" to the service, meaning it
+   * will be removed when the service is destroyed.
    */
   public boolean isLastForegroundNotificationAttached() {
     return lastForegroundNotificationAttached;
   }
 
-  /**
-   * @return Is this service stopped by self.
-   */
+  /** @return Is this service stopped by self. */
   public boolean isStoppedBySelf() {
     return selfStopped;
   }

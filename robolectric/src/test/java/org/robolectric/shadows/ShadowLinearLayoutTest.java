@@ -24,7 +24,8 @@ public class ShadowLinearLayoutTest {
   }
 
   @Test
-  public void getLayoutParams_shouldReturnTheSameLinearLayoutParamsFromTheSetter() throws Exception {
+  public void getLayoutParams_shouldReturnTheSameLinearLayoutParamsFromTheSetter()
+      throws Exception {
     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(1, 2);
     linearLayout.setLayoutParams(params);
 

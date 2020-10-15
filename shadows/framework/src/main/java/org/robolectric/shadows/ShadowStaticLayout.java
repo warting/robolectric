@@ -16,14 +16,20 @@ public class ShadowStaticLayout {
 
   @Implementation(minSdk = LOLLIPOP, maxSdk = LOLLIPOP_MR1)
   @HiddenApi
-  public static int[] nLineBreakOpportunities(String locale, char[] text, int length, int[] recycle) {
+  public static int[] nLineBreakOpportunities(
+      String locale, char[] text, int length, int[] recycle) {
     return new int[] {-1};
   }
 
   @HiddenApi
   @Implementation(minSdk = M, maxSdk = O_MR1)
-  public static int nComputeLineBreaks(Object nativePtr, Object recycle,
-            Object recycleBreaks, Object recycleWidths, Object recycleFlags, Object recycleLength) {
+  public static int nComputeLineBreaks(
+      Object nativePtr,
+      Object recycle,
+      Object recycleBreaks,
+      Object recycleWidths,
+      Object recycleFlags,
+      Object recycleLength) {
     return 1;
   }
 

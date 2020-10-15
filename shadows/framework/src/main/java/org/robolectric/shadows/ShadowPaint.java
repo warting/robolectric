@@ -211,30 +211,22 @@ public class ShadowPaint {
     return textAlign;
   }
 
-  /**
-   * @return shadow radius (Paint related shadow, not Robolectric Shadow)
-   */
+  /** @return shadow radius (Paint related shadow, not Robolectric Shadow) */
   public float getShadowRadius() {
     return shadowRadius;
   }
 
-  /**
-   * @return shadow Dx (Paint related shadow, not Robolectric Shadow)
-   */
+  /** @return shadow Dx (Paint related shadow, not Robolectric Shadow) */
   public float getShadowDx() {
     return shadowDx;
   }
 
-  /**
-   * @return shadow Dx (Paint related shadow, not Robolectric Shadow)
-   */
+  /** @return shadow Dx (Paint related shadow, not Robolectric Shadow) */
   public float getShadowDy() {
     return shadowDy;
   }
 
-  /**
-   * @return shadow color (Paint related shadow, not Robolectric Shadow)
-   */
+  /** @return shadow color (Paint related shadow, not Robolectric Shadow) */
   public int getShadowColor() {
     return shadowColor;
   }

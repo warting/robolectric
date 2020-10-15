@@ -151,7 +151,8 @@ public class ShadowPackageInstallerTest {
   }
 
   private static PackageInstaller.SessionParams createSessionParams(String appPackageName) {
-    PackageInstaller.SessionParams params = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
+    PackageInstaller.SessionParams params =
+        new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
     params.setAppPackageName(appPackageName);
     return params;
   }

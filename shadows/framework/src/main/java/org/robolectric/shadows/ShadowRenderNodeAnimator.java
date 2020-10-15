@@ -103,21 +103,22 @@ public class ShadowRenderNodeAnimator {
     }
   }
 
-  private FrameCallback frameCallback = new FrameCallback() {
-    @Override
-    public void doFrame(long frameTimeNanos) {
-      scheduled = false;
-      if (startTime == -1) {
-        startTime = frameTimeNanos;
-      }
+  private FrameCallback frameCallback =
+      new FrameCallback() {
+        @Override
+        public void doFrame(long frameTimeNanos) {
+          scheduled = false;
+          if (startTime == -1) {
+            startTime = frameTimeNanos;
+          }
 
-      long duration = realObject.getDuration();
-      long curTime = frameTimeNanos - startTime;
-      if (curTime >= duration) {
-        directlyOn(realObject, RenderNodeAnimator.class, "onFinished");
-      } else {
-        schedule();
-      }
-    }
-  };
+          long duration = realObject.getDuration();
+          long curTime = frameTimeNanos - startTime;
+          if (curTime >= duration) {
+            directlyOn(realObject, RenderNodeAnimator.class, "onFinished");
+          } else {
+            schedule();
+          }
+        }
+      };
 }

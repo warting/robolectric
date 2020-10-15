@@ -79,11 +79,8 @@ public class ActivityController<T extends Activity>
     ComponentName componentName =
         new ComponentName(context.getPackageName(), this.component.getClass().getName());
     ((ShadowPackageManager) extract(packageManager)).addActivityIfNotPresent(componentName);
-    packageManager
-        .setComponentEnabledSetting(
-            componentName,
-            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-            0);
+    packageManager.setComponentEnabledSetting(
+        componentName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 0);
     ShadowActivity shadowActivity = Shadow.extract(component);
     shadowActivity.callAttach(getIntent(), lastNonConfigurationInstances);
     shadowActivity.attachController(this);
@@ -107,7 +104,8 @@ public class ActivityController<T extends Activity>
     return this;
   }
 
-  @Override public ActivityController<T> create() {
+  @Override
+  public ActivityController<T> create() {
     return create(null);
   }
 
@@ -115,9 +113,8 @@ public class ActivityController<T extends Activity>
     if (RuntimeEnvironment.getApiLevel() <= O_MR1) {
       invokeWhilePaused("performRestart");
     } else {
-      invokeWhilePaused("performRestart",
-          from(boolean.class, true),
-          from(String.class, "restart()"));
+      invokeWhilePaused(
+          "performRestart", from(boolean.class, true), from(String.class, "restart()"));
     }
     return this;
   }
@@ -149,9 +146,7 @@ public class ActivityController<T extends Activity>
     if (RuntimeEnvironment.getApiLevel() <= O_MR1) {
       invokeWhilePaused("performResume");
     } else {
-      invokeWhilePaused("performResume",
-          from(boolean.class, true),
-          from(String.class, "resume()"));
+      invokeWhilePaused("performResume", from(boolean.class, true), from(String.class, "resume()"));
     }
     return this;
   }
@@ -200,7 +195,9 @@ public class ActivityController<T extends Activity>
       callDispatchResized(root);
     }
 
-    ReflectionHelpers.callInstanceMethod(root, "windowFocusChanged",
+    ReflectionHelpers.callInstanceMethod(
+        root,
+        "windowFocusChanged",
         from(boolean.class, hasFocus), /* hasFocus */
         from(boolean.class, false) /* inTouchMode */);
     shadowMainLooper.idleIfPaused();
@@ -237,13 +234,15 @@ public class ActivityController<T extends Activity>
     return this;
   }
 
-  @Override public ActivityController<T> destroy() {
+  @Override
+  public ActivityController<T> destroy() {
     shadowMainLooper.runPaused(() -> getInstrumentation().callActivityOnDestroy(component));
     return this;
   }
 
   /**
-   * Calls the same lifecycle methods on the Activity called by Android the first time the Activity is created.
+   * Calls the same lifecycle methods on the Activity called by Android the first time the Activity
+   * is created.
    *
    * @return Activity controller instance.
    */
@@ -252,7 +251,8 @@ public class ActivityController<T extends Activity>
   }
 
   /**
-   * Calls the same lifecycle methods on the Activity called by Android when an Activity is restored from previously saved state.
+   * Calls the same lifecycle methods on the Activity called by Android when an Activity is restored
+   * from previously saved state.
    *
    * @param savedInstanceState Saved instance state.
    * @return Activity controller instance.
@@ -495,4 +495,3 @@ public class ActivityController<T extends Activity>
     Object getActivity();
   }
 }
-

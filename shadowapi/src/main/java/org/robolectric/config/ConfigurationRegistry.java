@@ -9,22 +9,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Holds configuration objects for the current test, computed using
- * {@link Configurer}.
+ * Holds configuration objects for the current test, computed using {@link Configurer}.
  *
- * Configuration is computed before tests run, outside of their sandboxes. If the configuration
+ * <p>Configuration is computed before tests run, outside of their sandboxes. If the configuration
  * is needed from within a sandbox (when a test is executing), we need to transfer it to a class
- * that the SandboxClassLoader recognizes. We do this by serializing and deserializing in
- * {@link #reloadInSandboxClassLoader(Object)}.
+ * that the SandboxClassLoader recognizes. We do this by serializing and deserializing in {@link
+ * #reloadInSandboxClassLoader(Object)}.
  */
 public class ConfigurationRegistry {
 
   public static ConfigurationRegistry instance;
 
-  /**
-   * Returns the configuration object of the specified class, computed using
-   * {@link Configurer}.
-   */
+  /** Returns the configuration object of the specified class, computed using {@link Configurer}. */
   public static <T> T get(Class<T> configClass) {
     return instance.getInSandboxClassLoader(configClass);
   }

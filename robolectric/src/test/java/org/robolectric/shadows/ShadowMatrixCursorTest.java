@@ -19,16 +19,16 @@ public class ShadowMatrixCursorTest {
 
   @Before
   public void setUp() throws Exception {
-    singleColumnSingleNullValueMatrixCursor = new MatrixCursor(new String[]{"a"});
-    singleColumnSingleNullValueMatrixCursor.addRow(new Object[]{null});
+    singleColumnSingleNullValueMatrixCursor = new MatrixCursor(new String[] {"a"});
+    singleColumnSingleNullValueMatrixCursor.addRow(new Object[] {null});
     singleColumnSingleNullValueMatrixCursor.moveToFirst();
   }
 
   @Test
   public void shouldAddObjectArraysAsRows() throws Exception {
-    MatrixCursor cursor = new MatrixCursor(new String[]{"a", "b", "c"});
-    cursor.addRow(new Object[]{"foo", 10L, 0.1f});
-    cursor.addRow(new Object[]{"baz", 20L, null});
+    MatrixCursor cursor = new MatrixCursor(new String[] {"a", "b", "c"});
+    cursor.addRow(new Object[] {"foo", 10L, 0.1f});
+    cursor.addRow(new Object[] {"baz", 20L, null});
     assertThat(cursor.getCount()).isEqualTo(2);
 
     assertTrue(cursor.moveToFirst());
@@ -48,9 +48,9 @@ public class ShadowMatrixCursorTest {
 
   @Test
   public void shouldAddIterablesAsRows() throws Exception {
-    MatrixCursor cursor = new MatrixCursor(new String[]{"a", "b", "c"});
-    cursor.addRow(Arrays.asList(new Object[]{"foo", 10L, 0.1f}));
-    cursor.addRow(Arrays.asList(new Object[]{"baz", 20L, null}));
+    MatrixCursor cursor = new MatrixCursor(new String[] {"a", "b", "c"});
+    cursor.addRow(Arrays.asList(new Object[] {"foo", 10L, 0.1f}));
+    cursor.addRow(Arrays.asList(new Object[] {"baz", 20L, null}));
     assertThat(cursor.getCount()).isEqualTo(2);
 
     assertTrue(cursor.moveToFirst());
@@ -70,7 +70,7 @@ public class ShadowMatrixCursorTest {
 
   @Test
   public void shouldDefineColumnNames() throws Exception {
-    MatrixCursor cursor = new MatrixCursor(new String[]{"a", "b", "c"});
+    MatrixCursor cursor = new MatrixCursor(new String[] {"a", "b", "c"});
 
     assertThat(cursor.getColumnCount()).isEqualTo(3);
 
@@ -78,7 +78,7 @@ public class ShadowMatrixCursorTest {
     assertThat(cursor.getColumnName(1)).isEqualTo("b");
     assertThat(cursor.getColumnName(2)).isEqualTo("c");
 
-    assertThat(cursor.getColumnNames()).isEqualTo(new String[]{"a", "b", "c"});
+    assertThat(cursor.getColumnNames()).isEqualTo(new String[] {"a", "b", "c"});
 
     assertThat(cursor.getColumnIndex("b")).isEqualTo(1);
     assertThat(cursor.getColumnIndex("z")).isEqualTo(-1);
@@ -88,8 +88,8 @@ public class ShadowMatrixCursorTest {
   public void shouldDefineGetBlob() throws Exception {
     byte[] blob = {1, 2, 3, 4};
 
-    MatrixCursor cursor = new MatrixCursor(new String[]{"a"});
-    cursor.addRow(new Object[]{blob});
+    MatrixCursor cursor = new MatrixCursor(new String[] {"a"});
+    cursor.addRow(new Object[] {blob});
     assertTrue(cursor.moveToFirst());
 
     assertThat(cursor.getBlob(0)).isEqualTo(blob);
@@ -97,8 +97,8 @@ public class ShadowMatrixCursorTest {
 
   @Test
   public void shouldAllowTypeFlexibility() throws Exception {
-    MatrixCursor cursor = new MatrixCursor(new String[]{"a", "b", "c"});
-    cursor.addRow(new Object[]{42, 3.3, 'a'});
+    MatrixCursor cursor = new MatrixCursor(new String[] {"a", "b", "c"});
+    cursor.addRow(new Object[] {42, 3.3, 'a'});
     assertTrue(cursor.moveToFirst());
 
     assertThat(cursor.getString(0)).isEqualTo("42");
@@ -120,27 +120,27 @@ public class ShadowMatrixCursorTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void shouldDefineGetColumnNameOrThrow() throws Exception {
-    MatrixCursor cursor = new MatrixCursor(new String[]{"a", "b", "c"});
+    MatrixCursor cursor = new MatrixCursor(new String[] {"a", "b", "c"});
     cursor.getColumnIndexOrThrow("z");
   }
 
   @Test(expected = CursorIndexOutOfBoundsException.class)
   public void shouldThrowIndexOutOfBoundsExceptionWithoutData() throws Exception {
-    MatrixCursor cursor = new MatrixCursor(new String[]{"a", "b", "c"});
+    MatrixCursor cursor = new MatrixCursor(new String[] {"a", "b", "c"});
     cursor.getString(0);
   }
 
   @Test(expected = CursorIndexOutOfBoundsException.class)
   public void shouldThrowIndexOutOfBoundsExceptionForInvalidColumn() throws Exception {
-    MatrixCursor cursor = new MatrixCursor(new String[]{"a", "b", "c"});
-    cursor.addRow(new Object[]{"foo", 10L, 0.1f});
+    MatrixCursor cursor = new MatrixCursor(new String[] {"a", "b", "c"});
+    cursor.addRow(new Object[] {"foo", 10L, 0.1f});
     cursor.getString(3);
   }
 
   @Test(expected = CursorIndexOutOfBoundsException.class)
   public void shouldThrowIndexOutOfBoundsExceptionForInvalidColumnLastRow() throws Exception {
-    MatrixCursor cursor = new MatrixCursor(new String[]{"a", "b", "c"});
-    cursor.addRow(new Object[]{"foo", 10L, 0.1f});
+    MatrixCursor cursor = new MatrixCursor(new String[] {"a", "b", "c"});
+    cursor.addRow(new Object[] {"foo", 10L, 0.1f});
     cursor.moveToFirst();
     cursor.moveToNext();
     cursor.getString(0);

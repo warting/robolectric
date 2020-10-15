@@ -7,10 +7,9 @@ import org.robolectric.annotation.Implements;
 
 /** Provides testing APIs for {@link NetworkScoreManager}. */
 @Implements(
-  value = NetworkScoreManager.class,
-  isInAndroidSdk = false,
-  minSdk = Build.VERSION_CODES.LOLLIPOP
-)
+    value = NetworkScoreManager.class,
+    isInAndroidSdk = false,
+    minSdk = Build.VERSION_CODES.LOLLIPOP)
 public class ShadowNetworkScoreManager {
   private String activeScorerPackage;
   private boolean isScoringEnabled = true;

@@ -48,7 +48,7 @@ public class AndroidInterceptors {
     return interceptors;
   }
 
-//  @Intercept(value = LinkedHashMap.class, method = "eldest")
+  //  @Intercept(value = LinkedHashMap.class, method = "eldest")
   public static class LinkedHashMapEldestInterceptor extends Interceptor {
     public LinkedHashMapEldestInterceptor() {
       super(new MethodRef(LinkedHashMap.class, "eldest"));
@@ -70,9 +70,9 @@ public class AndroidInterceptors {
     }
 
     @Override
-    public MethodHandle getMethodHandle(String methodName, MethodType type) throws NoSuchMethodException, IllegalAccessException {
-      return lookup.findStatic(getClass(), "eldest",
-          methodType(Object.class, LinkedHashMap.class));
+    public MethodHandle getMethodHandle(String methodName, MethodType type)
+        throws NoSuchMethodException, IllegalAccessException {
+      return lookup.findStatic(getClass(), "eldest", methodType(Object.class, LinkedHashMap.class));
     }
   }
 
@@ -101,10 +101,12 @@ public class AndroidInterceptors {
     }
 
     @Override
-    public MethodHandle getMethodHandle(String methodName, MethodType type) throws NoSuchMethodException, IllegalAccessException {
+    public MethodHandle getMethodHandle(String methodName, MethodType type)
+        throws NoSuchMethodException, IllegalAccessException {
       Class<?> shadowWindowClass;
       try {
-        shadowWindowClass = type.returnType().getClassLoader().loadClass(ShadowWindow.class.getName());
+        shadowWindowClass =
+            type.returnType().getClassLoader().loadClass(ShadowWindow.class.getName());
       } catch (ClassNotFoundException e) {
         throw new RuntimeException(e);
       }
@@ -136,14 +138,13 @@ public class AndroidInterceptors {
     }
 
     @Override
-    public MethodHandle getMethodHandle(String methodName, MethodType type) throws NoSuchMethodException, IllegalAccessException {
+    public MethodHandle getMethodHandle(String methodName, MethodType type)
+        throws NoSuchMethodException, IllegalAccessException {
       switch (methodName) {
         case "nanoTime":
-          return lookup.findStatic(ShadowSystem.class,
-              "nanoTime", methodType(long.class));
+          return lookup.findStatic(ShadowSystem.class, "nanoTime", methodType(long.class));
         case "currentTimeMillis":
-          return lookup.findStatic(ShadowSystem.class,
-              "currentTimeMillis", methodType(long.class));
+          return lookup.findStatic(ShadowSystem.class, "currentTimeMillis", methodType(long.class));
       }
       throw new UnsupportedOperationException();
     }
@@ -160,15 +161,19 @@ public class AndroidInterceptors {
         @Override
         public Object call(Class<?> theClass, Object value, Object[] params) {
           //noinspection SuspiciousSystemArraycopy
-          System.arraycopy(params[0], (Integer) params[1], params[2], (Integer) params[3], (Integer) params[4]);
+          System.arraycopy(
+              params[0], (Integer) params[1], params[2], (Integer) params[3], (Integer) params[4]);
           return null;
         }
       };
     }
 
     @Override
-    public MethodHandle getMethodHandle(String methodName, MethodType type) throws NoSuchMethodException, IllegalAccessException {
-      return lookup.findStatic(System.class, "arraycopy",
+    public MethodHandle getMethodHandle(String methodName, MethodType type)
+        throws NoSuchMethodException, IllegalAccessException {
+      return lookup.findStatic(
+          System.class,
+          "arraycopy",
           methodType(void.class, Object.class, int.class, Object.class, int.class, int.class));
     }
   }
@@ -204,9 +209,10 @@ public class AndroidInterceptors {
     }
 
     @Override
-    public MethodHandle getMethodHandle(String methodName, MethodType type) throws NoSuchMethodException, IllegalAccessException {
-      return lookup.findStatic(getClass(), "adjustLanguageCode",
-          methodType(String.class, String.class));
+    public MethodHandle getMethodHandle(String methodName, MethodType type)
+        throws NoSuchMethodException, IllegalAccessException {
+      return lookup.findStatic(
+          getClass(), "adjustLanguageCode", methodType(String.class, String.class));
     }
   }
 
@@ -247,7 +253,8 @@ public class AndroidInterceptors {
     }
 
     @Override
-    public MethodHandle getMethodHandle(String methodName, MethodType type) throws NoSuchMethodException, IllegalAccessException {
+    public MethodHandle getMethodHandle(String methodName, MethodType type)
+        throws NoSuchMethodException, IllegalAccessException {
       return lookup.findStatic(getClass(), methodName, methodType(void.class, Object[].class));
     }
   }
@@ -264,9 +271,7 @@ public class AndroidInterceptors {
 
     public CleanerInterceptor() {
       super(
-          new MethodRef("sun.misc.Cleaner", "create"),
-          new MethodRef("sun.misc.Cleaner", "clean")
-      );
+          new MethodRef("sun.misc.Cleaner", "create"), new MethodRef("sun.misc.Cleaner", "clean"));
     }
 
     static Object create(Object obj, Runnable action) {
@@ -299,11 +304,10 @@ public class AndroidInterceptors {
         throws NoSuchMethodException, IllegalAccessException {
       switch (methodName) {
         case "create":
-          return lookup.findStatic(getClass(), "create",
-              methodType(Object.class, Object.class, Runnable.class));
+          return lookup.findStatic(
+              getClass(), "create", methodType(Object.class, Object.class, Runnable.class));
         case "clean":
-          return lookup.findStatic(getClass(), "clean",
-              methodType(void.class, Object.class));
+          return lookup.findStatic(getClass(), "clean", methodType(void.class, Object.class));
         default:
           throw new IllegalStateException();
       }
@@ -318,15 +322,17 @@ public class AndroidInterceptors {
           new MethodRef("android.os.StrictMode", "incrementExpectedActivityCount"),
           new MethodRef("android.util.LocaleUtil", "getLayoutDirectionFromLocale"),
           new MethodRef("android.view.FallbackEventHandler", "*"),
-          new MethodRef("android.view.IWindowSession", "*")
-      );
+          new MethodRef("android.view.IWindowSession", "*"));
     }
 
-    @Override public Function<Object, Object> handle(MethodSignature methodSignature) {
+    @Override
+    public Function<Object, Object> handle(MethodSignature methodSignature) {
       return returnDefaultValue(methodSignature);
     }
 
-    @Override public MethodHandle getMethodHandle(String methodName, MethodType type) throws NoSuchMethodException, IllegalAccessException {
+    @Override
+    public MethodHandle getMethodHandle(String methodName, MethodType type)
+        throws NoSuchMethodException, IllegalAccessException {
       MethodHandle nothing = constant(Void.class, null).asType(methodType(void.class));
 
       if (type.parameterCount() != 0) {

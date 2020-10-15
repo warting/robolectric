@@ -19,9 +19,9 @@ import org.robolectric.util.Join;
 import org.robolectric.util.ReflectionHelpers;
 
 /**
- * Broken. This implementation is very specific to the application for which it was developed.
- * Todo: Reimplement. Consider using the same strategy of collecting a history of draw events
- * and providing methods for writing queries based on type, number, and order of events.
+ * Broken. This implementation is very specific to the application for which it was developed. Todo:
+ * Reimplement. Consider using the same strategy of collecting a history of draw events and
+ * providing methods for writing queries based on type, number, and order of events.
  */
 @SuppressWarnings({"UnusedDeclaration"})
 @Implements(Canvas.class)
@@ -131,7 +131,7 @@ public class ShadowCanvas {
     int y = (int) (top + translateY);
     if (x != 0 || y != 0) {
       appendDescription(" at (" + x + "," + y + ")");
-  }
+    }
 
     if (scaleX != 1 && scaleY != 1) {
       appendDescription(" scaled by (" + scaleX + "," + scaleY + ")");
@@ -144,12 +144,19 @@ public class ShadowCanvas {
 
     StringBuilder descriptionBuilder = new StringBuilder();
     if (dst != null) {
-      descriptionBuilder.append(" at (").append(dst.left).append(",").append(dst.top)
-          .append(") with height=").append(dst.height()).append(" and width=").append(dst.width());
+      descriptionBuilder
+          .append(" at (")
+          .append(dst.left)
+          .append(",")
+          .append(dst.top)
+          .append(") with height=")
+          .append(dst.height())
+          .append(" and width=")
+          .append(dst.width());
     }
 
     if (src != null) {
-      descriptionBuilder.append( " taken from ").append(src.toString());
+      descriptionBuilder.append(" taken from ").append(src.toString());
     }
     appendDescription(descriptionBuilder.toString());
   }
@@ -160,12 +167,19 @@ public class ShadowCanvas {
 
     StringBuilder descriptionBuilder = new StringBuilder();
     if (dst != null) {
-      descriptionBuilder.append(" at (").append(dst.left).append(",").append(dst.top)
-          .append(") with height=").append(dst.height()).append(" and width=").append(dst.width());
+      descriptionBuilder
+          .append(" at (")
+          .append(dst.left)
+          .append(",")
+          .append(dst.top)
+          .append(") with height=")
+          .append(dst.height())
+          .append(" and width=")
+          .append(dst.width());
     }
 
     if (src != null) {
-      descriptionBuilder.append( " taken from ").append(src.toString());
+      descriptionBuilder.append(" taken from ").append(src.toString());
     }
     appendDescription(descriptionBuilder.toString());
   }
@@ -423,8 +437,7 @@ public class ShadowCanvas {
     public final float right;
     public final float bottom;
 
-    private RectPaintHistoryEvent(
-        float left, float top, float right, float bottom, Paint paint){
+    private RectPaintHistoryEvent(float left, float top, float right, float bottom, Paint paint) {
       this.rect = new RectF(left, top, right, bottom);
       this.paint = new Paint(paint);
       this.paint.setColor(paint.getColor());
@@ -497,8 +510,8 @@ public class ShadowCanvas {
     public final boolean useCenter;
     public final Paint paint;
 
-    public ArcPaintHistoryEvent(RectF oval, float startAngle, float sweepAngle, boolean useCenter,
-                                Paint paint) {
+    public ArcPaintHistoryEvent(
+        RectF oval, float startAngle, float sweepAngle, boolean useCenter, Paint paint) {
       this.oval = oval;
       this.startAngle = startAngle;
       this.sweepAngle = sweepAngle;

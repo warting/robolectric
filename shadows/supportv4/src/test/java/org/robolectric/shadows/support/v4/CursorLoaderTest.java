@@ -14,16 +14,13 @@ public class CursorLoaderTest {
   @Test
   public void testGetters() {
     Uri uri = Uri.parse("http://robolectric.org");
-    String[] projection = new String[] { "_id", "TestColumn" };
+    String[] projection = new String[] {"_id", "TestColumn"};
     String selection = "_id = ?";
-    String[] selectionArgs = new String[] { "5" };
+    String[] selectionArgs = new String[] {"5"};
     String sortOrder = "_id";
-    CursorLoader cursorLoader = new CursorLoader(RuntimeEnvironment.application,
-        uri,
-        projection,
-        selection,
-        selectionArgs,
-        sortOrder);
+    CursorLoader cursorLoader =
+        new CursorLoader(
+            RuntimeEnvironment.application, uri, projection, selection, selectionArgs, sortOrder);
 
     assertThat(cursorLoader.getUri()).isEqualTo(uri);
     assertThat(cursorLoader.getProjection()).isEqualTo(projection);
@@ -35,9 +32,9 @@ public class CursorLoaderTest {
   @Test
   public void testSetters() {
     Uri uri = Uri.parse("http://robolectric.org");
-    String[] projection = new String[] { "_id", "TestColumn" };
+    String[] projection = new String[] {"_id", "TestColumn"};
     String selection = "_id = ?";
-    String[] selectionArgs = new String[] { "5" };
+    String[] selectionArgs = new String[] {"5"};
     String sortOrder = "_id";
     CursorLoader cursorLoader = new CursorLoader(RuntimeEnvironment.application);
     cursorLoader.setUri(uri);

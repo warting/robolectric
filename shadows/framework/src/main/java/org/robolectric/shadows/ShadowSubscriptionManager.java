@@ -108,8 +108,8 @@ public class ShadowSubscriptionManager {
   private static Map<Integer, Integer> phoneIds = new HashMap<>();
 
   /**
-   * Cache of {@link SubscriptionInfo} used by {@link #getActiveSubscriptionInfoList}.
-   * Managed by {@link #setActiveSubscriptionInfoList}.
+   * Cache of {@link SubscriptionInfo} used by {@link #getActiveSubscriptionInfoList}. Managed by
+   * {@link #setActiveSubscriptionInfoList}.
    */
   private List<SubscriptionInfo> subscriptionList = new ArrayList<>();
   /**
@@ -208,6 +208,7 @@ public class ShadowSubscriptionManager {
   /**
    * Sets the active list of {@link SubscriptionInfo}. This call internally triggers {@link
    * OnSubscriptionsChangedListener#onSubscriptionsChanged()} to all the listeners.
+   *
    * @param list - The subscription info list, can be null.
    */
   public void setActiveSubscriptionInfoList(List<SubscriptionInfo> list) {
@@ -295,7 +296,7 @@ public class ShadowSubscriptionManager {
   }
 
   /** Clears the local cache of roaming subscription Ids used by {@link #isNetworkRoaming}. */
-  public void clearNetworkRoamingStatus(){
+  public void clearNetworkRoamingStatus() {
     roamingSimSubscriptionIds.clear();
   }
 

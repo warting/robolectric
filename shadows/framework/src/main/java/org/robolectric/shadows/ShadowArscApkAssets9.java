@@ -69,8 +69,7 @@ public class ShadowArscApkAssets9 extends ShadowApkAssets {
   protected static final String FRAMEWORK_APK_PATH =
       ReflectionHelpers.getStaticField(AssetManager.class, "FRAMEWORK_APK_PATH");
 
-  private static final HashMap<Key, WeakReference<ApkAssets>> cachedApkAssets =
-      new HashMap<>();
+  private static final HashMap<Key, WeakReference<ApkAssets>> cachedApkAssets = new HashMap<>();
   private static final HashMap<Key, Long> cachedNativePtrs = new HashMap<>();
 
   @RealObject private ApkAssets realApkAssets;
@@ -87,10 +86,7 @@ public class ShadowArscApkAssets9 extends ShadowApkAssets {
     long getNativePtr();
   }
 
-
-  /**
-   * Caching key for {@link ApkAssets}.
-   */
+  /** Caching key for {@link ApkAssets}. */
   protected static class Key {
     private final FileDescriptor fd;
     private final String path;
@@ -98,7 +94,11 @@ public class ShadowArscApkAssets9 extends ShadowApkAssets {
     private final boolean load_as_shared_library;
     private final boolean overlay;
 
-    public Key(FileDescriptor fd, String path, boolean system, boolean load_as_shared_library,
+    public Key(
+        FileDescriptor fd,
+        String path,
+        boolean system,
+        boolean load_as_shared_library,
         boolean overlay) {
       this.fd = fd;
       this.path = path;
@@ -116,11 +116,11 @@ public class ShadowArscApkAssets9 extends ShadowApkAssets {
         return false;
       }
       Key key = (Key) o;
-      return system == key.system &&
-          load_as_shared_library == key.load_as_shared_library &&
-          overlay == key.overlay &&
-          Objects.equals(fd, key.fd) &&
-          Objects.equals(path, key.path);
+      return system == key.system
+          && load_as_shared_library == key.load_as_shared_library
+          && overlay == key.overlay
+          && Objects.equals(fd, key.fd)
+          && Objects.equals(path, key.path);
     }
 
     @Override
@@ -235,11 +235,14 @@ public class ShadowArscApkAssets9 extends ShadowApkAssets {
       throws IOException {
     return getFromCacheOrLoad(
         new Key(fd, friendlyName, system, forceSharedLibrary, false),
-        () -> directlyOn(ApkAssets.class, "loadFromPath",
-            ClassParameter.from(FileDescriptor.class, fd),
-            ClassParameter.from(String.class, friendlyName),
-            ClassParameter.from(boolean.class, system),
-            ClassParameter.from(boolean.class, forceSharedLibrary)));
+        () ->
+            directlyOn(
+                ApkAssets.class,
+                "loadFromPath",
+                ClassParameter.from(FileDescriptor.class, fd),
+                ClassParameter.from(String.class, friendlyName),
+                ClassParameter.from(boolean.class, system),
+                ClassParameter.from(boolean.class, forceSharedLibrary)));
   }
 
   // static jlong NativeLoad(JNIEnv* env, jclass /*clazz*/, jstring java_path, jboolean system,
@@ -315,7 +318,8 @@ public class ShadowArscApkAssets9 extends ShadowApkAssets {
     //
     // ApkAssets apk_assets = ApkAssets.LoadFromFd(std.move(dup_fd),
     //                                                                     friendly_name_utf8,
-    //                                                                     system, force_shared_lib);
+    //                                                                     system,
+    // force_shared_lib);
     // if (apk_assets == null) {
     //   String error_msg = String.format("Failed to load asset path %s from fd %d",
     //                                              friendly_name_utf8, dup_fd.get());
@@ -354,24 +358,24 @@ public class ShadowArscApkAssets9 extends ShadowApkAssets {
       return 0;
     }
 
-    CppApkAssets apk_assets =
-        Registries.NATIVE_APK_ASSETS_REGISTRY.getNativeObject(ptr);
-    Asset asset = apk_assets.Open(path_utf8,
-        Asset.AccessMode.ACCESS_RANDOM);
+    CppApkAssets apk_assets = Registries.NATIVE_APK_ASSETS_REGISTRY.getNativeObject(ptr);
+    Asset asset = apk_assets.Open(path_utf8, Asset.AccessMode.ACCESS_RANDOM);
     if (asset == null) {
       throw new FileNotFoundException(path_utf8);
     }
 
     // DynamicRefTable is only needed when looking up resource references. Opening an XML file
     // directly from an ApkAssets has no notion of proper resource references.
-    ResXMLTree xml_tree = new ResXMLTree(null); // util.make_unique<ResXMLTree>(nullptr /*dynamicRefTable*/);
+    ResXMLTree xml_tree =
+        new ResXMLTree(null); // util.make_unique<ResXMLTree>(nullptr /*dynamicRefTable*/);
     int err = xml_tree.setTo(asset.getBuffer(true), (int) asset.getLength(), true);
     // asset.reset();
 
     if (err != NO_ERROR) {
       throw new FileNotFoundException("Corrupt XML binary file");
     }
-    return Registries.NATIVE_RES_XML_TREES.register(xml_tree); // reinterpret_cast<jlong>(xml_tree.release());
+    return Registries.NATIVE_RES_XML_TREES.register(
+        xml_tree); // reinterpret_cast<jlong>(xml_tree.release());
   }
 
   // // JNI registration.

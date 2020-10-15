@@ -31,7 +31,8 @@ public class BitmapTest {
 
   @Config(minSdk = P)
   @SdkSuppress(minSdkVersion = P)
-  @Test public void createBitmap() {
+  @Test
+  public void createBitmap() {
 
     Picture picture = new Picture();
     Canvas canvas = picture.beginRecording(200, 100);

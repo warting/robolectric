@@ -12,7 +12,10 @@ public class ShadowPreference {
   @RealObject private Preference realPreference;
 
   public void callOnAttachedToHierarchy(PreferenceManager preferenceManager) {
-    Shadow.directlyOn(realPreference, Preference.class, "onAttachedToHierarchy",
+    Shadow.directlyOn(
+        realPreference,
+        Preference.class,
+        "onAttachedToHierarchy",
         ClassParameter.from(PreferenceManager.class, preferenceManager));
   }
 

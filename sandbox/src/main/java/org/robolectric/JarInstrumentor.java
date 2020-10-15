@@ -20,9 +20,7 @@ import org.robolectric.internal.bytecode.OldClassInstrumentor;
 import org.robolectric.internal.bytecode.ShadowDecorator;
 import org.robolectric.util.Util;
 
-/**
- * Instruments an entire jar.
- */
+/** Instruments an entire jar. */
 public class JarInstrumentor {
 
   private final InstrumentationConfiguration instrumentationConfiguration;
@@ -63,8 +61,7 @@ public class JarInstrumentor {
     int classCount = 0;
     Set<String> failedClasses = new TreeSet<>();
     try (JarOutputStream jarOut =
-        new JarOutputStream(
-            new BufferedOutputStream(new FileOutputStream(destFile), 32 * 1024))) {
+        new JarOutputStream(new BufferedOutputStream(new FileOutputStream(destFile), 32 * 1024))) {
       System.out.println("Instrumenting from " + sourceFile + " to " + destFile);
       Enumeration<JarEntry> entries = jarFile.entries();
       while (entries.hasMoreElements()) {
@@ -193,10 +190,10 @@ public class JarInstrumentor {
         .doNotAcquirePackage("org.jacoco.");
 
     // Instrumenting these classes causes a weird failure.
-    builder.doNotInstrumentClass("android.R")
-        .doNotInstrumentClass("android.R$styleable");
+    builder.doNotInstrumentClass("android.R").doNotInstrumentClass("android.R$styleable");
 
-    builder.addInstrumentedPackage("dalvik.")
+    builder
+        .addInstrumentedPackage("dalvik.")
         .addInstrumentedPackage("libcore.")
         .addInstrumentedPackage("android.")
         .addInstrumentedPackage("com.android.internal.")

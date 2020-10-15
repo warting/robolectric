@@ -27,5 +27,4 @@ public class ShadowLayoutAnimationControllerTest {
     shadow.setLoadedFromResourceId(1);
     assertThat(shadow.getLoadedFromResourceId()).isEqualTo(id);
   }
-
 }

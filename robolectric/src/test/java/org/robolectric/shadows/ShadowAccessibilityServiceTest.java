@@ -39,9 +39,7 @@ public class ShadowAccessibilityServiceTest {
     assertThat(shadow.getGlobalActionsPerformed().get(0)).isEqualTo(1);
   }
 
-  /**
-   * The AccessibilityService shadow should return an empty list if no window data is provided.
-   */
+  /** The AccessibilityService shadow should return an empty list if no window data is provided. */
   @Test
   @Config(minSdk = LOLLIPOP)
   public void shouldReturnEmptyListIfNoWindowDataProvided() {
@@ -127,9 +125,7 @@ public class ShadowAccessibilityServiceTest {
         .isTrue();
   }
 
-  /**
-   * The AccessibilityService shadow should return consistent window data.
-   */
+  /** The AccessibilityService shadow should return consistent window data. */
   @Test
   @Config(minSdk = LOLLIPOP)
   public void shouldReturnPopulatedWindowData() {
@@ -171,13 +167,12 @@ public class ShadowAccessibilityServiceTest {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent arg0) {
-      //Do nothing
+      // Do nothing
     }
 
     @Override
     public void onInterrupt() {
-      //Do nothing
+      // Do nothing
     }
   }
 }
-

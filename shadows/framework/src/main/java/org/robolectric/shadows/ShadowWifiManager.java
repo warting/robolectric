@@ -48,7 +48,8 @@ public class ShadowWifiManager {
   private boolean wasSaved = false;
   private WifiInfo wifiInfo;
   private List<ScanResult> scanResults;
-  private final Map<Integer, WifiConfiguration> networkIdToConfiguredNetworks = new LinkedHashMap<>();
+  private final Map<Integer, WifiConfiguration> networkIdToConfiguredNetworks =
+      new LinkedHashMap<>();
   private Pair<Integer, Boolean> lastEnabledNetwork;
   private final Set<Integer> enabledNetworks = new HashSet<>();
   private DhcpInfo dhcpInfo;
@@ -104,9 +105,7 @@ public class ShadowWifiManager {
     this.is5GHzBandSupported = is5GHzBandSupported;
   }
 
-  /**
-   * Sets the connection info as the provided {@link WifiInfo}.
-   */
+  /** Sets the connection info as the provided {@link WifiInfo}. */
   public void setConnectionInfo(WifiInfo wifiInfo) {
     this.wifiInfo = wifiInfo;
   }
@@ -240,9 +239,10 @@ public class ShadowWifiManager {
   protected void connect(WifiConfiguration wifiConfiguration, WifiManager.ActionListener listener) {
     WifiInfo wifiInfo = getConnectionInfo();
 
-    String ssid = isQuoted(wifiConfiguration.SSID)
-        ? stripQuotes(wifiConfiguration.SSID)
-        : wifiConfiguration.SSID;
+    String ssid =
+        isQuoted(wifiConfiguration.SSID)
+            ? stripQuotes(wifiConfiguration.SSID)
+            : wifiConfiguration.SSID;
 
     ShadowWifiInfo shadowWifiInfo = Shadow.extract(wifiInfo);
     shadowWifiInfo.setSSID(ssid);
@@ -266,7 +266,7 @@ public class ShadowWifiManager {
             true /* isConnected */);
     ShadowConnectivityManager connectivityManager =
         Shadow.extract(
-                    RuntimeEnvironment.application.getSystemService(Context.CONNECTIVITY_SERVICE));
+            RuntimeEnvironment.application.getSystemService(Context.CONNECTIVITY_SERVICE));
     connectivityManager.setActiveNetworkInfo(networkInfo);
 
     if (listener != null) {

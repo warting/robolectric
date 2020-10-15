@@ -16,8 +16,7 @@ import org.robolectric.shadow.api.Shadow;
 @SuppressWarnings({"UnusedDeclaration"})
 @Implements(GestureDetector.class)
 public class ShadowGestureDetector {
-  @RealObject
-  private GestureDetector realObject;
+  @RealObject private GestureDetector realObject;
 
   private static GestureDetector lastActiveGestureDetector;
 
@@ -28,7 +27,9 @@ public class ShadowGestureDetector {
   @Implementation
   protected void __constructor__(
       Context context, GestureDetector.OnGestureListener listener, Handler handler) {
-    Shadow.invokeConstructor(GestureDetector.class, realObject,
+    Shadow.invokeConstructor(
+        GestureDetector.class,
+        realObject,
         from(Context.class, context),
         from(GestureDetector.OnGestureListener.class, listener),
         from(Handler.class, handler));

@@ -14,18 +14,27 @@ import java.util.Date;
 import java.util.zip.CRC32;
 
 public class CachedDependencyResolver implements DependencyResolver {
-  private final static String CACHE_PREFIX = "localArtifactUrl";
+  private static final String CACHE_PREFIX = "localArtifactUrl";
 
   private final DependencyResolver dependencyResolver;
   private final CacheNamingStrategy cacheNamingStrategy;
   private final CacheValidationStrategy cacheValidationStrategy;
   private final Cache cache;
 
-  public CachedDependencyResolver(DependencyResolver dependencyResolver, File cacheDir, long cacheValidTime) {
-    this(dependencyResolver, new FileCache(cacheDir, cacheValidTime), new DefaultCacheNamingStrategy(), new DefaultCacheValidationStrategy());
+  public CachedDependencyResolver(
+      DependencyResolver dependencyResolver, File cacheDir, long cacheValidTime) {
+    this(
+        dependencyResolver,
+        new FileCache(cacheDir, cacheValidTime),
+        new DefaultCacheNamingStrategy(),
+        new DefaultCacheValidationStrategy());
   }
 
-  public CachedDependencyResolver(DependencyResolver dependencyResolver, Cache cache, CacheNamingStrategy cacheNamingStrategy, CacheValidationStrategy cacheValidationStrategy) {
+  public CachedDependencyResolver(
+      DependencyResolver dependencyResolver,
+      Cache cache,
+      CacheNamingStrategy cacheNamingStrategy,
+      CacheValidationStrategy cacheValidationStrategy) {
     this.dependencyResolver = dependencyResolver;
     this.cache = cache;
     this.cacheNamingStrategy = cacheNamingStrategy;
@@ -74,11 +83,11 @@ public class CachedDependencyResolver implements DependencyResolver {
   }
 
   static class DefaultCacheNamingStrategy implements CacheNamingStrategy {
-    @Override public String getName(String prefix, DependencyJar... dependencies) {
+    @Override
+    public String getName(String prefix, DependencyJar... dependencies) {
       StringBuilder sb = new StringBuilder();
 
-      sb.append(prefix)
-          .append("#");
+      sb.append(prefix).append("#");
 
       for (DependencyJar dependency : dependencies) {
         sb.append(dependency.getGroupId())
@@ -97,6 +106,7 @@ public class CachedDependencyResolver implements DependencyResolver {
 
   interface Cache {
     <T extends Serializable> T load(String id, Class<T> type);
+
     <T extends Serializable> boolean write(String id, T object);
   }
 
@@ -113,7 +123,8 @@ public class CachedDependencyResolver implements DependencyResolver {
     public <T extends Serializable> T load(String id, Class<T> type) {
       try {
         File file = new File(dir, id);
-        if (!file.exists() || (validTime > 0 && file.lastModified() < new Date().getTime() - validTime)) {
+        if (!file.exists()
+            || (validTime > 0 && file.lastModified() < new Date().getTime() - validTime)) {
           return null;
         }
 
@@ -129,7 +140,8 @@ public class CachedDependencyResolver implements DependencyResolver {
     @Override
     public <T extends Serializable> boolean write(String id, T object) {
       try {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(new File(dir, id)))) {
+        try (ObjectOutputStream out =
+            new ObjectOutputStream(new FileOutputStream(new File(dir, id)))) {
           out.writeObject(object);
           return true;
         }

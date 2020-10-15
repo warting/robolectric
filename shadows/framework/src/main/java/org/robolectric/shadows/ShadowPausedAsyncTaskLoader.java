@@ -15,7 +15,8 @@ import org.robolectric.util.reflector.ForType;
 /**
  * The shadow {@link AsyncTaskLoader} for {@link LooperMode.Mode.PAUSED}.
  *
- * In {@link LooperMode.Mode.PAUSED} mode, Robolectric just uses the real AsyncTaskLoader for now.
+ * <p>In {@link LooperMode.Mode.PAUSED} mode, Robolectric just uses the real AsyncTaskLoader for
+ * now.
  */
 @Implements(
     value = AsyncTaskLoader.class,
@@ -30,7 +31,7 @@ public class ShadowPausedAsyncTaskLoader<D> extends ShadowAsyncTaskLoader<D> {
    * Allows overriding background executor used by the AsyncLoader.
    *
    * @deprecated It is recommended to switch to androidx's AsyncTaskLoader, which provides an
-   * overridable getExecutor method.
+   *     overridable getExecutor method.
    */
   @Config(minSdk = KITKAT)
   @Deprecated

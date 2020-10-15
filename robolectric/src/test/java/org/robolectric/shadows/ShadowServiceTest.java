@@ -26,7 +26,7 @@ import org.robolectric.shadow.api.Shadow;
 
 @RunWith(AndroidJUnit4.class)
 public class ShadowServiceTest {
-  private MyService service ;
+  private MyService service;
   private Notification.Builder notBuilder;
 
   NotificationManager nm2 =
@@ -97,8 +97,8 @@ public class ShadowServiceTest {
   }
 
   /**
-   * According to spec, if the foreground notification is not removed earlier,
-   * then it will be removed when the service is destroyed.
+   * According to spec, if the foreground notification is not removed earlier, then it will be
+   * removed when the service is destroyed.
    */
   @Test
   public void stopForegroundDoesntRemoveNotificationUnlessAsked() {
@@ -116,8 +116,8 @@ public class ShadowServiceTest {
   }
 
   /**
-   * According to spec, if the foreground notification is not removed earlier,
-   * then it will be removed when the service is destroyed.
+   * According to spec, if the foreground notification is not removed earlier, then it will be
+   * removed when the service is destroyed.
    */
   @Test
   public void onDestroyRemovesNotification() {

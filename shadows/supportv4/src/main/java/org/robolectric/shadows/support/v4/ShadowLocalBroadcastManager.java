@@ -25,12 +25,16 @@ public class ShadowLocalBroadcastManager {
 
   @Implementation
   protected static LocalBroadcastManager getInstance(final Context context) {
-    return ShadowApplication.getInstance().getSingleton(LocalBroadcastManager.class, new Provider<LocalBroadcastManager>() {
-      @Override
-      public LocalBroadcastManager get() {
-        return ReflectionHelpers.callConstructor(LocalBroadcastManager.class, ClassParameter.from(Context.class, context));
-      }
-    });
+    return ShadowApplication.getInstance()
+        .getSingleton(
+            LocalBroadcastManager.class,
+            new Provider<LocalBroadcastManager>() {
+              @Override
+              public LocalBroadcastManager get() {
+                return ReflectionHelpers.callConstructor(
+                    LocalBroadcastManager.class, ClassParameter.from(Context.class, context));
+              }
+            });
   }
 
   @Implementation
@@ -63,7 +67,8 @@ public class ShadowLocalBroadcastManager {
     copy.addAll(registeredReceivers);
     for (Wrapper wrapper : copy) {
       if (wrapper.intentFilter.matchAction(intent.getAction())) {
-        final int match = wrapper.intentFilter.matchData(intent.getType(), intent.getScheme(), intent.getData());
+        final int match =
+            wrapper.intentFilter.matchData(intent.getType(), intent.getScheme(), intent.getData());
         if (match != IntentFilter.NO_MATCH_DATA && match != IntentFilter.NO_MATCH_TYPE) {
           sent = true;
           final BroadcastReceiver receiver = wrapper.broadcastReceiver;

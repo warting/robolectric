@@ -51,7 +51,8 @@ public class SandboxTestRunner extends BlockJUnit4ClassRunner {
 
   protected static Injector.Builder defaultInjector() {
     return new Injector.Builder()
-        .bindDefault(ClassInstrumentor.class,
+        .bindDefault(
+            ClassInstrumentor.class,
             InvokeDynamic.ENABLED
                 ? InvokeDynamicClassInstrumentor.class
                 : OldClassInstrumentor.class);
@@ -128,8 +129,7 @@ public class SandboxTestRunner extends BlockJUnit4ClassRunner {
     }
   }
 
-  protected void afterClass() {
-  }
+  protected void afterClass() {}
 
   @Nonnull
   protected Sandbox getSandbox(FrameworkMethod method) {
@@ -138,9 +138,11 @@ public class SandboxTestRunner extends BlockJUnit4ClassRunner {
   }
 
   /**
-   * Create an {@link InstrumentationConfiguration} suitable for the provided {@link FrameworkMethod}.
+   * Create an {@link InstrumentationConfiguration} suitable for the provided {@link
+   * FrameworkMethod}.
    *
-   * Custom TestRunner subclasses may wish to override this method to provide alternate configuration.
+   * <p>Custom TestRunner subclasses may wish to override this method to provide alternate
+   * configuration.
    *
    * @param method the test method that's about to run
    * @return an {@link InstrumentationConfiguration}
@@ -181,7 +183,8 @@ public class SandboxTestRunner extends BlockJUnit4ClassRunner {
     return builder.build();
   }
 
-  private void addInstrumentedPackages(FrameworkMethod method, InstrumentationConfiguration.Builder builder) {
+  private void addInstrumentedPackages(
+      FrameworkMethod method, InstrumentationConfiguration.Builder builder) {
     SandboxConfig classConfig = getTestClass().getJavaClass().getAnnotation(SandboxConfig.class);
     if (classConfig != null) {
       for (String pkgName : classConfig.instrumentedPackages()) {
@@ -213,7 +216,8 @@ public class SandboxTestRunner extends BlockJUnit4ClassRunner {
     sandbox.configure(createClassHandler(shadowMap, sandbox), getInterceptors());
   }
 
-  @Override protected Statement methodBlock(final FrameworkMethod method) {
+  @Override
+  protected Statement methodBlock(final FrameworkMethod method) {
     return new Statement() {
       @Override
       public void evaluate() throws Throwable {
@@ -230,51 +234,52 @@ public class SandboxTestRunner extends BlockJUnit4ClassRunner {
         // not available once we install the Robolectric class loader.
         configureSandbox(sandbox, method);
 
-        sandbox.runOnMainThread(() -> {
-          ClassLoader priorContextClassLoader = Thread.currentThread().getContextClassLoader();
-          Thread.currentThread().setContextClassLoader(sandbox.getRobolectricClassLoader());
+        sandbox.runOnMainThread(
+            () -> {
+              ClassLoader priorContextClassLoader = Thread.currentThread().getContextClassLoader();
+              Thread.currentThread().setContextClassLoader(sandbox.getRobolectricClassLoader());
 
-          Class bootstrappedTestClass =
-              sandbox.bootstrappedClass(getTestClass().getJavaClass());
-          HelperTestRunner helperTestRunner = getHelperTestRunner(bootstrappedTestClass);
-          helperTestRunner.frameworkMethod = method;
+              Class bootstrappedTestClass =
+                  sandbox.bootstrappedClass(getTestClass().getJavaClass());
+              HelperTestRunner helperTestRunner = getHelperTestRunner(bootstrappedTestClass);
+              helperTestRunner.frameworkMethod = method;
 
-          final Method bootstrappedMethod;
-          try {
-            //noinspection unchecked
-            bootstrappedMethod = bootstrappedTestClass.getMethod(method.getMethod().getName());
-          } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-          }
+              final Method bootstrappedMethod;
+              try {
+                //noinspection unchecked
+                bootstrappedMethod = bootstrappedTestClass.getMethod(method.getMethod().getName());
+              } catch (NoSuchMethodException e) {
+                throw new RuntimeException(e);
+              }
 
-          try {
-            // Only invoke @BeforeClass once per class
-            invokeBeforeClass(bootstrappedTestClass);
+              try {
+                // Only invoke @BeforeClass once per class
+                invokeBeforeClass(bootstrappedTestClass);
 
-            beforeTest(sandbox, method, bootstrappedMethod);
+                beforeTest(sandbox, method, bootstrappedMethod);
 
-            initialization.finished();
+                initialization.finished();
 
-            Statement statement =
-                helperTestRunner.methodBlock(new FrameworkMethod(bootstrappedMethod));
+                Statement statement =
+                    helperTestRunner.methodBlock(new FrameworkMethod(bootstrappedMethod));
 
-            // todo: this try/finally probably isn't right -- should mimic RunAfters? [xw]
-            try {
-              statement.evaluate();
-            } finally {
-              afterTest(method, bootstrappedMethod);
-            }
-          } catch (Throwable throwable) {
-            throw Util.sneakyThrow(throwable);
-          } finally {
-            Thread.currentThread().setContextClassLoader(priorContextClassLoader);
-            try {
-              finallyAfterTest(method);
-            } catch (Exception e) {
-              e.printStackTrace();
-            }
-          }
-        });
+                // todo: this try/finally probably isn't right -- should mimic RunAfters? [xw]
+                try {
+                  statement.evaluate();
+                } finally {
+                  afterTest(method, bootstrappedMethod);
+                }
+              } catch (Throwable throwable) {
+                throw Util.sneakyThrow(throwable);
+              } finally {
+                Thread.currentThread().setContextClassLoader(priorContextClassLoader);
+                try {
+                  finallyAfterTest(method);
+                } catch (Exception e) {
+                  e.printStackTrace();
+                }
+              }
+            });
 
         reportPerfStats(perfStatsCollector);
         perfStatsCollector.reset();
@@ -299,14 +304,12 @@ public class SandboxTestRunner extends BlockJUnit4ClassRunner {
     }
   }
 
-  protected void beforeTest(Sandbox sandbox, FrameworkMethod method, Method bootstrappedMethod) throws Throwable {
-  }
+  protected void beforeTest(Sandbox sandbox, FrameworkMethod method, Method bootstrappedMethod)
+      throws Throwable {}
 
-  protected void afterTest(FrameworkMethod method, Method bootstrappedMethod) {
-  }
+  protected void afterTest(FrameworkMethod method, Method bootstrappedMethod) {}
 
-  protected void finallyAfterTest(FrameworkMethod method) {
-  }
+  protected void finallyAfterTest(FrameworkMethod method) {}
 
   protected HelperTestRunner getHelperTestRunner(Class bootstrappedTestClass) {
     try {
@@ -365,7 +368,6 @@ public class SandboxTestRunner extends BlockJUnit4ClassRunner {
       }
       return annotation.timeout();
     }
-
   }
 
   @Nonnull

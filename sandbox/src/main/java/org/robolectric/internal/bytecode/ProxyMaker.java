@@ -34,11 +34,13 @@ public class ProxyMaker {
 
   public ProxyMaker(MethodMapper methodMapper) {
     this.methodMapper = methodMapper;
-    factories = new ClassValueMap<Factory>() {
-      @Override protected Factory computeValue(Class<?> type) {
-        return createProxyFactory(type);
-      }
-    };
+    factories =
+        new ClassValueMap<Factory>() {
+          @Override
+          protected Factory computeValue(Class<?> type) {
+            return createProxyFactory(type);
+          }
+        };
   }
 
   public <T> T createProxy(Class<T> targetClass, T target) {
@@ -50,7 +52,7 @@ public class ProxyMaker {
     String targetName = targetType.getInternalName();
     String proxyName = targetName + "$GeneratedProxy";
     Type proxyType = Type.getType("L" + proxyName.replace('.', '/') + ";");
-    ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES| ClassWriter.COMPUTE_MAXS);
+    ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
     writer.visit(
         V1_7,
         ACC_PUBLIC | ACC_SYNTHETIC | ACC_SUPER | ACC_FINAL,
@@ -77,19 +79,22 @@ public class ProxyMaker {
       // If an invokespecial instruction names a method which is not an instance
       // initialization method, then the type of the target reference on the operand
       // stack must be assignment compatible with the current class (JLS §5.2).
-      m.visitMethodInsn(INVOKEVIRTUAL, targetName, targetMethod, proxyMethod.getDescriptor(), false);
+      m.visitMethodInsn(
+          INVOKEVIRTUAL, targetName, targetMethod, proxyMethod.getDescriptor(), false);
       m.returnValue();
       m.endMethod();
     }
 
     writer.visitEnd();
 
-    final Class<?> proxyClass = UNSAFE.defineAnonymousClass(targetClass, writer.toByteArray(), null);
+    final Class<?> proxyClass =
+        UNSAFE.defineAnonymousClass(targetClass, writer.toByteArray(), null);
 
     try {
       final Field field = proxyClass.getDeclaredField(TARGET_FIELD);
       return new Factory() {
-        @Override public <E> E createProxy(Class<E> targetClass, E target) {
+        @Override
+        public <E> E createProxy(Class<E> targetClass, E target) {
           try {
             Object proxy = UNSAFE.allocateInstance(proxyClass);
 
@@ -108,8 +113,10 @@ public class ProxyMaker {
 
   private static boolean shouldProxy(java.lang.reflect.Method method) {
     int modifiers = method.getModifiers();
-    return !Modifier.isAbstract(modifiers) && !Modifier.isFinal(modifiers) && !Modifier.isPrivate(
-        modifiers) && !Modifier.isNative(modifiers);
+    return !Modifier.isAbstract(modifiers)
+        && !Modifier.isFinal(modifiers)
+        && !Modifier.isPrivate(modifiers)
+        && !Modifier.isNative(modifiers);
   }
 
   interface MethodMapper {

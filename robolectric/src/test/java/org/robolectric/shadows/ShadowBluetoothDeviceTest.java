@@ -89,7 +89,7 @@ public class ShadowBluetoothDeviceTest {
 
     assertThat(shadowOf(device).getPin()).isNull();
 
-    byte[] pin = new byte[] { 1, 2, 3, 4 };
+    byte[] pin = new byte[] {1, 2, 3, 4};
     device.setPin(pin);
     assertThat(shadowOf(device).getPin()).isEqualTo(pin);
   }
@@ -168,12 +168,12 @@ public class ShadowBluetoothDeviceTest {
   public void connectGatt_withTransportPhy_doesntCrash() throws Exception {
     BluetoothDevice bluetoothDevice = ShadowBluetoothDevice.newInstance(MOCK_MAC_ADDRESS);
     assertThat(
-        bluetoothDevice.connectGatt(
-            ApplicationProvider.getApplicationContext(),
-            false,
-            new BluetoothGattCallback() {},
-            BluetoothDevice.TRANSPORT_LE,
-            BluetoothDevice.PHY_LE_1M_MASK))
+            bluetoothDevice.connectGatt(
+                ApplicationProvider.getApplicationContext(),
+                false,
+                new BluetoothGattCallback() {},
+                BluetoothDevice.TRANSPORT_LE,
+                BluetoothDevice.PHY_LE_1M_MASK))
         .isNotNull();
   }
 
@@ -182,13 +182,13 @@ public class ShadowBluetoothDeviceTest {
   public void connectGatt_withTransportPhyHandler_doesntCrash() throws Exception {
     BluetoothDevice bluetoothDevice = ShadowBluetoothDevice.newInstance(MOCK_MAC_ADDRESS);
     assertThat(
-        bluetoothDevice.connectGatt(
-            ApplicationProvider.getApplicationContext(),
-            false,
-            new BluetoothGattCallback() {},
-            BluetoothDevice.TRANSPORT_LE,
-            BluetoothDevice.PHY_LE_1M_MASK,
-            new Handler()))
+            bluetoothDevice.connectGatt(
+                ApplicationProvider.getApplicationContext(),
+                false,
+                new BluetoothGattCallback() {},
+                BluetoothDevice.TRANSPORT_LE,
+                BluetoothDevice.PHY_LE_1M_MASK,
+                new Handler()))
         .isNotNull();
   }
 
@@ -226,8 +226,7 @@ public class ShadowBluetoothDeviceTest {
     BluetoothGatt bluetoothGatt =
         device.connectGatt(ApplicationProvider.getApplicationContext(), false, callback);
 
-    assertThat(shadowOf(bluetoothGatt).getGattCallback())
-        .isEqualTo(callback);
+    assertThat(shadowOf(bluetoothGatt).getGattCallback()).isEqualTo(callback);
   }
 
   @Test

@@ -98,7 +98,8 @@ public class ShadowImsMmTelManagerTest {
       registerMmTelCapabilityCallback_imsRegistered_availabilityChange_onCapabilitiesStatusChangedInvoked()
           throws ImsException {
     MmTelCapabilities[] mmTelCapabilities = new MmTelCapabilities[1];
-    CapabilityCallback capabilityCallback = new CapabilityCallback() {
+    CapabilityCallback capabilityCallback =
+        new CapabilityCallback() {
           @Override
           public void onCapabilitiesStatusChanged(MmTelCapabilities capabilities) {
             super.onCapabilitiesStatusChanged(capabilities);
@@ -129,7 +130,8 @@ public class ShadowImsMmTelManagerTest {
       registerMmTelCapabilityCallback_imsNotRegistered_availabilityChange_onCapabilitiesStatusChangedNotInvoked()
           throws ImsException {
     MmTelCapabilities[] mmTelCapabilities = new MmTelCapabilities[1];
-    CapabilityCallback capabilityCallback = new CapabilityCallback() {
+    CapabilityCallback capabilityCallback =
+        new CapabilityCallback() {
           @Override
           public void onCapabilitiesStatusChanged(MmTelCapabilities capabilities) {
             super.onCapabilitiesStatusChanged(capabilities);

@@ -15,7 +15,8 @@ import java.util.List;
 import java.util.Locale;
 import org.robolectric.RuntimeEnvironment;
 
-// adapted from https://android.googlesource.com/platform/frameworks/base/+/android-9.0.0_r12/core/java/android/content/res/Configuration.java
+// adapted from
+// https://android.googlesource.com/platform/frameworks/base/+/android-9.0.0_r12/core/java/android/content/res/Configuration.java
 public class ConfigurationV25 {
 
   private static String localesToResourceQualifier(List<Locale> locs) {
@@ -60,18 +61,19 @@ public class ConfigurationV25 {
     return sb.toString();
   }
 
-
   /**
-   * Returns a string representation of the configuration that can be parsed
-   * by build tools (like AAPT).
+   * Returns a string representation of the configuration that can be parsed by build tools (like
+   * AAPT).
    *
    * @hide
    */
-  public static String resourceQualifierString(Configuration config, DisplayMetrics displayMetrics) {
+  public static String resourceQualifierString(
+      Configuration config, DisplayMetrics displayMetrics) {
     return resourceQualifierString(config, displayMetrics, true);
   }
 
-  public static String resourceQualifierString(Configuration config, DisplayMetrics displayMetrics, boolean includeSdk) {
+  public static String resourceQualifierString(
+      Configuration config, DisplayMetrics displayMetrics, boolean includeSdk) {
     ArrayList<String> parts = new ArrayList<String>();
 
     if (config.mcc != 0) {

@@ -42,5 +42,4 @@ public class ShadowHardwareRenderer {
     shadowBitmap.setMutable(false);
     return bitmap;
   }
-
 }

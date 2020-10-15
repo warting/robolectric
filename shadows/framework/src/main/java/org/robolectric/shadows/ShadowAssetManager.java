@@ -16,7 +16,7 @@ import org.robolectric.util.reflector.Accessor;
 import org.robolectric.util.reflector.ForType;
 import org.robolectric.util.reflector.Static;
 
-abstract public class ShadowAssetManager {
+public abstract class ShadowAssetManager {
 
   public static class Picker extends ResourceModeShadowPicker<ShadowAssetManager> {
 
@@ -29,17 +29,13 @@ abstract public class ShadowAssetManager {
     }
   }
 
-  /**
-   * @deprecated Avoid use.
-   */
+  /** @deprecated Avoid use. */
   @Deprecated
   public static boolean useLegacy() {
     return RuntimeEnvironment.useLegacyResources();
   }
 
-  /**
-   * @deprecated Avoid use.
-   */
+  /** @deprecated Avoid use. */
   @Deprecated
   static ShadowLegacyAssetManager legacyShadowOf(AssetManager assetManager) {
     return (ShadowLegacyAssetManager) Shadow.extract(assetManager);
@@ -50,11 +46,9 @@ abstract public class ShadowAssetManager {
   public abstract static class ArscBase extends ShadowAssetManager {
     private ResTable compileTimeResTable;
 
-    /**
-     * @deprecated Avoid use.
-     */
+    /** @deprecated Avoid use. */
     @Deprecated
-    synchronized public ResTable getCompileTimeResTable() {
+    public synchronized ResTable getCompileTimeResTable() {
       if (compileTimeResTable == null) {
         CppAssetManager compileTimeCppAssetManager = new CppAssetManager();
         for (AssetPath assetPath : getAssetPaths()) {
@@ -78,10 +72,12 @@ abstract public class ShadowAssetManager {
   @ForType(AssetManager.class)
   interface _AssetManager_ {
 
-    @Static @Accessor("sSystem")
+    @Static
+    @Accessor("sSystem")
     AssetManager getSystem();
 
-    @Static @Accessor("sSystem")
+    @Static
+    @Accessor("sSystem")
     void setSystem(AssetManager o);
   }
 
@@ -89,16 +85,20 @@ abstract public class ShadowAssetManager {
   @ForType(AssetManager.class)
   interface _AssetManager28_ extends _AssetManager_ {
 
-    @Static @Accessor("sSystemApkAssets")
+    @Static
+    @Accessor("sSystemApkAssets")
     ApkAssets[] getSystemApkAssets();
 
-    @Static @Accessor("sSystemApkAssets")
+    @Static
+    @Accessor("sSystemApkAssets")
     void setSystemApkAssets(ApkAssets[] apkAssets);
 
-    @Static @Accessor("sSystemApkAssetsSet")
+    @Static
+    @Accessor("sSystemApkAssetsSet")
     ArraySet<ApkAssets> getSystemApkAssetsSet();
 
-    @Static @Accessor("sSystemApkAssetsSet")
+    @Static
+    @Accessor("sSystemApkAssetsSet")
     void setSystemApkAssetsSet(ArraySet<ApkAssets> assetsSet);
 
     ApkAssets[] getApkAssets();

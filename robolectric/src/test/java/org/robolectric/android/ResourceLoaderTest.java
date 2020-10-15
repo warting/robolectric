@@ -34,13 +34,11 @@ public class ResourceLoaderTest {
   public void setUp() {
     assumeTrue(useLegacy());
 
-    optsForO = RuntimeEnvironment.getApiLevel() >= O
-        ? "nowidecg-lowdr-"
-        : "";
+    optsForO = RuntimeEnvironment.getApiLevel() >= O ? "nowidecg-lowdr-" : "";
   }
 
   @Test
-  @Config(qualifiers="w0dp")
+  @Config(qualifiers = "w0dp")
   public void checkDefaultBooleanValue() throws Exception {
     assertThat(
             ApplicationProvider.getApplicationContext()
@@ -50,7 +48,7 @@ public class ResourceLoaderTest {
   }
 
   @Test
-  @Config(qualifiers="w820dp")
+  @Config(qualifiers = "w820dp")
   public void checkQualifiedBooleanValue() throws Exception {
     assertThat(
             ApplicationProvider.getApplicationContext()
@@ -58,7 +56,7 @@ public class ResourceLoaderTest {
                 .getBoolean(R.bool.different_resource_boolean))
         .isEqualTo(true);
   }
-  
+
   @Test
   public void checkForPollution1() throws Exception {
     checkForPollutionHelper();
@@ -71,7 +69,11 @@ public class ResourceLoaderTest {
 
   private void checkForPollutionHelper() {
     assertThat(RuntimeEnvironment.getQualifiers())
-        .isEqualTo("en-rUS-ldltr-sw320dp-w320dp-h470dp-normal-notlong-notround-" + optsForO + "port-notnight-mdpi-finger-keyssoft-nokeys-navhidden-nonav-v" + Build.VERSION.RESOURCES_SDK_INT);
+        .isEqualTo(
+            "en-rUS-ldltr-sw320dp-w320dp-h470dp-normal-notlong-notround-"
+                + optsForO
+                + "port-notnight-mdpi-finger-keyssoft-nokeys-navhidden-nonav-v"
+                + Build.VERSION.RESOURCES_SDK_INT);
 
     View view =
         LayoutInflater.from(ApplicationProvider.getApplicationContext())
@@ -97,9 +99,13 @@ public class ResourceLoaderTest {
     assertThat(resId).isNotNull();
     assertThat(resourceProvider.getResName(resId)).isEqualTo(internalResource);
 
-    Class<?> internalRIdClass = Robolectric.class.getClassLoader().loadClass("com.android.internal.R$" + internalResource.type);
+    Class<?> internalRIdClass =
+        Robolectric.class
+            .getClassLoader()
+            .loadClass("com.android.internal.R$" + internalResource.type);
     int internalResourceId;
-    internalResourceId = (Integer) internalRIdClass.getDeclaredField(internalResource.name).get(null);
+    internalResourceId =
+        (Integer) internalRIdClass.getDeclaredField(internalResource.name).get(null);
     assertThat(resId).isEqualTo(internalResourceId);
 
     assertThat(ApplicationProvider.getApplicationContext().getResources().getString(resId))

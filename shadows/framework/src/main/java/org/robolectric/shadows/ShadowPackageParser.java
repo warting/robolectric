@@ -55,8 +55,7 @@ public class ShadowPackageParser {
       if (thePackage == null) {
         List<LogItem> logItems = ShadowLog.getLogsForTag("PackageParser");
         if (logItems.isEmpty()) {
-          throw new RuntimeException(
-              "Failed to parse package " + apkFile);
+          throw new RuntimeException("Failed to parse package " + apkFile);
         } else {
           LogItem logItem = logItems.get(0);
           throw new RuntimeException(
@@ -70,9 +69,7 @@ public class ShadowPackageParser {
     }
   }
 
-  /**
-   * Prevents ClassNotFoundError for Callback on pre-26.
-   */
+  /** Prevents ClassNotFoundError for Callback on pre-26. */
   private static class QHelper {
     private static void setCallback(PackageParser packageParser) {
       // TODO(christianw): this should be a CallbackImpl with the ApplicationPackageManager...
@@ -120,8 +117,7 @@ public class ShadowPackageParser {
         long firstInstallTime,
         long lastUpdateTime,
         HashSet<String> grantedPermissions,
-        @WithType("android.content.pm.PackageUserState")
-            Object state);
+        @WithType("android.content.pm.PackageUserState") Object state);
 
     // LOLLIPOP_MR1
     @Static
@@ -132,8 +128,7 @@ public class ShadowPackageParser {
         long firstInstallTime,
         long lastUpdateTime,
         ArraySet<String> grantedPermissions,
-        @WithType("android.content.pm.PackageUserState")
-            Object state);
+        @WithType("android.content.pm.PackageUserState") Object state);
 
     default PackageInfo generatePackageInfo(
         PackageParser.Package p,
@@ -144,17 +139,35 @@ public class ShadowPackageParser {
       int apiLevel = RuntimeEnvironment.getApiLevel();
 
       if (apiLevel <= JELLY_BEAN) {
-        return generatePackageInfo(p, gids, flags, firstInstallTime, lastUpdateTime,
-            new HashSet<>());
+        return generatePackageInfo(
+            p, gids, flags, firstInstallTime, lastUpdateTime, new HashSet<>());
       } else if (apiLevel <= LOLLIPOP) {
-        return generatePackageInfo(p, gids, flags, firstInstallTime, lastUpdateTime,
-            new HashSet<>(), new PackageUserState());
+        return generatePackageInfo(
+            p,
+            gids,
+            flags,
+            firstInstallTime,
+            lastUpdateTime,
+            new HashSet<>(),
+            new PackageUserState());
       } else if (apiLevel <= LOLLIPOP_MR1) {
-        return generatePackageInfo(p, gids, flags, firstInstallTime, lastUpdateTime,
-            new ArraySet<>(), new PackageUserState());
+        return generatePackageInfo(
+            p,
+            gids,
+            flags,
+            firstInstallTime,
+            lastUpdateTime,
+            new ArraySet<>(),
+            new PackageUserState());
       } else {
-        return PackageParser.generatePackageInfo(p, gids, flags, firstInstallTime, lastUpdateTime,
-            new HashSet<>(), new PackageUserState());
+        return PackageParser.generatePackageInfo(
+            p,
+            gids,
+            flags,
+            firstInstallTime,
+            lastUpdateTime,
+            new HashSet<>(),
+            new PackageUserState());
       }
     }
 

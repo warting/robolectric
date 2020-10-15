@@ -15,8 +15,7 @@ import org.robolectric.util.ReflectionHelpers;
 @SuppressWarnings({"UnusedDeclaration"})
 @Implements(AlertDialog.class)
 public class ShadowAlertDialog extends ShadowDialog {
-  @RealObject
-  private AlertDialog realAlertDialog;
+  @RealObject private AlertDialog realAlertDialog;
 
   private CharSequence[] items;
   private DialogInterface.OnClickListener clickListener;
@@ -26,7 +25,8 @@ public class ShadowAlertDialog extends ShadowDialog {
   private FrameLayout custom;
 
   /**
-   * @return the most recently created {@code AlertDialog}, or null if none has been created during this test run
+   * @return the most recently created {@code AlertDialog}, or null if none has been created during
+   *     this test run
    */
   public static AlertDialog getLatestAlertDialog() {
     ShadowApplication shadowApplication = Shadow.extract(RuntimeEnvironment.application);
@@ -41,17 +41,16 @@ public class ShadowAlertDialog extends ShadowDialog {
     return custom;
   }
 
-  /**
-   * Resets the tracking of the most recently created {@code AlertDialog}
-   */
+  /** Resets the tracking of the most recently created {@code AlertDialog} */
   public static void reset() {
     ShadowApplication shadowApplication = Shadow.extract(RuntimeEnvironment.application);
     shadowApplication.setLatestAlertDialog(null);
   }
 
   /**
-   * Simulates a click on the {@code Dialog} item indicated by {@code index}. Handles both multi- and single-choice dialogs, tracks which items are currently
-   * checked and calls listeners appropriately.
+   * Simulates a click on the {@code Dialog} item indicated by {@code index}. Handles both multi-
+   * and single-choice dialogs, tracks which items are currently checked and calls listeners
+   * appropriately.
    *
    * @param index the index of the item to click on
    */
@@ -60,13 +59,12 @@ public class ShadowAlertDialog extends ShadowDialog {
     shadowListView.performItemClick(index);
   }
 
-  @Override public CharSequence getTitle() {
+  @Override
+  public CharSequence getTitle() {
     return getShadowAlertController().getTitle();
   }
 
-  /**
-   * @return the items that are available to be clicked on
-   */
+  /** @return the items that are available to be clicked on */
   public CharSequence[] getItems() {
     Adapter adapter = getShadowAlertController().getAdapter();
     int count = adapter.getCount();
@@ -81,9 +79,7 @@ public class ShadowAlertDialog extends ShadowDialog {
     return getShadowAlertController().getAdapter();
   }
 
-  /**
-   * @return the message displayed in the dialog
-   */
+  /** @return the message displayed in the dialog */
   public CharSequence getMessage() {
     return getShadowAlertController().getMessage();
   }
@@ -95,23 +91,17 @@ public class ShadowAlertDialog extends ShadowDialog {
     shadowApplication.setLatestAlertDialog(this);
   }
 
-  /**
-   * @return the view set with {@link AlertDialog.Builder#setView(View)}
-   */
+  /** @return the view set with {@link AlertDialog.Builder#setView(View)} */
   public View getView() {
     return getShadowAlertController().getView();
   }
 
-  /**
-   * @return the icon set with {@link AlertDialog.Builder#setIcon(int)}
-   */
+  /** @return the icon set with {@link AlertDialog.Builder#setIcon(int)} */
   public int getIconId() {
     return getShadowAlertController().getIconId();
   }
 
-  /**
-   * @return return the view set with {@link AlertDialog.Builder#setCustomTitle(View)}
-   */
+  /** @return return the view set with {@link AlertDialog.Builder#setCustomTitle(View)} */
   public View getCustomTitleView() {
     return getShadowAlertController().getCustomTitleView();
   }
@@ -122,6 +112,5 @@ public class ShadowAlertDialog extends ShadowDialog {
   }
 
   @Implements(AlertDialog.Builder.class)
-  public static class ShadowBuilder {
-  }
+  public static class ShadowBuilder {}
 }

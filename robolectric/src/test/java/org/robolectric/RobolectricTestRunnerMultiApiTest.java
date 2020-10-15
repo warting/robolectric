@@ -39,14 +39,15 @@ import org.robolectric.util.inject.Injector;
 @RunWith(JUnit4.class)
 public class RobolectricTestRunnerMultiApiTest {
 
-  private final static int[] APIS_FOR_TEST = {
-      JELLY_BEAN, JELLY_BEAN_MR1, JELLY_BEAN_MR2, KITKAT, LOLLIPOP, LOLLIPOP_MR1, M,
+  private static final int[] APIS_FOR_TEST = {
+    JELLY_BEAN, JELLY_BEAN_MR1, JELLY_BEAN_MR2, KITKAT, LOLLIPOP, LOLLIPOP_MR1, M,
   };
 
   private static SdkPicker delegateSdkPicker;
-  private static final Injector INJECTOR = defaultInjector()
-      .bind(SdkPicker.class, (config, usesSdk) -> delegateSdkPicker.selectSdks(config, usesSdk))
-      .build();
+  private static final Injector INJECTOR =
+      defaultInjector()
+          .bind(SdkPicker.class, (config, usesSdk) -> delegateSdkPicker.selectSdks(config, usesSdk))
+          .build();
 
   private RobolectricTestRunner runner;
   private RunNotifier runNotifier;
@@ -85,8 +86,9 @@ public class RobolectricTestRunnerMultiApiTest {
   @Test
   public void createChildrenForEachSupportedApi() throws Throwable {
     runner = runnerOf(TestWithNoConfig.class);
-    assertThat(apisFor(runner.getChildren())).containsExactly(
-        JELLY_BEAN, JELLY_BEAN_MR1, JELLY_BEAN_MR2, KITKAT, LOLLIPOP, LOLLIPOP_MR1, M);
+    assertThat(apisFor(runner.getChildren()))
+        .containsExactly(
+            JELLY_BEAN, JELLY_BEAN_MR1, JELLY_BEAN_MR2, KITKAT, LOLLIPOP, LOLLIPOP_MR1, M);
   }
 
   @Test
@@ -102,8 +104,10 @@ public class RobolectricTestRunnerMultiApiTest {
       runner.getChildren();
       fail();
     } catch (IllegalArgumentException e) {
-      assertThat(e.getMessage()).contains("sdk and minSdk/maxSdk may not be specified together" +
-          " (sdk=[16], minSdk=19, maxSdk=21)");
+      assertThat(e.getMessage())
+          .contains(
+              "sdk and minSdk/maxSdk may not be specified together"
+                  + " (sdk=[16], minSdk=19, maxSdk=21)");
     }
   }
 
@@ -128,8 +132,9 @@ public class RobolectricTestRunnerMultiApiTest {
   @Test
   public void noConfig() throws Throwable {
     runner = runnerOf(TestWithNoConfig.class);
-    assertThat(apisFor(runner.getChildren())).containsExactly(
-        JELLY_BEAN, JELLY_BEAN_MR1, JELLY_BEAN_MR2, KITKAT, LOLLIPOP, LOLLIPOP_MR1, M);
+    assertThat(apisFor(runner.getChildren()))
+        .containsExactly(
+            JELLY_BEAN, JELLY_BEAN_MR1, JELLY_BEAN_MR2, KITKAT, LOLLIPOP, LOLLIPOP_MR1, M);
     runner.run(runNotifier);
 
     assertThat(runListener.ignored).isEmpty();
@@ -175,7 +180,8 @@ public class RobolectricTestRunnerMultiApiTest {
   @Test
   public void classConfigMaxSdk() throws Throwable {
     runner = runnerOf(TestClassUpToAndIncludingLollipop.class);
-    assertThat(apisFor(runner.getChildren())).containsExactly(JELLY_BEAN, JELLY_BEAN_MR1, JELLY_BEAN_MR2, KITKAT, LOLLIPOP);
+    assertThat(apisFor(runner.getChildren()))
+        .containsExactly(JELLY_BEAN, JELLY_BEAN_MR1, JELLY_BEAN_MR2, KITKAT, LOLLIPOP);
 
     runner.run(runNotifier);
 
@@ -212,7 +218,8 @@ public class RobolectricTestRunnerMultiApiTest {
   @Test
   public void methodConfigMaxSdk() throws Throwable {
     runner = runnerOf(TestMethodUpToAndIncludingLollipop.class);
-    assertThat(apisFor(runner.getChildren())).containsExactly(JELLY_BEAN, JELLY_BEAN_MR1, JELLY_BEAN_MR2, KITKAT, LOLLIPOP);
+    assertThat(apisFor(runner.getChildren()))
+        .containsExactly(JELLY_BEAN, JELLY_BEAN_MR1, JELLY_BEAN_MR2, KITKAT, LOLLIPOP);
 
     runner.run(runNotifier);
 
@@ -242,12 +249,14 @@ public class RobolectricTestRunnerMultiApiTest {
 
   @Config(sdk = Config.ALL_SDKS)
   public static class TestWithNoConfig {
-    @Test public void test() {}
+    @Test
+    public void test() {}
   }
 
   @Config(sdk = {JELLY_BEAN, LOLLIPOP})
   public static class TestClassConfigWithSdkGroup {
-    @Test public void testShouldRunApi18() {
+    @Test
+    public void testShouldRunApi18() {
       assertThat(Build.VERSION.SDK_INT).isIn(Range.closed(JELLY_BEAN, LOLLIPOP));
     }
   }
@@ -255,28 +264,32 @@ public class RobolectricTestRunnerMultiApiTest {
   @Config(sdk = Config.ALL_SDKS)
   public static class TestMethodConfigWithSdkGroup {
     @Config(sdk = {JELLY_BEAN, LOLLIPOP})
-    @Test public void testShouldRunApi16() {
+    @Test
+    public void testShouldRunApi16() {
       assertThat(Build.VERSION.SDK_INT).isIn(Range.closed(JELLY_BEAN, LOLLIPOP));
     }
   }
 
   @Config(minSdk = LOLLIPOP)
   public static class TestClassLollipopAndUp {
-    @Test public void testSomeApiLevel() {
+    @Test
+    public void testSomeApiLevel() {
       assertThat(Build.VERSION.SDK_INT).isAtLeast(LOLLIPOP);
     }
   }
 
   @Config(maxSdk = LOLLIPOP)
   public static class TestClassUpToAndIncludingLollipop {
-    @Test public void testSomeApiLevel() {
+    @Test
+    public void testSomeApiLevel() {
       assertThat(Build.VERSION.SDK_INT).isAtMost(LOLLIPOP);
     }
   }
 
   @Config(minSdk = JELLY_BEAN_MR2, maxSdk = LOLLIPOP)
   public static class TestClassBetweenJellyBeanMr2AndLollipop {
-    @Test public void testSomeApiLevel() {
+    @Test
+    public void testSomeApiLevel() {
       assertThat(Build.VERSION.SDK_INT).isIn(Range.closed(JELLY_BEAN_MR2, LOLLIPOP));
     }
   }
@@ -284,7 +297,8 @@ public class RobolectricTestRunnerMultiApiTest {
   @Config(sdk = Config.ALL_SDKS)
   public static class TestMethodLollipopAndUp {
     @Config(minSdk = LOLLIPOP)
-    @Test public void testSomeApiLevel() {
+    @Test
+    public void testSomeApiLevel() {
       assertThat(Build.VERSION.SDK_INT).isAtLeast(LOLLIPOP);
     }
   }
@@ -292,7 +306,8 @@ public class RobolectricTestRunnerMultiApiTest {
   @Config(sdk = Config.ALL_SDKS)
   public static class TestMethodUpToAndIncludingLollipop {
     @Config(maxSdk = LOLLIPOP)
-    @Test public void testSomeApiLevel() {
+    @Test
+    public void testSomeApiLevel() {
       assertThat(Build.VERSION.SDK_INT).isAtMost(LOLLIPOP);
     }
   }
@@ -300,7 +315,8 @@ public class RobolectricTestRunnerMultiApiTest {
   @Config(sdk = Config.ALL_SDKS)
   public static class TestMethodBetweenJellyBeanMr2AndLollipop {
     @Config(minSdk = JELLY_BEAN_MR2, maxSdk = LOLLIPOP)
-    @Test public void testSomeApiLevel() {
+    @Test
+    public void testSomeApiLevel() {
       assertThat(Build.VERSION.SDK_INT).isIn(Range.closed(JELLY_BEAN_MR2, LOLLIPOP));
     }
   }
@@ -316,7 +332,8 @@ public class RobolectricTestRunnerMultiApiTest {
   @Config(sdk = Config.ALL_SDKS)
   public static class TestMethodWithSdkAndMinMax {
     @Config(sdk = JELLY_BEAN, minSdk = KITKAT, maxSdk = LOLLIPOP)
-    @Test public void testWithKitKatAndLollipop() {
+    @Test
+    public void testWithKitKatAndLollipop() {
       assertThat(Build.VERSION.SDK_INT).isIn(Range.closed(KITKAT, LOLLIPOP));
     }
   }
@@ -324,8 +341,7 @@ public class RobolectricTestRunnerMultiApiTest {
   private static List<Integer> apisFor(List<FrameworkMethod> children) {
     List<Integer> apis = new ArrayList<>();
     for (FrameworkMethod child : children) {
-      apis.add(
-          ((RobolectricTestRunner.RobolectricFrameworkMethod) child).getSdk().getApiLevel());
+      apis.add(((RobolectricTestRunner.RobolectricFrameworkMethod) child).getSdk().getApiLevel());
     }
     return apis;
   }

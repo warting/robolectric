@@ -123,9 +123,7 @@ public class NativeObjRegistry<T> {
     return o;
   }
 
-  /**
-   * @deprecated Use {@link #unregister(long)} instead.
-   */
+  /** @deprecated Use {@link #unregister(long)} instead. */
   @Deprecated
   public synchronized void unregister(T removed) {
     nativeObjToIdMap.inverse().remove(removed);
@@ -190,17 +188,16 @@ public class NativeObjRegistry<T> {
 
     private Trace(Object o) {
       try {
-        Class<?> runtimeEnvClass = o.getClass().getClassLoader()
-            .loadClass("org.robolectric.RuntimeEnvironment");
+        Class<?> runtimeEnvClass =
+            o.getClass().getClassLoader().loadClass("org.robolectric.RuntimeEnvironment");
         this.apiLevel = (int) runtimeEnvClass.getMethod("getApiLevel").invoke(null);
-        this.useLegacyResources = (boolean) runtimeEnvClass.getMethod("useLegacyResources")
-            .invoke(null);
+        this.useLegacyResources =
+            (boolean) runtimeEnvClass.getMethod("useLegacyResources").invoke(null);
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
     }
 
-    private Trace(int apiLevel, boolean legacyResources) {
-    }
+    private Trace(int apiLevel, boolean legacyResources) {}
   }
 }

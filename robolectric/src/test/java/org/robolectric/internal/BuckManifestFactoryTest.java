@@ -23,8 +23,7 @@ import org.robolectric.res.ResourcePath;
 @RunWith(JUnit4.class)
 public class BuckManifestFactoryTest {
 
-  @Rule
-  public TemporaryFolder tempFolder = new TemporaryFolder();
+  @Rule public TemporaryFolder tempFolder = new TemporaryFolder();
 
   private Config.Builder configBuilder;
   private BuckManifestFactory buckManifestFactory;
@@ -43,18 +42,20 @@ public class BuckManifestFactoryTest {
     System.clearProperty("buck.robolectric_assets_directories");
   }
 
-  @Test public void identify() throws Exception {
+  @Test
+  public void identify() throws Exception {
     ManifestIdentifier manifestIdentifier = buckManifestFactory.identify(configBuilder.build());
     assertThat(manifestIdentifier.getManifestFile())
         .isEqualTo(Paths.get("buck/AndroidManifest.xml"));
-    assertThat(manifestIdentifier.getPackageName())
-        .isEqualTo("com.robolectric.buck");
+    assertThat(manifestIdentifier.getPackageName()).isEqualTo("com.robolectric.buck");
   }
 
-  @Test public void multiple_res_dirs() throws Exception {
-    System.setProperty("buck.robolectric_res_directories",
-        "buck/res1" + File.pathSeparator + "buck/res2");
-    System.setProperty("buck.robolectric_assets_directories",
+  @Test
+  public void multiple_res_dirs() throws Exception {
+    System.setProperty(
+        "buck.robolectric_res_directories", "buck/res1" + File.pathSeparator + "buck/res2");
+    System.setProperty(
+        "buck.robolectric_assets_directories",
         "buck/assets1" + File.pathSeparator + "buck/assets2");
 
     ManifestIdentifier manifestIdentifier = buckManifestFactory.identify(configBuilder.build());
@@ -72,7 +73,8 @@ public class BuckManifestFactoryTest {
             new ResourcePath(manifest.getRClass(), null, Paths.get("buck/assets1")));
   }
 
-  @Test public void pass_multiple_res_dirs_in_file() throws Exception {
+  @Test
+  public void pass_multiple_res_dirs_in_file() throws Exception {
     String resDirectoriesFileName = "res-directories";
     File resDirectoriesFile = tempFolder.newFile(resDirectoriesFileName);
     Files.asCharSink(resDirectoriesFile, UTF_8).write("buck/res1\nbuck/res2");

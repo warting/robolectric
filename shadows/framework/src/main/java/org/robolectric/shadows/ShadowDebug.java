@@ -57,7 +57,8 @@ public class ShadowDebug {
   }
 
   @Implementation(minSdk = LOLLIPOP)
-  protected static void startMethodTracingSampling(String tracePath, int bufferSize, int intervalUs) {
+  protected static void startMethodTracingSampling(
+      String tracePath, int bufferSize, int intervalUs) {
     internalStartTracing(fixTracePath(tracePath));
   }
 

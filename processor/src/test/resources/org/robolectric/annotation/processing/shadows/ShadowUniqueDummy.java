@@ -7,10 +7,8 @@ import org.robolectric.annotation.Implements;
 public class ShadowUniqueDummy {
 
   @Implements(UniqueDummy.InnerDummy.class)
-  public static class ShadowInnerDummy {
-  }
-  
+  public static class ShadowInnerDummy {}
+
   @Implements(UniqueDummy.UniqueInnerDummy.class)
-  public static class ShadowUniqueInnerDummy {
-  }
+  public static class ShadowUniqueInnerDummy {}
 }

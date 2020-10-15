@@ -1402,8 +1402,9 @@ public final class ShadowDevicePolicyManagerTest {
     ResolveInfo resolveInfo2 = new ResolveInfo();
     resolveInfo2.activityInfo = new ActivityInfo(resolveInfo.activityInfo);
     resolveInfo.activityInfo.name = "OtherActivity";
-    shadowOf(packageManager).setResolveInfosForIntent(
-        new Intent(Intent.ACTION_MAIN), Arrays.asList(resolveInfo, resolveInfo2));
+    shadowOf(packageManager)
+        .setResolveInfosForIntent(
+            new Intent(Intent.ACTION_MAIN), Arrays.asList(resolveInfo, resolveInfo2));
     shadowOf(packageManager).setShouldShowActivityChooser(true);
 
     ResolveInfo resolvedActivity =
@@ -1415,8 +1416,7 @@ public final class ShadowDevicePolicyManagerTest {
     devicePolicyManager.addPersistentPreferredActivity(
         testComponent, new IntentFilter(Intent.ACTION_MAIN), randomActivity);
 
-    resolvedActivity =
-        packageManager.resolveActivity(new Intent(Intent.ACTION_MAIN), 0);
+    resolvedActivity = packageManager.resolveActivity(new Intent(Intent.ACTION_MAIN), 0);
 
     assertThat(resolvedActivity.activityInfo.packageName)
         .isEqualTo(randomActivity.getPackageName());

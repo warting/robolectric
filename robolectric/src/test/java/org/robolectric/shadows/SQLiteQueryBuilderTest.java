@@ -18,7 +18,7 @@ public class SQLiteQueryBuilderTest {
   private static final String TABLE_NAME = "sqlBuilderTest";
   private static final String COL_VALUE = "valueCol";
   private static final String COL_GROUP = "groupCol";
-  
+
   private SQLiteDatabase database;
   private SQLiteQueryBuilder builder;
 
@@ -28,10 +28,8 @@ public class SQLiteQueryBuilderTest {
   public void setUp() throws Exception {
     database = SQLiteDatabase.create(null);
 
-    database.execSQL("create table " + TABLE_NAME + " ("
-        + COL_VALUE + " TEXT, "
-        + COL_GROUP + " INTEGER"
-        + ")");
+    database.execSQL(
+        "create table " + TABLE_NAME + " (" + COL_VALUE + " TEXT, " + COL_GROUP + " INTEGER" + ")");
 
     ContentValues values = new ContentValues();
     values.put(COL_VALUE, "record1");
@@ -70,7 +68,15 @@ public class SQLiteQueryBuilderTest {
 
   @Test
   public void shouldBeAbleToMakeQueriesWithSelection() {
-    Cursor cursor = builder.query(database, new String[] {"rowid"}, COL_VALUE + "=?", new String[] {"record1"}, null, null, null);
+    Cursor cursor =
+        builder.query(
+            database,
+            new String[] {"rowid"},
+            COL_VALUE + "=?",
+            new String[] {"record1"},
+            null,
+            null,
+            null);
     assertThat(cursor.getCount()).isEqualTo(1);
     assertThat(cursor.moveToNext()).isTrue();
     assertThat(cursor.getLong(0)).isEqualTo(firstRecordId);
@@ -78,8 +84,8 @@ public class SQLiteQueryBuilderTest {
 
   @Test
   public void shouldBeAbleToMakeQueriesWithGrouping() {
-    Cursor cursor = builder.query(database, new String[] {"rowid"}, null, null, COL_GROUP, null, null);
+    Cursor cursor =
+        builder.query(database, new String[] {"rowid"}, null, null, COL_GROUP, null, null);
     assertThat(cursor.getCount()).isEqualTo(1);
   }
-
 }

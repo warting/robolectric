@@ -6,9 +6,7 @@ import android.graphics.ColorSpace;
 import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.Implements;
 
-/**
- * Container for implementations of ColorSpace
- */
+/** Container for implementations of ColorSpace */
 public class ShadowColorSpace {
 
   @SuppressWarnings({"UnusedDeclaration"})
@@ -21,4 +19,3 @@ public class ShadowColorSpace {
     }
   }
 }
-

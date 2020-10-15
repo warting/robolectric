@@ -57,7 +57,8 @@ public class AndroidTestEnvironmentTest {
   }
 
   @Test
-  public void setUpApplicationState_setsBackgroundScheduler_toBeSameAsForeground_whenAdvancedScheduling() {
+  public void
+      setUpApplicationState_setsBackgroundScheduler_toBeSameAsForeground_whenAdvancedScheduling() {
     RoboSettings.setUseGlobalScheduler(true);
     try {
       bootstrapWrapper.callSetUpApplicationState();
@@ -93,10 +94,11 @@ public class AndroidTestEnvironmentTest {
   public void setUpApplicationState_setsMainThread_onAnotherThread() throws InterruptedException {
     final AtomicBoolean res = new AtomicBoolean();
     Thread t =
-        new Thread(() -> {
-          bootstrapWrapper.callSetUpApplicationState();
-          res.set(RuntimeEnvironment.isMainThread());
-        });
+        new Thread(
+            () -> {
+              bootstrapWrapper.callSetUpApplicationState();
+              res.set(RuntimeEnvironment.isMainThread());
+            });
     t.start();
     t.join();
     assertThat(res.get()).isTrue();
@@ -139,20 +141,21 @@ public class AndroidTestEnvironmentTest {
 
     bootstrapWrapper.callSetUpApplicationState();
 
-    String optsForO = RuntimeEnvironment.getApiLevel() >= O
-        ? "nowidecg-lowdr-"
-        : "";
+    String optsForO = RuntimeEnvironment.getApiLevel() >= O ? "nowidecg-lowdr-" : "";
     assertThat(RuntimeEnvironment.getQualifiers())
-        .contains("large-notlong-notround-" + optsForO + "land-notnight-mdpi-finger-keyssoft"
-            + "-nokeys-navhidden-nonav-v"
-            + Build.VERSION.RESOURCES_SDK_INT);
+        .contains(
+            "large-notlong-notround-"
+                + optsForO
+                + "land-notnight-mdpi-finger-keyssoft"
+                + "-nokeys-navhidden-nonav-v"
+                + Build.VERSION.RESOURCES_SDK_INT);
   }
 
   @Test
   public void setUpApplicationState_shouldCreateStorageDirs() throws Exception {
     bootstrapWrapper.callSetUpApplicationState();
-    ApplicationInfo applicationInfo = ApplicationProvider.getApplicationContext()
-        .getApplicationInfo();
+    ApplicationInfo applicationInfo =
+        ApplicationProvider.getApplicationContext().getApplicationInfo();
 
     assertThat(applicationInfo.sourceDir).isNotNull();
     assertThat(new File(applicationInfo.sourceDir).exists()).isTrue();
@@ -168,8 +171,8 @@ public class AndroidTestEnvironmentTest {
   @Config(minSdk = Build.VERSION_CODES.N)
   public void setUpApplicationState_shouldCreateStorageDirs_Nplus() throws Exception {
     bootstrapWrapper.callSetUpApplicationState();
-    ApplicationInfo applicationInfo = ApplicationProvider.getApplicationContext()
-        .getApplicationInfo();
+    ApplicationInfo applicationInfo =
+        ApplicationProvider.getApplicationContext().getApplicationInfo();
 
     assertThat(applicationInfo.credentialProtectedDataDir).isNotNull();
     assertThat(new File(applicationInfo.credentialProtectedDataDir).isDirectory()).isTrue();
@@ -225,7 +228,8 @@ public class AndroidTestEnvironmentTest {
     }
   }
 
-  @Test @Config(qualifiers = "b+fr+Cyrl+UK")
+  @Test
+  @Config(qualifiers = "b+fr+Cyrl+UK")
   public void localeIsSet() throws Exception {
     bootstrapWrapper.callSetUpApplicationState();
     assertThat(Locale.getDefault().getLanguage()).isEqualTo("fr");
@@ -233,15 +237,18 @@ public class AndroidTestEnvironmentTest {
     assertThat(Locale.getDefault().getCountry()).isEqualTo("UK");
   }
 
-  @Test @Config(qualifiers = "w123dp-h456dp")
-  public void whenNotPrefixedWithPlus_setQualifiers_shouldNotBeBasedOnPreviousConfig() throws Exception {
+  @Test
+  @Config(qualifiers = "w123dp-h456dp")
+  public void whenNotPrefixedWithPlus_setQualifiers_shouldNotBeBasedOnPreviousConfig()
+      throws Exception {
     bootstrapWrapper.callSetUpApplicationState();
     RuntimeEnvironment.setQualifiers("land");
     assertThat(RuntimeEnvironment.getQualifiers()).contains("w470dp-h320dp");
     assertThat(RuntimeEnvironment.getQualifiers()).contains("-land-");
   }
 
-  @Test @Config(qualifiers = "w100dp-h125dp")
+  @Test
+  @Config(qualifiers = "w100dp-h125dp")
   public void whenDimensAndSizeSpecified_setQualifiers_should() throws Exception {
     bootstrapWrapper.callSetUpApplicationState();
     RuntimeEnvironment.setQualifiers("+xlarge");
@@ -251,7 +258,8 @@ public class AndroidTestEnvironmentTest {
     assertThat(DeviceConfig.getScreenSize(configuration)).isEqualTo(ScreenSize.xlarge);
   }
 
-  @Test @Config(qualifiers = "w123dp-h456dp")
+  @Test
+  @Config(qualifiers = "w123dp-h456dp")
   public void whenPrefixedWithPlus_setQualifiers_shouldBeBasedOnPreviousConfig() throws Exception {
     bootstrapWrapper.callSetUpApplicationState();
     RuntimeEnvironment.setQualifiers("+w124dp");

@@ -37,18 +37,18 @@ import org.robolectric.util.ReflectionHelpers;
 /**
  * Shadow of MotionEvent.
  *
- * The Android framework stores motion events in a pool of native objects. All motion event data
+ * <p>The Android framework stores motion events in a pool of native objects. All motion event data
  * is stored natively, and accessed via a series of static native methods following the pattern
  * nativeGetXXXX(mNativePtr, ...)
  *
- * This shadow mirrors this design, but has java equivalents of each native object. Most of the
+ * <p>This shadow mirrors this design, but has java equivalents of each native object. Most of the
  * contents of this class were transliterated from oreo-mr1 (SDK 27)
  * frameworks/base/core/jni/android_view_MotionEvent.cpp
  *
- * @see <a href="https://android.googlesource.com/platform/frameworks/base/+/oreo-mr1-release/core/jni/android_view_MotionEvent.cpp">core/jni/android_view_MotionEvent.cpp</a>
- *
- * Tests should not reference this class directly. MotionEvents should be created via one of the
- * MotionEvent.obtain methods or via MotionEventBuilder.
+ * @see <a
+ *     href="https://android.googlesource.com/platform/frameworks/base/+/oreo-mr1-release/core/jni/android_view_MotionEvent.cpp">core/jni/android_view_MotionEvent.cpp</a>
+ *     <p>Tests should not reference this class directly. MotionEvents should be created via one of
+ *     the MotionEvent.obtain methods or via MotionEventBuilder.
  */
 @SuppressWarnings({"UnusedDeclaration"})
 @Implements(MotionEvent.class)
@@ -318,25 +318,24 @@ public class ShadowMotionEvent {
       int pointerCount,
       PointerProperties[] pointerIds,
       PointerCoords[] pointerCoords) {
-        return
-        nativeInitialize(
-            nativePtr,
-            deviceId,
-            source,
-            action,
-            flags,
-            edgeFlags,
-            metaState,
-            buttonState,
-            xOffset,
-            yOffset,
-            xPrecision,
-            yPrecision,
-            downTimeNanos,
-            eventTimeNanos,
-            pointerCount,
-            pointerIds,
-            pointerCoords);
+    return nativeInitialize(
+        nativePtr,
+        deviceId,
+        source,
+        action,
+        flags,
+        edgeFlags,
+        metaState,
+        buttonState,
+        xOffset,
+        yOffset,
+        xPrecision,
+        yPrecision,
+        downTimeNanos,
+        eventTimeNanos,
+        pointerCount,
+        pointerIds,
+        pointerCoords);
   }
 
   @Implementation(maxSdk = KITKAT_WATCH)

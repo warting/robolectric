@@ -16,10 +16,15 @@ import org.robolectric.res.ResName;
 @Config(minSdk = Build.VERSION_CODES.LOLLIPOP)
 public class ResourceTableFactoryIntegrationTest {
   @Test
-  public void shouldIncludeStyleableAttributesThatDoNotHaveACorrespondingEntryInAttrClass() throws Exception {
+  public void shouldIncludeStyleableAttributesThatDoNotHaveACorrespondingEntryInAttrClass()
+      throws Exception {
     assumeTrue(useLegacy());
-    // This covers a corner case in Framework resources where an attribute is mentioned in a styleable array, e.g: R.styleable.Toolbar_buttonGravity but there is no corresponding R.attr.buttonGravity
-    assertThat(RuntimeEnvironment.getSystemResourceTable()
-          .getResourceId(new ResName("android", "attr", "buttonGravity"))).isGreaterThan(0);
+    // This covers a corner case in Framework resources where an attribute is mentioned in a
+    // styleable array, e.g: R.styleable.Toolbar_buttonGravity but there is no corresponding
+    // R.attr.buttonGravity
+    assertThat(
+            RuntimeEnvironment.getSystemResourceTable()
+                .getResourceId(new ResName("android", "attr", "buttonGravity")))
+        .isGreaterThan(0);
   }
 }

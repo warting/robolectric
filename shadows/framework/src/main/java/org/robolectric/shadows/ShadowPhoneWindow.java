@@ -11,11 +11,12 @@ import org.robolectric.annotation.Implements;
 import org.robolectric.annotation.RealObject;
 import org.robolectric.util.ReflectionHelpers.ClassParameter;
 
-/**
- * Shadow for PhoneWindow for APIs 23+
- */
-@Implements(className = "com.android.internal.policy.PhoneWindow", isInAndroidSdk = false,
-    minSdk = M, looseSignatures = true)
+/** Shadow for PhoneWindow for APIs 23+ */
+@Implements(
+    className = "com.android.internal.policy.PhoneWindow",
+    isInAndroidSdk = false,
+    minSdk = M,
+    looseSignatures = true)
 public class ShadowPhoneWindow extends ShadowWindow {
   @SuppressWarnings("UnusedDeclaration")
   protected @RealObject Window realWindow;
@@ -23,14 +24,20 @@ public class ShadowPhoneWindow extends ShadowWindow {
   @Implementation(minSdk = M)
   public void setTitle(CharSequence title) {
     this.title = title;
-    directlyOn(realWindow, realWindow.getClass().getName(), "setTitle",
+    directlyOn(
+        realWindow,
+        realWindow.getClass().getName(),
+        "setTitle",
         ClassParameter.from(CharSequence.class, title));
   }
 
   @Implementation(minSdk = M)
   public void setBackgroundDrawable(Drawable drawable) {
     this.backgroundDrawable = drawable;
-    directlyOn(realWindow, realWindow.getClass().getName(), "setBackgroundDrawable",
+    directlyOn(
+        realWindow,
+        realWindow.getClass().getName(),
+        "setBackgroundDrawable",
         ClassParameter.from(Drawable.class, drawable));
   }
 

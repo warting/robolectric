@@ -7,20 +7,24 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Handler;
 
-/**
- * Robolectric implementation of {@link android.content.IntentSender}.
- */
+/** Robolectric implementation of {@link android.content.IntentSender}. */
 public class RoboIntentSender extends IntentSender {
   public Intent intent;
   private PendingIntent pendingIntent;
 
   public RoboIntentSender(PendingIntent pendingIntent) {
-    super((IIntentSender)null);
+    super((IIntentSender) null);
     this.pendingIntent = pendingIntent;
   }
 
-  @Override public void sendIntent(Context context, int code, Intent intent,
-                         final OnFinished onFinished, Handler handler, String requiredPermission)
+  @Override
+  public void sendIntent(
+      Context context,
+      int code,
+      Intent intent,
+      final OnFinished onFinished,
+      Handler handler,
+      String requiredPermission)
       throws SendIntentException {
     try {
       pendingIntent.send(context, code, intent);

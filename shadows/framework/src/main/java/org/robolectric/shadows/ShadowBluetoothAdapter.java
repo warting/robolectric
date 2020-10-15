@@ -400,7 +400,7 @@ public class ShadowBluetoothAdapter {
    * Overrides behavior of {@link getProfileProxy} if {@link ShadowBluetoothAdapter#setProfileProxy}
    * has been previously called.
    *
-   * If active (non-null) proxy has been set by {@link setProfileProxy} for the given {@code
+   * <p>If active (non-null) proxy has been set by {@link setProfileProxy} for the given {@code
    * profile}, {@link getProfileProxy} will immediately call {@code onServiceConnected} of the given
    * BluetoothProfile.ServiceListener {@code listener}.
    *
@@ -428,7 +428,7 @@ public class ShadowBluetoothAdapter {
    * Overrides behavior of {@link closeProfileProxy} if {@link
    * ShadowBluetoothAdapter#setProfileProxy} has been previously called.
    *
-   * If the given non-null BluetoothProfile {@code proxy} was previously set for the given {@code
+   * <p>If the given non-null BluetoothProfile {@code proxy} was previously set for the given {@code
    * profile} by {@link ShadowBluetoothAdapter#setProfileProxy}, this proxy will be "deactivated".
    */
   @Implementation

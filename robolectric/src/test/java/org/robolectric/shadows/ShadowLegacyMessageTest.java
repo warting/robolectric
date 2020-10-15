@@ -173,7 +173,7 @@ public class ShadowLegacyMessageTest {
     Message.obtain(h, 123).sendToTarget();
     assertThat(h.hasMessages(123)).isTrue();
   }
-  
+
   @Test
   public void testSetGetNext() {
     Message msg = Message.obtain();
@@ -182,7 +182,7 @@ public class ShadowLegacyMessageTest {
     sMsg.setNext(msg2);
     assertThat(sMsg.getNext()).isSameInstanceAs(msg2);
   }
-  
+
   @Test
   @Config(minSdk = LOLLIPOP)
   public void testIsInUse() {
@@ -194,7 +194,7 @@ public class ShadowLegacyMessageTest {
     msg.sendToTarget();
     assertThat(sMsg.isInUse()).isTrue();
   }
-  
+
   @Test
   @Config(maxSdk = KITKAT_WATCH)
   public void recycle_shouldInvokeRealObject19() {
@@ -206,26 +206,26 @@ public class ShadowLegacyMessageTest {
   public void recycle_shouldInvokeRealObject21() {
     recycle_shouldInvokeRealObject("recycleUnchecked");
   }
-  
+
   private void recycle_shouldInvokeRealObject(String recycleMethod) {
     Handler h = new Handler();
     Message msg = Message.obtain(h, 234);
     ReflectionHelpers.callInstanceMethod(msg, recycleMethod);
     assertThat(msg.what).isEqualTo(0);
   }
-  
+
   @Test
   @Config(maxSdk = KITKAT_WATCH)
   public void recycle_shouldRemoveMessageFromScheduler19() {
     recycle_shouldRemoveMessageFromScheduler();
   }
-  
+
   @Test
   @Config(minSdk = LOLLIPOP)
   public void recycle_shouldRemoveMessageFromScheduler21() {
     recycle_shouldRemoveMessageFromScheduler();
   }
-  
+
   private void recycle_shouldRemoveMessageFromScheduler() {
     ShadowLooper.pauseMainLooper();
     Handler h = new Handler();
@@ -236,7 +236,7 @@ public class ShadowLegacyMessageTest {
     shadowOf(msg).recycleUnchecked();
     assertWithMessage("after recycle").that(scheduler.size()).isEqualTo(0);
   }
-  
+
   @Test
   public void reset_shouldEmptyMessagePool() {
     Message dummy1 = Message.obtain();

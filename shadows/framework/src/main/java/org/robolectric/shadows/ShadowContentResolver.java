@@ -192,10 +192,10 @@ public class ShadowContentResolver {
    * If a {@link ContentProvider} is registered for the given {@link Uri}, its {@link
    * ContentProvider#insert(Uri, ContentValues)} method will be invoked.
    *
-   * Tests can verify that this method was called using {@link #getStatements()} or {@link
+   * <p>Tests can verify that this method was called using {@link #getStatements()} or {@link
    * #getInsertStatements()}.
    *
-   * If no appropriate {@link ContentProvider} is found, no action will be taken and a {@link
+   * <p>If no appropriate {@link ContentProvider} is found, no action will be taken and a {@link
    * Uri} including the incremented value set with {@link #setNextDatabaseIdForInserts(int)} will
    * returned.
    */
@@ -218,7 +218,7 @@ public class ShadowContentResolver {
    * If a {@link ContentProvider} is registered for the given {@link Uri}, its {@link
    * ContentProvider#update(Uri, ContentValues, String, String[])} method will be invoked.
    *
-   * Tests can verify that this method was called using {@link #getStatements()} or {@link
+   * <p>Tests can verify that this method was called using {@link #getStatements()} or {@link
    * #getUpdateStatements()}.
    *
    * @return If no appropriate {@link ContentProvider} is found, no action will be taken and 1 will
@@ -400,10 +400,10 @@ public class ShadowContentResolver {
    * If a {@link ContentProvider} is registered for the given {@link Uri}, its {@link
    * ContentProvider#delete(Uri, String, String[])} method will be invoked.
    *
-   * Tests can verify that this method was called using {@link #getDeleteStatements()} or {@link
+   * <p>Tests can verify that this method was called using {@link #getDeleteStatements()} or {@link
    * #getDeletedUris()}.
    *
-   * If no appropriate {@link ContentProvider} is found, no action will be taken and {@code 1}
+   * <p>If no appropriate {@link ContentProvider} is found, no action will be taken and {@code 1}
    * will be returned.
    */
   @Implementation
@@ -425,10 +425,10 @@ public class ShadowContentResolver {
    * If a {@link ContentProvider} is registered for the given {@link Uri}, its {@link
    * ContentProvider#bulkInsert(Uri, ContentValues[])} method will be invoked.
    *
-   * Tests can verify that this method was called using {@link #getStatements()} or {@link
+   * <p>Tests can verify that this method was called using {@link #getStatements()} or {@link
    * #getInsertStatements()}.
    *
-   * If no appropriate {@link ContentProvider} is found, no action will be taken and the number
+   * <p>If no appropriate {@link ContentProvider} is found, no action will be taken and the number
    * of rows in {@code values} will be returned.
    */
   @Implementation
@@ -894,7 +894,7 @@ public class ShadowContentResolver {
   /**
    * Returns the content observers registered for updates under the given URI.
    *
-   * Will be empty if no observer is registered.
+   * <p>Will be empty if no observer is registered.
    *
    * @param uri Given URI
    * @return The content observers, or null

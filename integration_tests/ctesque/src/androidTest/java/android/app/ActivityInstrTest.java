@@ -40,8 +40,9 @@ public class ActivityInstrTest {
   }
 
   @Test
-  public void whenExplicitlySetOnActivity_afterSetContentView_activityGetsThemeFromActivityInManifest()
-      throws Exception {
+  public void
+      whenExplicitlySetOnActivity_afterSetContentView_activityGetsThemeFromActivityInManifest()
+          throws Exception {
     Activity activity = activityWithAnotherThemeRule.launchActivity(null);
     activity.setTheme(R.style.Theme_Robolectric);
     Button theButton = activity.findViewById(R.id.button);
@@ -67,5 +68,4 @@ public class ActivityInstrTest {
     ColorDrawable background = (ColorDrawable) theButton.getBackground();
     assertThat(background.getColor()).isEqualTo(0xff00ff00);
   }
-
 }

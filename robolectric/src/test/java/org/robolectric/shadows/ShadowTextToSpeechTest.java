@@ -33,10 +33,11 @@ public class ShadowTextToSpeechTest {
   @Before
   public void setUp() throws Exception {
     activity = Robolectric.buildActivity(Activity.class).create().get();
-    listener = new TextToSpeech.OnInitListener() {
-      @Override public void onInit(int i) {
-      }
-    };
+    listener =
+        new TextToSpeech.OnInitListener() {
+          @Override
+          public void onInit(int i) {}
+        };
 
     mockListener = mock(UtteranceProgressListener.class);
     textToSpeech = new TextToSpeech(activity, listener);

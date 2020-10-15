@@ -9,8 +9,7 @@ import org.robolectric.util.ReflectionHelpers;
 @Implements(AbstractCursor.class)
 public class ShadowAbstractCursor {
 
-  @RealObject
-  private AbstractCursor realAbstractCursor;
+  @RealObject private AbstractCursor realAbstractCursor;
 
   /**
    * Returns the Uri set by {@code setNotificationUri()}.

@@ -9,8 +9,7 @@ import org.robolectric.annotation.RealObject;
 @Implements(ContentObserver.class)
 public class ShadowContentObserver {
 
-  @RealObject
-  private ContentObserver realObserver;
+  @RealObject private ContentObserver realObserver;
 
   @Implementation
   protected void dispatchChange(boolean selfChange, Uri uri) {

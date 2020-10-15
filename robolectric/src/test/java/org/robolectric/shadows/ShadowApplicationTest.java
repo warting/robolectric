@@ -799,4 +799,3 @@ public class ShadowApplicationTest {
     }
   }
 }
-

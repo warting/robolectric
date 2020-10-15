@@ -44,9 +44,10 @@ public class ReflectionHelpers {
    * <p>The returned object will be an instance of the given class, but all methods will return
    * either the "default" value for primitives, or another deep proxy for non-primitive types.
    *
-   * <p>This should be used rarely, for cases where we need to create deep proxies in order not
-   * to crash. The inner proxies are impossible to configure, so there is no way to create
-   * meaningful behavior from a deep proxy. It serves mainly to prevent Null Pointer Exceptions.
+   * <p>This should be used rarely, for cases where we need to create deep proxies in order not to
+   * crash. The inner proxies are impossible to configure, so there is no way to create meaningful
+   * behavior from a deep proxy. It serves mainly to prevent Null Pointer Exceptions.
+   *
    * @param clazz the class to provide a proxy instance of.
    * @return a new "Deep Proxy" instance of the given class.
    */
@@ -95,9 +96,12 @@ public class ReflectionHelpers {
 
   public static <A extends Annotation> A defaultsFor(Class<A> annotation) {
     return annotation.cast(
-        Proxy.newProxyInstance(annotation.getClassLoader(), new Class[] { annotation },
+        Proxy.newProxyInstance(
+            annotation.getClassLoader(),
+            new Class[] {annotation},
             new InvocationHandler() {
-              @Override public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+              @Override
+              public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
                 return method.getDefaultValue();
               }
             }));
@@ -114,14 +118,17 @@ public class ReflectionHelpers {
   @SuppressWarnings("unchecked")
   public static <R> R getField(final Object object, final String fieldName) {
     try {
-      return traverseClassHierarchy(object.getClass(), NoSuchFieldException.class, new InsideTraversal<R>() {
-        @Override
-        public R run(Class<?> traversalClass) throws Exception {
-          Field field = traversalClass.getDeclaredField(fieldName);
-          field.setAccessible(true);
-          return (R) field.get(object);
-        }
-      });
+      return traverseClassHierarchy(
+          object.getClass(),
+          NoSuchFieldException.class,
+          new InsideTraversal<R>() {
+            @Override
+            public R run(Class<?> traversalClass) throws Exception {
+              Field field = traversalClass.getDeclaredField(fieldName);
+              field.setAccessible(true);
+              return (R) field.get(object);
+            }
+          });
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
@@ -134,17 +141,21 @@ public class ReflectionHelpers {
    * @param fieldName The field name.
    * @param fieldNewValue New value.
    */
-  public static void setField(final Object object, final String fieldName, final Object fieldNewValue) {
+  public static void setField(
+      final Object object, final String fieldName, final Object fieldNewValue) {
     try {
-      traverseClassHierarchy(object.getClass(), NoSuchFieldException.class, new InsideTraversal<Void>() {
-        @Override
-        public Void run(Class<?> traversalClass) throws Exception {
-          Field field = traversalClass.getDeclaredField(fieldName);
-          field.setAccessible(true);
-          field.set(object, fieldNewValue);
-          return null;
-        }
-      });
+      traverseClassHierarchy(
+          object.getClass(),
+          NoSuchFieldException.class,
+          new InsideTraversal<Void>() {
+            @Override
+            public Void run(Class<?> traversalClass) throws Exception {
+              Field field = traversalClass.getDeclaredField(fieldName);
+              field.setAccessible(true);
+              field.set(object, fieldNewValue);
+              return null;
+            }
+          });
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
@@ -158,7 +169,8 @@ public class ReflectionHelpers {
    * @param fieldName The field name.
    * @param fieldNewValue New value.
    */
-  public static void setField(Class<?> type, final Object object, final String fieldName, final Object fieldNewValue) {
+  public static void setField(
+      Class<?> type, final Object object, final String fieldName, final Object fieldNewValue) {
     try {
       Field field = type.getDeclaredField(fieldName);
       field.setAccessible(true);
@@ -240,20 +252,24 @@ public class ReflectionHelpers {
    * @param <R> The return type.
    * @return The return value of the method.
    */
-  public static <R> R callInstanceMethod(final Object instance, final String methodName, ClassParameter<?>... classParameters) {
+  public static <R> R callInstanceMethod(
+      final Object instance, final String methodName, ClassParameter<?>... classParameters) {
     try {
       final Class<?>[] classes = ClassParameter.getClasses(classParameters);
       final Object[] values = ClassParameter.getValues(classParameters);
 
-      return traverseClassHierarchy(instance.getClass(), NoSuchMethodException.class, new InsideTraversal<R>() {
-        @Override
-        @SuppressWarnings("unchecked")
-        public R run(Class<?> traversalClass) throws Exception {
-          Method declaredMethod = traversalClass.getDeclaredMethod(methodName, classes);
-          declaredMethod.setAccessible(true);
-          return (R) declaredMethod.invoke(instance, values);
-        }
-      });
+      return traverseClassHierarchy(
+          instance.getClass(),
+          NoSuchMethodException.class,
+          new InsideTraversal<R>() {
+            @Override
+            @SuppressWarnings("unchecked")
+            public R run(Class<?> traversalClass) throws Exception {
+              Method declaredMethod = traversalClass.getDeclaredMethod(methodName, classes);
+              declaredMethod.setAccessible(true);
+              return (R) declaredMethod.invoke(instance, values);
+            }
+          });
     } catch (InvocationTargetException e) {
       if (e.getTargetException() instanceof RuntimeException) {
         throw (RuntimeException) e.getTargetException();
@@ -277,7 +293,11 @@ public class ReflectionHelpers {
    * @param <R> The return type.
    * @return The return value of the method.
    */
-  public static <R> R callInstanceMethod(Class<?> cl, final Object instance, final String methodName, ClassParameter<?>... classParameters) {
+  public static <R> R callInstanceMethod(
+      Class<?> cl,
+      final Object instance,
+      final String methodName,
+      ClassParameter<?>... classParameters) {
     try {
       final Class<?>[] classes = ClassParameter.getClasses(classParameters);
       final Object[] values = ClassParameter.getValues(classParameters);
@@ -330,7 +350,8 @@ public class ReflectionHelpers {
    * @return The return value of the method.
    */
   @SuppressWarnings("unchecked")
-  public static <R> R callStaticMethod(Class<?> clazz, String methodName, ClassParameter<?>... classParameters) {
+  public static <R> R callStaticMethod(
+      Class<?> clazz, String methodName, ClassParameter<?>... classParameters) {
     try {
       Class<?>[] classes = ClassParameter.getClasses(classParameters);
       Object[] values = ClassParameter.getValues(classParameters);
@@ -381,7 +402,9 @@ public class ReflectionHelpers {
   public static <T> T newInstance(Class<T> cl) {
     try {
       return cl.getDeclaredConstructor().newInstance();
-    } catch (InstantiationException | IllegalAccessException | NoSuchMethodException
+    } catch (InstantiationException
+        | IllegalAccessException
+        | NoSuchMethodException
         | InvocationTargetException e) {
       throw new RuntimeException(e);
     }
@@ -395,7 +418,8 @@ public class ReflectionHelpers {
    * @param <R> The return type.
    * @return The return value of the method.
    */
-  public static <R> R callConstructor(Class<? extends R> clazz, ClassParameter<?>... classParameters) {
+  public static <R> R callConstructor(
+      Class<? extends R> clazz, ClassParameter<?>... classParameters) {
     try {
       final Class<?>[] classes = ClassParameter.getClasses(classParameters);
       final Object[] values = ClassParameter.getValues(classParameters);
@@ -418,7 +442,9 @@ public class ReflectionHelpers {
     }
   }
 
-  private static <R, E extends Exception> R traverseClassHierarchy(Class<?> targetClass, Class<? extends E> exceptionClass, InsideTraversal<R> insideTraversal) throws Exception {
+  private static <R, E extends Exception> R traverseClassHierarchy(
+      Class<?> targetClass, Class<? extends E> exceptionClass, InsideTraversal<R> insideTraversal)
+      throws Exception {
     Class<?> hierarchyTraversalClass = targetClass;
     while (true) {
       try {

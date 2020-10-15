@@ -159,7 +159,7 @@ public class ShadowSoundPoolTest {
   }
 
   @Test
-  public void loadSoundWithResId_positiveId () {
+  public void loadSoundWithResId_positiveId() {
     SoundPool soundPool = createSoundPool();
 
     int soundId = soundPool.load(ApplicationProvider.getApplicationContext(), R.raw.sound, 1);
@@ -168,7 +168,7 @@ public class ShadowSoundPoolTest {
   }
 
   @Test
-  public void loadSoundWithPath_positiveId () {
+  public void loadSoundWithPath_positiveId() {
     SoundPool soundPool = createSoundPool();
 
     int soundId = soundPool.load("/mnt/sdcard/sound.wav", 1);

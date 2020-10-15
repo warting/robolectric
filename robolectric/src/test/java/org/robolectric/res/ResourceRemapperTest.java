@@ -29,13 +29,16 @@ public class ResourceRemapperTest {
     assertThat(ApplicationRClass.string.string_one).isEqualTo(ThirdClass.string.string_one);
 
     // Resource identifiers that clash across two libraries should be remapped to different values.
-    assertThat(SecondClass.id.id_clash)
-        .isNotEqualTo(ThirdClass.id.another_id_clash);
+    assertThat(SecondClass.id.id_clash).isNotEqualTo(ThirdClass.id.another_id_clash);
 
     // Styleable arrays of values should be updated to match the remapped values.
-    assertThat(ThirdClass.styleable.SomeStyleable).isEqualTo(ApplicationRClass.styleable.SomeStyleable);
-    assertThat(SecondClass.styleable.SomeStyleable).isEqualTo(ApplicationRClass.styleable.SomeStyleable);
-    assertThat(ApplicationRClass.styleable.SomeStyleable).asList().containsExactly(ApplicationRClass.attr.attr_one, ApplicationRClass.attr.attr_two);
+    assertThat(ThirdClass.styleable.SomeStyleable)
+        .isEqualTo(ApplicationRClass.styleable.SomeStyleable);
+    assertThat(SecondClass.styleable.SomeStyleable)
+        .isEqualTo(ApplicationRClass.styleable.SomeStyleable);
+    assertThat(ApplicationRClass.styleable.SomeStyleable)
+        .asList()
+        .containsExactly(ApplicationRClass.attr.attr_one, ApplicationRClass.attr.attr_two);
   }
 
   @Test
@@ -54,11 +57,15 @@ public class ResourceRemapperTest {
     assertThat(allIds.add(ThirdClass.raw.raw_one)).isTrue();
     assertThat(allIds.add(ThirdClass.raw.raw_two)).isTrue();
 
-    assertThat(ResourceIds.getTypeIdentifier(ApplicationRClass.string.string_one)).isEqualTo(ResourceIds.getTypeIdentifier(ApplicationRClass.string.string_two));
-    assertThat(ResourceIds.getTypeIdentifier(ApplicationRClass.string.string_one)).isEqualTo(ResourceIds.getTypeIdentifier(SecondClass.string.string_three));
+    assertThat(ResourceIds.getTypeIdentifier(ApplicationRClass.string.string_one))
+        .isEqualTo(ResourceIds.getTypeIdentifier(ApplicationRClass.string.string_two));
+    assertThat(ResourceIds.getTypeIdentifier(ApplicationRClass.string.string_one))
+        .isEqualTo(ResourceIds.getTypeIdentifier(SecondClass.string.string_three));
 
-    assertThat(ResourceIds.getTypeIdentifier(ApplicationRClass.string.string_two)).isNotEqualTo(ResourceIds.getTypeIdentifier(SecondClass.integer.integer_two));
-    assertThat(ResourceIds.getTypeIdentifier(ThirdClass.raw.raw_two)).isNotEqualTo(ResourceIds.getTypeIdentifier(SecondClass.integer.integer_two));
+    assertThat(ResourceIds.getTypeIdentifier(ApplicationRClass.string.string_two))
+        .isNotEqualTo(ResourceIds.getTypeIdentifier(SecondClass.integer.integer_two));
+    assertThat(ResourceIds.getTypeIdentifier(ThirdClass.raw.raw_two))
+        .isNotEqualTo(ResourceIds.getTypeIdentifier(SecondClass.integer.integer_two));
   }
 
   public static final class FinalRClass {
@@ -80,7 +87,8 @@ public class ResourceRemapperTest {
     }
 
     public static final class styleable {
-      public static final int[] SomeStyleable = new int[]{ApplicationRClass.attr.attr_one, ApplicationRClass.attr.attr_two};
+      public static final int[] SomeStyleable =
+          new int[] {ApplicationRClass.attr.attr_one, ApplicationRClass.attr.attr_two};
       public static final int SomeStyleable_offsetX = 0;
       public static final int SomeStyleable_offsetY = 1;
     }
@@ -107,7 +115,8 @@ public class ResourceRemapperTest {
     }
 
     public static final class styleable {
-      public static final int[] SomeStyleable = new int[]{SecondClass.attr.attr_one, SecondClass.attr.attr_two};
+      public static final int[] SomeStyleable =
+          new int[] {SecondClass.attr.attr_one, SecondClass.attr.attr_two};
       public static final int SomeStyleable_offsetX = 0;
       public static final int SomeStyleable_offsetY = 1;
     }
@@ -133,10 +142,10 @@ public class ResourceRemapperTest {
     }
 
     public static final class styleable {
-      public static final int[] SomeStyleable = new int[]{ThirdClass.attr.attr_one, ThirdClass.attr.attr_two};
+      public static final int[] SomeStyleable =
+          new int[] {ThirdClass.attr.attr_one, ThirdClass.attr.attr_two};
       public static final int SomeStyleable_offsetX = 0;
       public static final int SomeStyleable_offsetY = 1;
     }
   }
-
 }

@@ -4,5 +4,4 @@ import android.widget.ExpandableListView;
 import org.robolectric.annotation.Implements;
 
 @Implements(ExpandableListView.class)
-public class ShadowExpandableListView extends ShadowListView {
-}
+public class ShadowExpandableListView extends ShadowListView {}

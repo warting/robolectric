@@ -80,14 +80,14 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
   private static final int STYLE_CHANGING_CONFIGURATIONS = 4;
   private static final int STYLE_DENSITY = 5;
 
-  @RealObject
-  protected AssetManager realObject;
+  @RealObject protected AssetManager realObject;
 
   private CppAssetManager cppAssetManager;
 
   @Resetter
   public static void reset() {
-    // todo: ShadowPicker doesn't discriminate properly between concrete shadow classes for resetters...
+    // todo: ShadowPicker doesn't discriminate properly between concrete shadow classes for
+    // resetters...
     if (!useLegacy() && RuntimeEnvironment.getApiLevel() < P) {
       reflector(_AssetManager_.class).setSystem(null);
       // NATIVE_THEME_REGISTRY.clear();
@@ -111,12 +111,11 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
       throw new FileNotFoundException(fileName8);
     }
 
-
     int N = dir.getFileCount();
 
     String[] array = new String[dir.getFileCount()];
 
-    for (int i=0; i<N; i++) {
+    for (int i = 0; i < N; i++) {
       String8 name = dir.getFileName(i);
       array[i] = name.string();
     }
@@ -129,34 +128,77 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
   //   throw new UnsupportedOperationException("implement me");
   // }
 
-  @HiddenApi @Implementation(maxSdk = N_MR1)
-  final public void setConfiguration(int mcc, int mnc, String locale,
-      int orientation, int touchscreen, int density, int keyboard,
-      int keyboardHidden, int navigation, int screenWidth, int screenHeight,
-      int smallestScreenWidthDp, int screenWidthDp, int screenHeightDp,
-      int screenLayout, int uiMode, int sdkVersion) {
-    setConfiguration(mcc, mnc, locale,
-        orientation, touchscreen, density, keyboard,
-        keyboardHidden, navigation, screenWidth, screenHeight,
-        smallestScreenWidthDp, screenWidthDp, screenHeightDp,
-        screenLayout, uiMode, 0, sdkVersion);
+  @HiddenApi
+  @Implementation(maxSdk = N_MR1)
+  public final void setConfiguration(
+      int mcc,
+      int mnc,
+      String locale,
+      int orientation,
+      int touchscreen,
+      int density,
+      int keyboard,
+      int keyboardHidden,
+      int navigation,
+      int screenWidth,
+      int screenHeight,
+      int smallestScreenWidthDp,
+      int screenWidthDp,
+      int screenHeightDp,
+      int screenLayout,
+      int uiMode,
+      int sdkVersion) {
+    setConfiguration(
+        mcc,
+        mnc,
+        locale,
+        orientation,
+        touchscreen,
+        density,
+        keyboard,
+        keyboardHidden,
+        navigation,
+        screenWidth,
+        screenHeight,
+        smallestScreenWidthDp,
+        screenWidthDp,
+        screenHeightDp,
+        screenLayout,
+        uiMode,
+        0,
+        sdkVersion);
   }
 
-  @HiddenApi @Implementation(minSdk = O)
-  public void setConfiguration(int mcc, int mnc, String locale,
-      int orientation, int touchscreen, int density, int keyboard,
-      int keyboardHidden, int navigation, int screenWidth, int screenHeight,
-      int smallestScreenWidthDp, int screenWidthDp, int screenHeightDp,
-      int screenLayout, int uiMode, int colorMode, int sdkVersion) {
+  @HiddenApi
+  @Implementation(minSdk = O)
+  public void setConfiguration(
+      int mcc,
+      int mnc,
+      String locale,
+      int orientation,
+      int touchscreen,
+      int density,
+      int keyboard,
+      int keyboardHidden,
+      int navigation,
+      int screenWidth,
+      int screenHeight,
+      int smallestScreenWidthDp,
+      int screenWidthDp,
+      int screenHeightDp,
+      int screenLayout,
+      int uiMode,
+      int colorMode,
+      int sdkVersion) {
     CppAssetManager am = assetManagerForJavaObject();
     if (am == null) {
       return;
     }
 
     ResTable_config config = new ResTable_config();
-//    memset(&config, 0, sizeof(config));
+    //    memset(&config, 0, sizeof(config));
 
-//    const char* locale8 = locale != NULL ? env->GetStringUTFChars(locale, NULL) : NULL;
+    //    const char* locale8 = locale != NULL ? env->GetStringUTFChars(locale, NULL) : NULL;
 
     // Constants duplicated from Java class android.content.res.Configuration.
     int kScreenLayoutRoundMask = 0x300;
@@ -189,10 +231,11 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
 
     am.setConfiguration(config, locale);
 
-//    if (locale != null) env->ReleaseStringUTFChars(locale, locale8);
+    //    if (locale != null) env->ReleaseStringUTFChars(locale, locale8);
   }
 
-  @HiddenApi @Implementation
+  @HiddenApi
+  @Implementation
   protected static void dumpTheme(long theme, int priority, String tag, String prefix) {
     throw new UnsupportedOperationException("not yet implemented");
   }
@@ -265,26 +308,29 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
 
   //////////// native method implementations
 
-//  public native final String[] list(String path)
-//      throws IOException;
+  //  public native final String[] list(String path)
+  //      throws IOException;
 
-//  @HiddenApi @Implementation(minSdk = VERSION_CODES.P)
-//  public void setApkAssets(Object apkAssetsObjects, Object invalidateCaches) {
-//    throw new UnsupportedOperationException("implement me");
-//  }
-//
+  //  @HiddenApi @Implementation(minSdk = VERSION_CODES.P)
+  //  public void setApkAssets(Object apkAssetsObjects, Object invalidateCaches) {
+  //    throw new UnsupportedOperationException("implement me");
+  //  }
+  //
 
-  @HiddenApi @Implementation(maxSdk = VERSION_CODES.JELLY_BEAN_MR1)
+  @HiddenApi
+  @Implementation(maxSdk = VERSION_CODES.JELLY_BEAN_MR1)
   public int addAssetPath(String path) {
     return addAssetPathNative(path);
   }
 
-  @HiddenApi @Implementation(minSdk = JELLY_BEAN_MR2, maxSdk = M)
-  final protected int addAssetPathNative(String path) {
+  @HiddenApi
+  @Implementation(minSdk = JELLY_BEAN_MR2, maxSdk = M)
+  protected final int addAssetPathNative(String path) {
     return addAssetPathNative(path, false);
   }
 
-  @HiddenApi @Implementation(minSdk = VERSION_CODES.N)
+  @HiddenApi
+  @Implementation(minSdk = VERSION_CODES.N)
   protected int addAssetPathNative(String path, boolean appAsLib) {
     if (Strings.isNullOrEmpty(path)) {
       return 0;
@@ -299,7 +345,8 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
     return (res) ? cookie.get() : 0;
   }
 
-  @HiddenApi @Implementation
+  @HiddenApi
+  @Implementation
   public int getResourceIdentifier(String name, String defType, String defPackage) {
     if (Strings.isNullOrEmpty(name)) {
       return 0;
@@ -314,7 +361,8 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
     return ident;
   }
 
-  @HiddenApi @Implementation
+  @HiddenApi
+  @Implementation
   protected final Number openAsset(String fileName, int mode) throws FileNotFoundException {
     CppAssetManager am = assetManagerForJavaObject();
 
@@ -325,8 +373,10 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
       throw new IllegalArgumentException("Empty file name");
     }
 
-    if (mode != AccessMode.ACCESS_UNKNOWN.mode() && mode != AccessMode.ACCESS_RANDOM.mode()
-        && mode != AccessMode.ACCESS_STREAMING.mode() && mode != AccessMode.ACCESS_BUFFER.mode()) {
+    if (mode != AccessMode.ACCESS_UNKNOWN.mode()
+        && mode != AccessMode.ACCESS_RANDOM.mode()
+        && mode != AccessMode.ACCESS_STREAMING.mode()
+        && mode != AccessMode.ACCESS_BUFFER.mode()) {
       throw new IllegalArgumentException("Bad access mode");
     }
 
@@ -336,13 +386,15 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
       throw new FileNotFoundException(fileName8);
     }
 
-    //printf("Created Asset Stream: %p\n", a);
+    // printf("Created Asset Stream: %p\n", a);
 
     return RuntimeEnvironment.castNativePtr(Registries.NATIVE_ASSET_REGISTRY.register(a));
   }
 
-  @HiddenApi @Implementation
-  protected ParcelFileDescriptor openAssetFd(String fileName, long[] outOffsets) throws IOException {
+  @HiddenApi
+  @Implementation
+  protected ParcelFileDescriptor openAssetFd(String fileName, long[] outOffsets)
+      throws IOException {
     CppAssetManager am = assetManagerForJavaObject();
 
     ALOGV("openAssetFd in %s", am);
@@ -361,9 +413,10 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
     return returnParcelFileDescriptor(a, outOffsets);
   }
 
-  @HiddenApi @Implementation
-  protected final Number openNonAssetNative(int cookie, String fileName,
-      int accessMode) throws FileNotFoundException {
+  @HiddenApi
+  @Implementation
+  protected final Number openNonAssetNative(int cookie, String fileName, int accessMode)
+      throws FileNotFoundException {
     CppAssetManager am = assetManagerForJavaObject();
     if (am == null) {
       return RuntimeEnvironment.castNativePtr(0);
@@ -374,26 +427,30 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
       return RuntimeEnvironment.castNativePtr(-1);
     }
     AccessMode mode = AccessMode.fromInt(accessMode);
-    if (mode != Asset.AccessMode.ACCESS_UNKNOWN && mode != Asset.AccessMode.ACCESS_RANDOM
-        && mode != Asset.AccessMode.ACCESS_STREAMING && mode != Asset.AccessMode.ACCESS_BUFFER) {
+    if (mode != Asset.AccessMode.ACCESS_UNKNOWN
+        && mode != Asset.AccessMode.ACCESS_RANDOM
+        && mode != Asset.AccessMode.ACCESS_STREAMING
+        && mode != Asset.AccessMode.ACCESS_BUFFER) {
       throw new IllegalArgumentException("Bad access mode");
     }
-    Asset a = isTruthy(cookie)
-        ? am.openNonAsset(cookie, fileName8, mode)
-        : am.openNonAsset(fileName8, mode, null);
+    Asset a =
+        isTruthy(cookie)
+            ? am.openNonAsset(cookie, fileName8, mode)
+            : am.openNonAsset(fileName8, mode, null);
     if (a == null) {
       throw new FileNotFoundException(fileName8);
     }
     long assetId = Registries.NATIVE_ASSET_REGISTRY.register(a);
     // todo: something better than this [xw]
     a.onClose = () -> destroyAsset(assetId);
-    //printf("Created Asset Stream: %p\n", a);
+    // printf("Created Asset Stream: %p\n", a);
     return RuntimeEnvironment.castNativePtr(assetId);
   }
 
-  @HiddenApi @Implementation
-  protected ParcelFileDescriptor openNonAssetFdNative(int cookie,
-      String fileName, long[] outOffsets) throws IOException {
+  @HiddenApi
+  @Implementation
+  protected ParcelFileDescriptor openNonAssetFdNative(
+      int cookie, String fileName, long[] outOffsets) throws IOException {
     CppAssetManager am = assetManagerForJavaObject();
 
     ALOGV("openNonAssetFd in %s (Java object %s)", am, this);
@@ -402,35 +459,40 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
       return null;
     }
 
-    Asset a = isTruthy(cookie)
-        ? am.openNonAsset(cookie, fileName, Asset.AccessMode.ACCESS_RANDOM)
-        : am.openNonAsset(fileName, Asset.AccessMode.ACCESS_RANDOM, null);
+    Asset a =
+        isTruthy(cookie)
+            ? am.openNonAsset(cookie, fileName, Asset.AccessMode.ACCESS_RANDOM)
+            : am.openNonAsset(fileName, Asset.AccessMode.ACCESS_RANDOM, null);
 
     if (a == null) {
       throw new FileNotFoundException(fileName);
     }
 
-    //printf("Created Asset Stream: %p\n", a);
+    // printf("Created Asset Stream: %p\n", a);
 
     return returnParcelFileDescriptor(a, outOffsets);
   }
 
-  @HiddenApi @Implementation(maxSdk = KITKAT_WATCH)
+  @HiddenApi
+  @Implementation(maxSdk = KITKAT_WATCH)
   protected final void destroyAsset(int asset) {
     destroyAsset((long) asset);
   }
 
-  @HiddenApi @Implementation(minSdk = LOLLIPOP)
+  @HiddenApi
+  @Implementation(minSdk = LOLLIPOP)
   protected final void destroyAsset(long asset) {
     Registries.NATIVE_ASSET_REGISTRY.unregister(asset);
   }
 
-  @HiddenApi @Implementation(maxSdk = KITKAT_WATCH)
+  @HiddenApi
+  @Implementation(maxSdk = KITKAT_WATCH)
   protected final int readAssetChar(int asset) {
     return readAssetChar((long) asset);
   }
 
-  @HiddenApi @Implementation(minSdk = LOLLIPOP)
+  @HiddenApi
+  @Implementation(minSdk = LOLLIPOP)
   protected final int readAssetChar(long asset) {
     Asset a = getAsset(asset);
     byte[] b = new byte[1];
@@ -438,12 +500,14 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
     return res == 1 ? b[0] & 0xff : -1;
   }
 
-  @HiddenApi @Implementation(maxSdk = KITKAT_WATCH)
+  @HiddenApi
+  @Implementation(maxSdk = KITKAT_WATCH)
   protected final int readAsset(int asset, byte[] b, int off, int len) throws IOException {
     return readAsset((long) asset, b, off, len);
   }
 
-  @HiddenApi @Implementation(minSdk = LOLLIPOP)
+  @HiddenApi
+  @Implementation(minSdk = LOLLIPOP)
   protected final int readAsset(long asset, byte[] bArray, int off, int len) throws IOException {
     Asset a = getAsset(asset);
 
@@ -456,7 +520,7 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
     }
 
     int bLen = bArray.length;
-    if (off < 0 || off >= bLen || len < 0 || len > bLen || (off+len) > bLen) {
+    if (off < 0 || off >= bLen || len < 0 || len > bLen || (off + len) > bLen) {
       throw new IndexOutOfBoundsException();
     }
 
@@ -471,34 +535,40 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
     return -1;
   }
 
-  @HiddenApi @Implementation(maxSdk = KITKAT_WATCH)
+  @HiddenApi
+  @Implementation(maxSdk = KITKAT_WATCH)
   protected final long seekAsset(int asset, long offset, int whence) {
     return seekAsset((long) asset, offset, whence);
   }
 
-  @HiddenApi @Implementation(minSdk = LOLLIPOP)
+  @HiddenApi
+  @Implementation(minSdk = LOLLIPOP)
   protected final long seekAsset(long asset, long offset, int whence) {
     Asset a = getAsset(asset);
     return a.seek(offset, whence < 0 ? SEEK_SET : SEEK_CUR);
   }
 
-  @HiddenApi @Implementation(maxSdk = KITKAT_WATCH)
+  @HiddenApi
+  @Implementation(maxSdk = KITKAT_WATCH)
   protected final long getAssetLength(int asset) {
     return getAssetLength((long) asset);
   }
 
-  @HiddenApi @Implementation(minSdk = LOLLIPOP)
+  @HiddenApi
+  @Implementation(minSdk = LOLLIPOP)
   protected final long getAssetLength(long asset) {
     Asset a = getAsset(asset);
     return a.getLength();
   }
 
-  @HiddenApi @Implementation(maxSdk = KITKAT_WATCH)
+  @HiddenApi
+  @Implementation(maxSdk = KITKAT_WATCH)
   protected final long getAssetRemainingLength(int asset) {
     return getAssetRemainingLength((long) asset);
   }
 
-  @HiddenApi @Implementation(minSdk = LOLLIPOP)
+  @HiddenApi
+  @Implementation(minSdk = LOLLIPOP)
   protected final long getAssetRemainingLength(long assetHandle) {
     Asset a = getAsset(assetHandle);
 
@@ -513,11 +583,12 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
     return Registries.NATIVE_ASSET_REGISTRY.getNativeObject(asset);
   }
 
-  @HiddenApi @Implementation
+  @HiddenApi
+  @Implementation
   protected int loadResourceValue(int ident, short density, TypedValue outValue, boolean resolve) {
     if (outValue == null) {
       throw new NullPointerException("outValue");
-      //return 0;
+      // return 0;
     }
     CppAssetManager am = assetManagerForJavaObject();
     if (am == null) {
@@ -530,37 +601,42 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
     final Ref<Integer> typeSpecFlags = new Ref<>(null);
     int block = res.getResource(ident, value, false, density, typeSpecFlags, config);
     if (kThrowOnBadId) {
-        if (block == BAD_INDEX) {
-            throw new IllegalStateException("Bad resource!");
-            //return 0;
-        }
+      if (block == BAD_INDEX) {
+        throw new IllegalStateException("Bad resource!");
+        // return 0;
+      }
     }
     final Ref<Integer> ref = new Ref<>(ident);
     if (resolve) {
-        block = res.resolveReference(value, block, ref, typeSpecFlags, config);
-        if (kThrowOnBadId) {
-            if (block == BAD_INDEX) {
-              throw new IllegalStateException("Bad resource!");
-                //return 0;
-            }
+      block = res.resolveReference(value, block, ref, typeSpecFlags, config);
+      if (kThrowOnBadId) {
+        if (block == BAD_INDEX) {
+          throw new IllegalStateException("Bad resource!");
+          // return 0;
         }
+      }
     }
     if (block >= 0) {
-        //return copyValue(env, outValue, &res, value, ref, block, typeSpecFlags, &config);
-      return copyValue(outValue, res, value.get(), ref.get(), block, typeSpecFlags.get(),
-          config.get());
-
+      // return copyValue(env, outValue, &res, value, ref, block, typeSpecFlags, &config);
+      return copyValue(
+          outValue, res, value.get(), ref.get(), block, typeSpecFlags.get(), config.get());
     }
     return block;
-}
+  }
 
-  private static int copyValue(TypedValue outValue, ResTable table,  Res_value value, int ref, int block,
-      int typeSpecFlags) {
+  private static int copyValue(
+      TypedValue outValue, ResTable table, Res_value value, int ref, int block, int typeSpecFlags) {
     return copyValue(outValue, table, value, ref, block, typeSpecFlags, null);
   }
 
-  private static int copyValue(TypedValue outValue, ResTable table,  Res_value value, int ref, int block,
-      int typeSpecFlags, ResTable_config config) {
+  private static int copyValue(
+      TypedValue outValue,
+      ResTable table,
+      Res_value value,
+      int ref,
+      int block,
+      int typeSpecFlags,
+      ResTable_config config) {
     outValue.type = value.dataType;
     outValue.assetCookie = table.getTableCookie(block);
     outValue.data = value.data;
@@ -586,7 +662,7 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
 
       map = new HashMap<>();
       bag_entry[] bag_entries = entryRef.get();
-      for (int i=0; i < entryCount; i++) {
+      for (int i = 0; i < entryCount; i++) {
         bag_entry entry = bag_entries[i];
         ResourceName resourceName = new ResourceName();
         if (res.getResourceName(entry.map.name.ident, true, resourceName)) {
@@ -600,13 +676,11 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
     return map;
   }
 
-  /**
-   * Returns true if the resource was found, filling in mRetStringBlock and
-   * mRetData.
-   */
-  @Implementation @HiddenApi
-  protected final int loadResourceBagValue(int ident, int bagEntryId, TypedValue outValue,
-      boolean resolve) {
+  /** Returns true if the resource was found, filling in mRetStringBlock and mRetData. */
+  @Implementation
+  @HiddenApi
+  protected final int loadResourceBagValue(
+      int ident, int bagEntryId, TypedValue outValue, boolean resolve) {
     CppAssetManager am = assetManagerForJavaObject();
     if (am == null) {
       return 0;
@@ -617,8 +691,9 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
 
   public static String getResourceBagValue(int ident, int bagEntryId, ResTable resTable) {
     TypedValue outValue = new TypedValue();
-    int blockId = ShadowArscAssetManager
-        .loadResourceBagValueInternal(ident, bagEntryId, outValue, true, resTable);
+    int blockId =
+        ShadowArscAssetManager.loadResourceBagValueInternal(
+            ident, bagEntryId, outValue, true, resTable);
     if (outValue.type == TypedValue.TYPE_STRING) {
       return resTable.getTableStringBlock(blockId).stringAt(outValue.data);
     } else {
@@ -626,8 +701,8 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
     }
   }
 
-  private static int loadResourceBagValueInternal(int ident, int bagEntryId, TypedValue outValue,
-      boolean resolve, ResTable res) {
+  private static int loadResourceBagValueInternal(
+      int ident, int bagEntryId, TypedValue outValue, boolean resolve, ResTable res) {
     // Now lock down the resource object and start pulling stuff from it.
     res.lock();
 
@@ -638,7 +713,7 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
     int entryCount = res.getBagLocked(ident, entryRef, typeSpecFlags);
 
     bag_entry[] bag_entries = entryRef.get();
-    for (int i=0; i < entryCount; i++) {
+    for (int i = 0; i < entryCount; i++) {
       bag_entry entry = bag_entries[i];
       if (bagEntryId == entry.map.name.ident) {
         block = entry.stringBlock;
@@ -679,44 +754,78 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
 
   // /*package*/ static final int STYLE_DENSITY = 5;
 
-/* lowercase hexadecimal notation.  */
-//# define PRIx8		"x"
-//      # define PRIx16		"x"
-//      # define PRIx32		"x"
+  /* lowercase hexadecimal notation.  */
+  // # define PRIx8		"x"
+  //      # define PRIx16		"x"
+  //      # define PRIx32		"x"
 
-  @HiddenApi @Implementation(maxSdk = KITKAT_WATCH)
-  protected static void applyStyle(int themeToken, int defStyleAttr, int defStyleRes,
-      int xmlParserToken, int[] attrs, int[] outValues, int[] outIndices) {
-    applyStyle((long)themeToken, defStyleAttr, defStyleRes, (long)xmlParserToken, attrs,
-        outValues, outIndices);
+  @HiddenApi
+  @Implementation(maxSdk = KITKAT_WATCH)
+  protected static void applyStyle(
+      int themeToken,
+      int defStyleAttr,
+      int defStyleRes,
+      int xmlParserToken,
+      int[] attrs,
+      int[] outValues,
+      int[] outIndices) {
+    applyStyle(
+        (long) themeToken,
+        defStyleAttr,
+        defStyleRes,
+        (long) xmlParserToken,
+        attrs,
+        outValues,
+        outIndices);
   }
 
-  @HiddenApi @Implementation(minSdk = O, maxSdk = O_MR1)
-  protected static void applyStyle(long themeToken, int defStyleAttr, int defStyleRes,
-      long xmlParserToken, int[] inAttrs, int length, long outValuesAddress,
+  @HiddenApi
+  @Implementation(minSdk = O, maxSdk = O_MR1)
+  protected static void applyStyle(
+      long themeToken,
+      int defStyleAttr,
+      int defStyleRes,
+      long xmlParserToken,
+      int[] inAttrs,
+      int length,
+      long outValuesAddress,
       long outIndicesAddress) {
     ShadowVMRuntime shadowVMRuntime = Shadow.extract(VMRuntime.getRuntime());
-    int[] outValues = (int[])shadowVMRuntime.getObjectForAddress(outValuesAddress);
-    int[] outIndices = (int[])shadowVMRuntime.getObjectForAddress(outIndicesAddress);
-    applyStyle(themeToken, defStyleAttr, defStyleRes, xmlParserToken, inAttrs,
-        outValues, outIndices);
+    int[] outValues = (int[]) shadowVMRuntime.getObjectForAddress(outValuesAddress);
+    int[] outIndices = (int[]) shadowVMRuntime.getObjectForAddress(outIndicesAddress);
+    applyStyle(
+        themeToken, defStyleAttr, defStyleRes, xmlParserToken, inAttrs, outValues, outIndices);
   }
 
-  @HiddenApi @Implementation(minSdk = LOLLIPOP, maxSdk = N_MR1)
-  protected static void applyStyle(long themeToken, int defStyleAttr, int defStyleRes,
-      long xmlParserToken, int[] attrs, int[] outValues, int[] outIndices) {
+  @HiddenApi
+  @Implementation(minSdk = LOLLIPOP, maxSdk = N_MR1)
+  protected static void applyStyle(
+      long themeToken,
+      int defStyleAttr,
+      int defStyleRes,
+      long xmlParserToken,
+      int[] attrs,
+      int[] outValues,
+      int[] outIndices) {
     ResTableTheme theme = Registries.NATIVE_THEME_REGISTRY.getNativeObject(themeToken);
-    ResXMLParser xmlParser = xmlParserToken == 0
-        ? null
-        : Registries.NATIVE_RES_XML_PARSERS.getNativeObject(xmlParserToken);
-    AttributeResolution.ApplyStyle(theme, xmlParser, defStyleAttr, defStyleRes,
-        attrs, attrs.length, outValues, outIndices);
+    ResXMLParser xmlParser =
+        xmlParserToken == 0
+            ? null
+            : Registries.NATIVE_RES_XML_PARSERS.getNativeObject(xmlParserToken);
+    AttributeResolution.ApplyStyle(
+        theme, xmlParser, defStyleAttr, defStyleRes, attrs, attrs.length, outValues, outIndices);
   }
 
-  @Implementation @HiddenApi
-  protected static boolean resolveAttrs(long themeToken,
-      int defStyleAttr, int defStyleRes, int[] inValues,
-      int[] attrs, int[] outValues, int[] outIndices) {
+  @Implementation
+  @HiddenApi
+  protected static boolean resolveAttrs(
+      long themeToken,
+      int defStyleAttr,
+      int defStyleRes,
+      int[] inValues,
+      int[] attrs,
+      int[] outValues,
+      int[] outIndices) {
     if (themeToken == 0) {
       throw new NullPointerException("theme token");
     }
@@ -729,14 +838,14 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
 
     final int NI = attrs.length;
     final int NV = outValues.length;
-    if (NV < (NI*STYLE_NUM_ENTRIES)) {
+    if (NV < (NI * STYLE_NUM_ENTRIES)) {
       throw new IndexOutOfBoundsException("out values too small");
     }
 
     int[] src = attrs;
-//    if (src == null) {
-//      return JNI_FALSE;
-//    }
+    //    if (src == null) {
+    //      return JNI_FALSE;
+    //    }
 
     int[] srcValues = inValues;
     final int NSV = srcValues == null ? 0 : inValues.length;
@@ -756,96 +865,98 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
 
     ResTableTheme theme = Registries.NATIVE_THEME_REGISTRY.getNativeObject(themeToken);
 
-    boolean result = AttributeResolution.ResolveAttrs(theme, defStyleAttr, defStyleRes,
-        srcValues, NSV,
-        src, NI,
-        baseDest,
-        indices);
+    boolean result =
+        AttributeResolution.ResolveAttrs(
+            theme, defStyleAttr, defStyleRes, srcValues, NSV, src, NI, baseDest, indices);
 
     if (indices != null) {
-//      env.ReleasePrimitiveArrayCritical(outIndices, indices, 0);
+      //      env.ReleasePrimitiveArrayCritical(outIndices, indices, 0);
     }
-//    env.ReleasePrimitiveArrayCritical(outValues, baseDest, 0);
-//    env.ReleasePrimitiveArrayCritical(inValues, srcValues, 0);
-//    env.ReleasePrimitiveArrayCritical(attrs, src, 0);
+    //    env.ReleasePrimitiveArrayCritical(outValues, baseDest, 0);
+    //    env.ReleasePrimitiveArrayCritical(inValues, srcValues, 0);
+    //    env.ReleasePrimitiveArrayCritical(attrs, src, 0);
 
     return result;
   }
 
-  @HiddenApi @Implementation(maxSdk = KITKAT_WATCH)
+  @HiddenApi
+  @Implementation(maxSdk = KITKAT_WATCH)
   protected final boolean retrieveAttributes(
       int xmlParserToken, int[] attrs, int[] outValues, int[] outIndices) {
-    return retrieveAttributes((long)xmlParserToken, attrs, outValues, outIndices);
+    return retrieveAttributes((long) xmlParserToken, attrs, outValues, outIndices);
   }
 
-  @HiddenApi @Implementation(minSdk = LOLLIPOP)
+  @HiddenApi
+  @Implementation(minSdk = LOLLIPOP)
   protected final boolean retrieveAttributes(
       long xmlParserToken, int[] attrs, int[] outValues, int[] outIndices) {
     if (xmlParserToken == 0) {
       throw new NullPointerException("xmlParserToken");
-//      return JNI_FALSE;
+      //      return JNI_FALSE;
     }
     if (attrs == null) {
       throw new NullPointerException("attrs");
-//      return JNI_FALSE;
+      //      return JNI_FALSE;
     }
     if (outValues == null) {
       throw new NullPointerException("out values");
-//      return JNI_FALSE;
+      //      return JNI_FALSE;
     }
 
     CppAssetManager am = assetManagerForJavaObject();
-//    if (am == null) {
-//      return JNI_FALSE;
-//    }
+    //    if (am == null) {
+    //      return JNI_FALSE;
+    //    }
     ResTable res = am.getResources();
-//    ResXMLParser xmlParser = (ResXMLParser*)xmlParserToken;
+    //    ResXMLParser xmlParser = (ResXMLParser*)xmlParserToken;
     ResXMLParser xmlParser = Registries.NATIVE_RES_XML_PARSERS.getNativeObject(xmlParserToken);
 
-//    const int NI = env.GetArrayLength(attrs);
-//    const int NV = env.GetArrayLength(outValues);
+    //    const int NI = env.GetArrayLength(attrs);
+    //    const int NV = env.GetArrayLength(outValues);
     final int NI = attrs.length;
     final int NV = outValues.length;
-    if (NV < (NI*STYLE_NUM_ENTRIES)) {
+    if (NV < (NI * STYLE_NUM_ENTRIES)) {
       throw new IndexOutOfBoundsException("out values too small");
-//      return JNI_FALSE;
+      //      return JNI_FALSE;
     }
 
-//    int[] src = (int[])env.GetPrimitiveArrayCritical(attrs, 0);
-//    if (src == null) {
-//      return JNI_FALSE;
-//    }
+    //    int[] src = (int[])env.GetPrimitiveArrayCritical(attrs, 0);
+    //    if (src == null) {
+    //      return JNI_FALSE;
+    //    }
     int[] src = attrs;
 
-//    int[] baseDest = (int[])env.GetPrimitiveArrayCritical(outValues, 0);
+    //    int[] baseDest = (int[])env.GetPrimitiveArrayCritical(outValues, 0);
     int[] baseDest = outValues;
     if (baseDest == null) {
-//      env.ReleasePrimitiveArrayCritical(attrs, src, 0);
-//      return JNI_FALSE;
+      //      env.ReleasePrimitiveArrayCritical(attrs, src, 0);
+      //      return JNI_FALSE;
       return false;
     }
 
     int[] indices = null;
     if (outIndices != null) {
       if (outIndices.length > NI) {
-//        indices = (int[])env.GetPrimitiveArrayCritical(outIndices, 0);
+        //        indices = (int[])env.GetPrimitiveArrayCritical(outIndices, 0);
         indices = outIndices;
       }
     }
-    boolean result = AttributeResolution.RetrieveAttributes(res, xmlParser, src, NI, baseDest, indices);
+    boolean result =
+        AttributeResolution.RetrieveAttributes(res, xmlParser, src, NI, baseDest, indices);
 
     if (indices != null) {
-//      indices[0] = indicesIdx;
-//      env.ReleasePrimitiveArrayCritical(outIndices, indices, 0);
+      //      indices[0] = indicesIdx;
+      //      env.ReleasePrimitiveArrayCritical(outIndices, indices, 0);
     }
 
-//    env.ReleasePrimitiveArrayCritical(outValues, baseDest, 0);
-//    env.ReleasePrimitiveArrayCritical(attrs, src, 0);
+    //    env.ReleasePrimitiveArrayCritical(outValues, baseDest, 0);
+    //    env.ReleasePrimitiveArrayCritical(attrs, src, 0);
 
     return result;
   }
 
-  @HiddenApi @Implementation
+  @HiddenApi
+  @Implementation
   protected int getArraySize(int id) {
     CppAssetManager am = assetManagerForJavaObject();
     if (am == null) {
@@ -859,10 +970,10 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
     res.unlock();
 
     return bagOff;
-
   }
 
-  @Implementation @HiddenApi
+  @Implementation
+  @HiddenApi
   protected int retrieveArray(int id, int[] outValues) {
     if (outValues == null) {
       throw new NullPointerException("out values");
@@ -879,13 +990,13 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
 
     int NV = outValues.length;
 
-//    int[] baseDest = (int[])env->GetPrimitiveArrayCritical(outValues, 0);
+    //    int[] baseDest = (int[])env->GetPrimitiveArrayCritical(outValues, 0);
     int[] baseDest = outValues;
     int[] dest = baseDest;
-//    if (dest == null) {
-//      throw new NullPointerException(env, "java/lang/OutOfMemoryError", "");
-//      return JNI_FALSE;
-//    }
+    //    if (dest == null) {
+    //      throw new NullPointerException(env, "java/lang/OutOfMemoryError", "");
+    //      return JNI_FALSE;
+    //    }
 
     // Now lock down the resource object and start pulling stuff from it.
     res.lock();
@@ -893,12 +1004,13 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
     final Ref<bag_entry[]> arrayEnt = new Ref<>(null);
     final Ref<Integer> arrayTypeSetFlags = new Ref<>(0);
     int bagOff = res.getBagLocked(id, arrayEnt, arrayTypeSetFlags);
-//    final ResTable::bag_entry* endArrayEnt = arrayEnt +
-//        (bagOff >= 0 ? bagOff : 0);
+    //    final ResTable::bag_entry* endArrayEnt = arrayEnt +
+    //        (bagOff >= 0 ? bagOff : 0);
 
     int destOffset = 0;
     final Ref<Integer> typeSetFlags = new Ref<>(0);
-    while (destOffset < NV && destOffset < bagOff * STYLE_NUM_ENTRIES /*&& arrayEnt < endArrayEnt*/) {
+    while (destOffset < NV
+        && destOffset < bagOff * STYLE_NUM_ENTRIES /*&& arrayEnt < endArrayEnt*/) {
       bag_entry curArrayEnt = arrayEnt.get()[destOffset / STYLE_NUM_ENTRIES];
 
       block = curArrayEnt.stringBlock;
@@ -909,10 +1021,9 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
       final Ref<Integer> resid = new Ref<>(0);
       if (value.dataType != DataType.NULL.code()) {
         // Take care of resolving the found resource to its final value.
-        //printf("Resolving attribute reference\n");
+        // printf("Resolving attribute reference\n");
         final Ref<Res_value> resValueRef = new Ref<>(value);
-        int newBlock = res.resolveReference(resValueRef, block, resid,
-                    typeSetFlags, config);
+        int newBlock = res.resolveReference(resValueRef, block, resid, typeSetFlags, config);
         value = resValueRef.get();
         if (kThrowOnBadId) {
           if (newBlock == BAD_INDEX) {
@@ -927,7 +1038,8 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
         value = Res_value.NULL_VALUE;
       }
 
-      //printf("Attribute 0x%08x: final type=0x%x, data=0x%08x\n", curIdent, value.dataType, value.data);
+      // printf("Attribute 0x%08x: final type=0x%x, data=0x%08x\n", curIdent, value.dataType,
+      // value.data);
 
       // Write the final value back to Java.
       dest[destOffset + STYLE_TYPE] = value.dataType;
@@ -936,22 +1048,22 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
       dest[destOffset + STYLE_RESOURCE_ID] = resid.get();
       dest[destOffset + STYLE_CHANGING_CONFIGURATIONS] = typeSetFlags.get();
       dest[destOffset + STYLE_DENSITY] = config.get().density;
-//      dest += STYLE_NUM_ENTRIES;
-      destOffset+= STYLE_NUM_ENTRIES;
-//      arrayEnt++;
+      //      dest += STYLE_NUM_ENTRIES;
+      destOffset += STYLE_NUM_ENTRIES;
+      //      arrayEnt++;
     }
 
     destOffset /= STYLE_NUM_ENTRIES;
 
     res.unlock();
 
-//    env->ReleasePrimitiveArrayCritical(outValues, baseDest, 0);
+    //    env->ReleasePrimitiveArrayCritical(outValues, baseDest, 0);
 
     return destOffset;
-
   }
 
-  @HiddenApi @Implementation
+  @HiddenApi
+  @Implementation
   protected Number getNativeStringBlock(int block) {
     CppAssetManager am = assetManagerForJavaObject();
     if (am == null) {
@@ -976,7 +1088,8 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
     return sparseArray;
   }
 
-  @HiddenApi @Implementation
+  @HiddenApi
+  @Implementation
   protected final Number newTheme() {
     CppAssetManager am = assetManagerForJavaObject();
     if (am == null) {
@@ -986,12 +1099,14 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
     return RuntimeEnvironment.castNativePtr(Registries.NATIVE_THEME_REGISTRY.register(theme));
   }
 
-  @HiddenApi @Implementation(maxSdk = KITKAT_WATCH)
+  @HiddenApi
+  @Implementation(maxSdk = KITKAT_WATCH)
   protected final void deleteTheme(int theme) {
     deleteTheme((long) theme);
   }
 
-  @HiddenApi @Implementation(minSdk = LOLLIPOP)
+  @HiddenApi
+  @Implementation(minSdk = LOLLIPOP)
   protected final void deleteTheme(long theme) {
     Registries.NATIVE_THEME_REGISTRY.unregister(theme);
   }
@@ -999,36 +1114,42 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
   @HiddenApi
   @Implementation(maxSdk = KITKAT_WATCH)
   public static void applyThemeStyle(int themePtr, int styleRes, boolean force) {
-    applyThemeStyle((long)themePtr, styleRes, force);
+    applyThemeStyle((long) themePtr, styleRes, force);
   }
 
-  @HiddenApi @Implementation(minSdk = LOLLIPOP, maxSdk = O_MR1)
+  @HiddenApi
+  @Implementation(minSdk = LOLLIPOP, maxSdk = O_MR1)
   public static void applyThemeStyle(long themePtr, int styleRes, boolean force) {
     Registries.NATIVE_THEME_REGISTRY.getNativeObject(themePtr).applyStyle(styleRes, force);
   }
 
-  @HiddenApi @Implementation(maxSdk = KITKAT_WATCH)
+  @HiddenApi
+  @Implementation(maxSdk = KITKAT_WATCH)
   public static void copyTheme(int destPtr, int sourcePtr) {
     copyTheme((long) destPtr, (long) sourcePtr);
   }
 
-  @HiddenApi @Implementation(minSdk = LOLLIPOP, maxSdk = O_MR1)
+  @HiddenApi
+  @Implementation(minSdk = LOLLIPOP, maxSdk = O_MR1)
   public static void copyTheme(long destPtr, long sourcePtr) {
     ResTableTheme dest = Registries.NATIVE_THEME_REGISTRY.getNativeObject(destPtr);
     ResTableTheme src = Registries.NATIVE_THEME_REGISTRY.getNativeObject(sourcePtr);
     dest.setTo(src);
   }
 
-  @HiddenApi @Implementation(maxSdk = KITKAT_WATCH)
-  protected static int loadThemeAttributeValue(int themeHandle, int ident,
-      TypedValue outValue, boolean resolve) {
+  @HiddenApi
+  @Implementation(maxSdk = KITKAT_WATCH)
+  protected static int loadThemeAttributeValue(
+      int themeHandle, int ident, TypedValue outValue, boolean resolve) {
     return loadThemeAttributeValue((long) themeHandle, ident, outValue, resolve);
   }
 
-  @HiddenApi @Implementation(minSdk = LOLLIPOP)
-  protected static int loadThemeAttributeValue(long themeHandle, int ident,
-      TypedValue outValue, boolean resolve) {
-    ResTableTheme theme = Preconditions.checkNotNull(Registries.NATIVE_THEME_REGISTRY.getNativeObject(themeHandle));
+  @HiddenApi
+  @Implementation(minSdk = LOLLIPOP)
+  protected static int loadThemeAttributeValue(
+      long themeHandle, int ident, TypedValue outValue, boolean resolve) {
+    ResTableTheme theme =
+        Preconditions.checkNotNull(Registries.NATIVE_THEME_REGISTRY.getNativeObject(themeHandle));
     ResTable res = theme.getResTable();
 
     final Ref<Res_value> value = new Ref<>(null);
@@ -1044,14 +1165,18 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
         }
       }
     }
-    return block >= 0 ? copyValue(outValue, res, value.get(), ref.get(), block, typeSpecFlags.get(), null) : block;
+    return block >= 0
+        ? copyValue(outValue, res, value.get(), ref.get(), block, typeSpecFlags.get(), null)
+        : block;
   }
 
-//  /*package*/@HiddenApi @Implementation public static final @NativeConfig
-//  int getThemeChangingConfigurations(long theme);
+  //  /*package*/@HiddenApi @Implementation public static final @NativeConfig
+  //  int getThemeChangingConfigurations(long theme);
 
-  @HiddenApi @Implementation
-  protected final Number openXmlAssetNative(int cookie, String fileName) throws FileNotFoundException {
+  @HiddenApi
+  @Implementation
+  protected final Number openXmlAssetNative(int cookie, String fileName)
+      throws FileNotFoundException {
     CppAssetManager am = assetManagerForJavaObject();
     if (am == null) {
       return RuntimeEnvironment.castNativePtr(0);
@@ -1083,17 +1208,17 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
     ResXMLTree block = new ResXMLTree(dynamicRefTable);
     int err = block.setTo(a.getBuffer(true), (int) a.getLength(), true);
     a.close();
-//    delete a;
+    //    delete a;
 
     if (err != NO_ERROR) {
       throw new FileNotFoundException("Corrupt XML binary file");
     }
 
-    return RuntimeEnvironment.castNativePtr(
-        Registries.NATIVE_RES_XML_TREES.register(block));
+    return RuntimeEnvironment.castNativePtr(Registries.NATIVE_RES_XML_TREES.register(block));
   }
 
-  @HiddenApi @Implementation
+  @HiddenApi
+  @Implementation
   protected final String[] getArrayStringResource(int arrayResId) {
     CppAssetManager am = assetManagerForJavaObject();
     if (am == null) {
@@ -1112,7 +1237,7 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
     final Ref<Res_value> valueRef = new Ref<>(null);
     final bag_entry[] bag = startOfBag.get();
     int strLen = 0;
-    for (int i=0; ((int)i)<N; i++) {
+    for (int i = 0; ((int) i) < N; i++) {
       valueRef.set(bag[i].map.value);
       String str = null;
 
@@ -1124,26 +1249,26 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
         }
       }
       if (valueRef.get().dataType == DataType.STRING.code()) {
-            final ResStringPool pool = res.getTableStringBlock(block);
-            str = pool.stringAt(valueRef.get().data);
+        final ResStringPool pool = res.getTableStringBlock(block);
+        str = pool.stringAt(valueRef.get().data);
 
-            // assume we can skip utf8 vs utf 16 handling
+        // assume we can skip utf8 vs utf 16 handling
 
-//            final char* str8 = pool.string8At(value.data, &strLen);
-//        if (str8 != NULL) {
-//          str = env.NewStringUTF(str8);
-//        } else {
-//                final char16_t* str16 = pool.stringAt(value.data, &strLen);
-//          str = env.NewString(reinterpret_cast<final jchar*>(str16),
-//              strLen);
-//        }
-//
-//        // If one of our NewString{UTF} calls failed due to memory, an
-//        // exception will be pending.
-//        if (env.ExceptionCheck()) {
-//          res.unlockBag(startOfBag);
-//          return NULL;
-//        }
+        //            final char* str8 = pool.string8At(value.data, &strLen);
+        //        if (str8 != NULL) {
+        //          str = env.NewStringUTF(str8);
+        //        } else {
+        //                final char16_t* str16 = pool.stringAt(value.data, &strLen);
+        //          str = env.NewString(reinterpret_cast<final jchar*>(str16),
+        //              strLen);
+        //        }
+        //
+        //        // If one of our NewString{UTF} calls failed due to memory, an
+        //        // exception will be pending.
+        //        if (env.ExceptionCheck()) {
+        //          res.unlockBag(startOfBag);
+        //          return NULL;
+        //        }
         if (str == null) {
           res.unlockBag(startOfBag);
           return null;
@@ -1161,7 +1286,8 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
     return array;
   }
 
-  @HiddenApi @Implementation
+  @HiddenApi
+  @Implementation
   protected final int[] getArrayStringInfo(int arrayResId) {
     CppAssetManager am = assetManagerForJavaObject();
     ResTable res = am.getResources();
@@ -1176,7 +1302,7 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
 
     final Ref<Res_value> value = new Ref<>(null);
     bag_entry[] bag = startOfBag.get();
-    for (int i = 0, j = 0; i<N; i++) {
+    for (int i = 0, j = 0; i < N; i++) {
       int stringIndex = -1;
       int stringBlock = 0;
       value.set(bag[i].map.value);
@@ -1193,20 +1319,21 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
         }
       }
 
-      //todo: It might be faster to allocate a C array to contain
+      // todo: It might be faster to allocate a C array to contain
       //      the blocknums and indices, put them in there and then
       //      do just one SetIntArrayRegion()
-      //env->SetIntArrayRegion(array, j, 1, &stringBlock);
+      // env->SetIntArrayRegion(array, j, 1, &stringBlock);
       array[j] = stringBlock;
-      //env->SetIntArrayRegion(array, j + 1, 1, &stringIndex);
-      array[j+1] = stringIndex;
+      // env->SetIntArrayRegion(array, j + 1, 1, &stringIndex);
+      array[j + 1] = stringIndex;
       j += 2;
     }
     res.unlockBag(startOfBag);
     return array;
   }
 
-  @HiddenApi @Implementation
+  @HiddenApi
+  @Implementation
   public int[] getArrayIntResource(int arrayResId) {
     CppAssetManager am = assetManagerForJavaObject();
     if (am == null) {
@@ -1214,7 +1341,7 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
     }
     final ResTable res = am.getResources();
 
-//    final ResTable::bag_entry* startOfBag;
+    //    final ResTable::bag_entry* startOfBag;
     final Ref<bag_entry[]> startOfBag = new Ref<>(null);
     final int N = res.lockBag(arrayResId, startOfBag);
     if (N < 0) {
@@ -1229,23 +1356,23 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
 
     final Ref<Res_value> valueRef = new Ref<>(null);
     bag_entry[] bag = startOfBag.get();
-    for (int i=0; i<N; i++) {
+    for (int i = 0; i < N; i++) {
       valueRef.set(bag[i].map.value);
 
       // Take care of resolving the found resource to its final value.
       int block = res.resolveReference(valueRef, bag[i].stringBlock, null, null, null);
       if (kThrowOnBadId) {
         if (block == BAD_INDEX) {
-          res.unlockBag(startOfBag); // seems like this is missing from android_util_AssetManager.cpp?
+          res.unlockBag(
+              startOfBag); // seems like this is missing from android_util_AssetManager.cpp?
           throw new IllegalStateException("Bad resource!");
-//          return array;
+          //          return array;
         }
       }
       Res_value value = valueRef.get();
-      if (value.dataType >= DataType.TYPE_FIRST_INT
-          && value.dataType <= DataType.TYPE_LAST_INT) {
+      if (value.dataType >= DataType.TYPE_FIRST_INT && value.dataType <= DataType.TYPE_LAST_INT) {
         int intVal = value.data;
-//        env->SetIntArrayRegion(array, i, 1, &intVal);
+        //        env->SetIntArrayRegion(array, i, 1, &intVal);
         array[i] = intVal;
       }
     }
@@ -1253,17 +1380,19 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
     return array;
   }
 
-  @HiddenApi @Implementation(maxSdk = VERSION_CODES.KITKAT)
+  @HiddenApi
+  @Implementation(maxSdk = VERSION_CODES.KITKAT)
   protected void init() {
-  //  if (isSystem) {
-  //    verifySystemIdmaps();
-  //  }
+    //  if (isSystem) {
+    //    verifySystemIdmaps();
+    //  }
     init(false);
   }
 
   private static CppAssetManager systemCppAssetManager;
 
-  @HiddenApi @Implementation(minSdk = VERSION_CODES.KITKAT_WATCH)
+  @HiddenApi
+  @Implementation(minSdk = VERSION_CODES.KITKAT_WATCH)
   protected void init(boolean isSystem) {
     //  if (isSystem) {
     //    verifySystemIdmaps();
@@ -1285,8 +1414,9 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
       cppAssetManager.addDefaultAssets(androidFrameworkJarPath);
     }
 
-    ALOGV("Created AssetManager %s for Java object %s\n", cppAssetManager,
-        ShadowArscAssetManager.class);
+    ALOGV(
+        "Created AssetManager %s for Java object %s\n",
+        cppAssetManager, ShadowArscAssetManager.class);
   }
 
   @VisibleForTesting
@@ -1296,25 +1426,26 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
     return config.get();
   }
 
-//  private native final void destroy();
+  //  private native final void destroy();
 
-//  @HiddenApi
-//  @Implementation
-//  public int addOverlayPathNative(String idmapPath) {
-//    if (Strings.isNullOrEmpty(idmapPath)) {
-//      return 0;
-//    }
-//
-//    CppAssetManager am = assetManagerForJavaObject();
-//    if (am == null) {
-//      return 0;
-//    }
-//    final Ref<Integer> cookie = new Ref<>(null);
-//    boolean res = am.addOverlayPath(new String8(idmapPath), cookie);
-//    return (res) ? cookie.get() : 0;
-//  }
+  //  @HiddenApi
+  //  @Implementation
+  //  public int addOverlayPathNative(String idmapPath) {
+  //    if (Strings.isNullOrEmpty(idmapPath)) {
+  //      return 0;
+  //    }
+  //
+  //    CppAssetManager am = assetManagerForJavaObject();
+  //    if (am == null) {
+  //      return 0;
+  //    }
+  //    final Ref<Integer> cookie = new Ref<>(null);
+  //    boolean res = am.addOverlayPath(new String8(idmapPath), cookie);
+  //    return (res) ? cookie.get() : 0;
+  //  }
 
-  @HiddenApi @Implementation
+  @HiddenApi
+  @Implementation
   protected int getStringBlockCount() {
     CppAssetManager am = assetManagerForJavaObject();
     if (am == null) {
@@ -1323,8 +1454,7 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
     return am.getResources().getTableCount();
   }
 
-  
-  synchronized private CppAssetManager assetManagerForJavaObject() {
+  private synchronized CppAssetManager assetManagerForJavaObject() {
     if (cppAssetManager == null) {
       throw new NullPointerException();
     }
@@ -1334,7 +1464,8 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
   static ParcelFileDescriptor returnParcelFileDescriptor(Asset a, long[] outOffsets)
       throws FileNotFoundException {
     final Ref<Long> startOffset = new Ref<Long>(-1L);
-    final Ref<Long> length = new Ref<Long>(-1L);;
+    final Ref<Long> length = new Ref<Long>(-1L);
+    ;
     FileDescriptor fd = a.openFileDescriptor(startOffset, length);
 
     if (fd == null) {
@@ -1379,5 +1510,4 @@ public class ShadowArscAssetManager extends ShadowAssetManager.ArscBase {
   List<AssetPath> getAssetPaths() {
     return assetManagerForJavaObject().getAssetPaths();
   }
-
 }

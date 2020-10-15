@@ -15,8 +15,7 @@ import org.robolectric.shadows.ShadowActivity.IntentForResult;
 @Implements(ContextWrapper.class)
 public class ShadowContextWrapper {
 
-  @RealObject
-  private ContextWrapper realContextWrapper;
+  @RealObject private ContextWrapper realContextWrapper;
 
   /** Returns the broadcast intents sent during the tests (for all users). */
   public List<Intent> getBroadcastIntents() {
@@ -92,8 +91,8 @@ public class ShadowContextWrapper {
   }
 
   /**
-   * Returns the most recent {@code Intent} started by
-   * {@link android.content.Context#startService(android.content.Intent)} without consuming it.
+   * Returns the most recent {@code Intent} started by {@link
+   * android.content.Context#startService(android.content.Intent)} without consuming it.
    *
    * @return the most recently started {@code Intent}
    */
@@ -102,17 +101,17 @@ public class ShadowContextWrapper {
   }
 
   /**
-   * Clears all {@code Intent} started by
-   * {@link android.content.Context#startService(android.content.Intent)}.
+   * Clears all {@code Intent} started by {@link
+   * android.content.Context#startService(android.content.Intent)}.
    */
   public void clearStartedServices() {
     getShadowInstrumentation().clearStartedServices();
   }
 
   /**
-   * Consumes the {@code Intent} requested to stop a service by
-   * {@link android.content.Context#stopService(android.content.Intent)}
-   * from the bottom of the stack of stop requests.
+   * Consumes the {@code Intent} requested to stop a service by {@link
+   * android.content.Context#stopService(android.content.Intent)} from the bottom of the stack of
+   * stop requests.
    */
   public Intent getNextStoppedService() {
     return getShadowInstrumentation().getNextStoppedService();
@@ -131,7 +130,7 @@ public class ShadowContextWrapper {
   /**
    * Revoke the given permissions for the current process and user.
    *
-   * Has no effect if permissions were not previously granted.
+   * <p>Has no effect if permissions were not previously granted.
    */
   public void denyPermissions(String... permissionNames) {
     getShadowInstrumentation().denyPermissions(permissionNames);

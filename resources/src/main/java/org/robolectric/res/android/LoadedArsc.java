@@ -39,26 +39,28 @@ import org.robolectric.res.android.ResourceTypes.ResTable_type;
 import org.robolectric.res.android.ResourceTypes.ResTable_typeSpec;
 import org.robolectric.res.android.ResourceTypes.Res_value;
 
-// transliterated from https://android.googlesource.com/platform/frameworks/base/+/android-9.0.0_r12/libs/androidfw/include/androidfw/LoadedArsc.h
-// and https://android.googlesource.com/platform/frameworks/base/+/android-9.0.0_r12/libs/androidfw/LoadedArsc.cpp
+// transliterated from
+// https://android.googlesource.com/platform/frameworks/base/+/android-9.0.0_r12/libs/androidfw/include/androidfw/LoadedArsc.h
+// and
+// https://android.googlesource.com/platform/frameworks/base/+/android-9.0.0_r12/libs/androidfw/LoadedArsc.cpp
 public class LoadedArsc {
 
-  //#ifndef LOADEDARSC_H_
-//#define LOADEDARSC_H_
-//
-//#include <memory>
-//#include <set>
-//#include <vector>
-//
-//#include "android-base/macros.h"
-//
-//#include "androidfw/ByteBucketArray.h"
-//#include "androidfw/Chunk.h"
-//#include "androidfw/ResourceTypes.h"
-//#include "androidfw/Util.h"
-//
-//namespace android {
-//
+  // #ifndef LOADEDARSC_H_
+  // #define LOADEDARSC_H_
+  //
+  // #include <memory>
+  // #include <set>
+  // #include <vector>
+  //
+  // #include "android-base/macros.h"
+  //
+  // #include "androidfw/ByteBucketArray.h"
+  // #include "androidfw/Chunk.h"
+  // #include "androidfw/ResourceTypes.h"
+  // #include "androidfw/Util.h"
+  //
+  // namespace android {
+  //
   static class DynamicPackageEntry {
 
     // public:
@@ -75,11 +77,11 @@ public class LoadedArsc {
   }
 
   // TypeSpec is going to be immediately proceeded by
-// an array of Type structs, all in the same block of memory.
+  // an array of Type structs, all in the same block of memory.
   static class TypeSpec {
 
     public static final int SIZEOF = ResTable_typeSpec.SIZEOF + IdmapEntry_header.SIZEOF;
-    
+
     // Pointer to the mmapped data where flags are kept.
     // Flags denote whether the resource entry is public
     // and under which configurations it varies.
@@ -126,52 +128,52 @@ public class LoadedArsc {
   }
 
   //
-// private:
-//  DISALLOW_COPY_AND_ASSIGN(LoadedArsc);
-//
-//  LoadedArsc() = default;
-//   bool LoadTable(const Chunk& chunk, const LoadedIdmap* loaded_idmap, bool load_as_shared_library);
-//
+  // private:
+  //  DISALLOW_COPY_AND_ASSIGN(LoadedArsc);
+  //
+  //  LoadedArsc() = default;
+  //   bool LoadTable(const Chunk& chunk, const LoadedIdmap* loaded_idmap, bool
+  // load_as_shared_library);
+  //
   final ResStringPool global_string_pool_ = new ResStringPool();
   final List<LoadedPackage> packages_ = new ArrayList<>();
   boolean system_ = false;
-//};
-//
-//}  // namespace android
-//
-//#endif /* LOADEDARSC_H_ */
+  // };
+  //
+  // }  // namespace android
+  //
+  // #endif /* LOADEDARSC_H_ */
 
-//  #define ATRACE_TAG ATRACE_TAG_RESOURCES
-//
-//  #include "androidfw/LoadedArsc.h"
-//
-//  #include <cstddef>
-//  #include <limits>
-//
-//  #include "android-base/logging.h"
-//  #include "android-base/stringprintf.h"
-//  #include "utils/ByteOrder.h"
-//  #include "utils/Trace.h"
-//
-//  #ifdef _WIN32
-//  #ifdef ERROR
-//  #undef ERROR
-//  #endif
-//  #endif
-//
-//  #include "androidfw/ByteBucketArray.h"
-//  #include "androidfw/Chunk.h"
-//  #include "androidfw/ResourceUtils.h"
-//  #include "androidfw/Util.h"
-//
-//  using android::base::StringPrintf;
-//
-//  namespace android {
+  //  #define ATRACE_TAG ATRACE_TAG_RESOURCES
+  //
+  //  #include "androidfw/LoadedArsc.h"
+  //
+  //  #include <cstddef>
+  //  #include <limits>
+  //
+  //  #include "android-base/logging.h"
+  //  #include "android-base/stringprintf.h"
+  //  #include "utils/ByteOrder.h"
+  //  #include "utils/Trace.h"
+  //
+  //  #ifdef _WIN32
+  //  #ifdef ERROR
+  //  #undef ERROR
+  //  #endif
+  //  #endif
+  //
+  //  #include "androidfw/ByteBucketArray.h"
+  //  #include "androidfw/Chunk.h"
+  //  #include "androidfw/ResourceUtils.h"
+  //  #include "androidfw/Util.h"
+  //
+  //  using android::base::StringPrintf;
+  //
+  //  namespace android {
 
   static final int kAppPackageId = 0x7f;
 
-
-//  namespace {
+  //  namespace {
 
   // Builder that helps accumulate Type structs and then create a single
   // contiguous block of memory to store both the TypeSpec struct and
@@ -205,7 +207,6 @@ public class LoadedArsc {
       // memcpy(type_spec + 1, types_.data(), types_.size() * sizeof(ElementType));
       for (int i = 0; i < type_spec.types.length; i++) {
         type_spec.types[i] = types_.get(i);
-        
       }
       return type_spec;
     }
@@ -216,12 +217,14 @@ public class LoadedArsc {
     ResTable_typeSpec header_;
     IdmapEntry_header idmap_header_;
     final List<ResTable_type> types_ = new ArrayList<>();
-  };
+  }
+  ;
 
-//  }  // namespace
+  //  }  // namespace
 
-  // Precondition: The header passed in has already been verified, so reading any fields and trusting
-// the ResChunk_header is safe.
+  // Precondition: The header passed in has already been verified, so reading any fields and
+  // trusting
+  // the ResChunk_header is safe.
   static boolean VerifyResTableType(ResTable_type header) {
     if (header.id == 0) {
       logError("RES_TABLE_TYPE_TYPE has invalid ID 0.");
@@ -276,8 +279,7 @@ public class LoadedArsc {
 
     entry_offset += dtohl(type.entriesStart);
     if (entry_offset > chunk_size - ResTable_entry.SIZEOF) {
-      logError("Entry at offset " + entry_offset
-          + " is too large. No room for ResTable_entry.");
+      logError("Entry at offset " + entry_offset + " is too large. No room for ResTable_entry.");
       return false;
     }
 
@@ -288,29 +290,32 @@ public class LoadedArsc {
     int entry_size = dtohs(entry.size);
     // if (entry_size < sizeof(*entry)) {
     if (entry_size < ResTable_entry.SIZEOF) {
-      logError("ResTable_entry size " + entry_size + " at offset " + entry_offset
-          + " is too small.");
+      logError(
+          "ResTable_entry size " + entry_size + " at offset " + entry_offset + " is too small.");
       return false;
     }
 
     if (entry_size > chunk_size || entry_offset > chunk_size - entry_size) {
-      logError("ResTable_entry size " + entry_size + " at offset " + entry_offset
-          + " is too large.");
+      logError(
+          "ResTable_entry size " + entry_size + " at offset " + entry_offset + " is too large.");
       return false;
     }
 
     if (entry_size < ResTable_map_entry.BASE_SIZEOF) {
       // There needs to be room for one Res_value struct.
       if (entry_offset + entry_size > chunk_size - Res_value.SIZEOF) {
-        logError("No room for Res_value after ResTable_entry at offset " + entry_offset
-            + " for type " + (int) type.id + ".");
+        logError(
+            "No room for Res_value after ResTable_entry at offset "
+                + entry_offset
+                + " for type "
+                + (int) type.id
+                + ".");
         return false;
       }
 
       // Res_value value =
       //       reinterpret_cast<Res_value*>(reinterpret_cast<uint8_t*>(entry) + entry_size);
-      Res_value value =
-          new Res_value(entry.myBuf(), entry.myOffset() + ResTable_entry.SIZEOF);
+      Res_value value = new Res_value(entry.myBuf(), entry.myOffset() + ResTable_entry.SIZEOF);
       int value_size = dtohs(value.size);
       if (value_size < Res_value.SIZEOF) {
         logError("Res_value at offset " + entry_offset + " is too small.");
@@ -318,8 +323,7 @@ public class LoadedArsc {
       }
 
       if (value_size > chunk_size || entry_offset + entry_size > chunk_size - value_size) {
-        logError("Res_value size " + value_size + " at offset " + entry_offset
-            + " is too large.");
+        logError("Res_value size " + value_size + " at offset " + entry_offset + " is too large.");
         return false;
       }
     } else {
@@ -365,8 +369,7 @@ public class LoadedArsc {
     final Map<Integer, TypeSpec> type_specs_ = new HashMap<>();
     final List<DynamicPackageEntry> dynamic_package_map_ = new ArrayList<>();
 
-    ResTable_entry GetEntry(ResTable_type type_chunk,
-        short entry_index) {
+    ResTable_entry GetEntry(ResTable_type type_chunk, short entry_index) {
       int entry_offset = GetEntryOffset(type_chunk, entry_index);
       if (entry_offset == ResTable_type.NO_ENTRY) {
         return null;
@@ -395,8 +398,9 @@ public class LoadedArsc {
         // });
         ResTable_sparseTypeEntry result = null;
         for (int i = 0; i < entry_count; i++) {
-          ResTable_sparseTypeEntry entry = new ResTable_sparseTypeEntry(type_chunk.myBuf(),
-              type_chunk.myOffset() + offsets_offset);
+          ResTable_sparseTypeEntry entry =
+              new ResTable_sparseTypeEntry(
+                  type_chunk.myBuf(), type_chunk.myOffset() + offsets_offset);
           if (entry.idxOrOffset >= entry_index) {
             result = entry;
             break;
@@ -426,19 +430,17 @@ public class LoadedArsc {
       return dtohl(type_chunk.entryOffset(entry_index));
     }
 
-    static ResTable_entry GetEntryFromOffset(ResTable_type type_chunk,
-        int offset) {
+    static ResTable_entry GetEntryFromOffset(ResTable_type type_chunk, int offset) {
       if (UNLIKELY(!VerifyResTableEntry(type_chunk, offset))) {
         return null;
       }
       // return reinterpret_cast<ResTable_entry*>(reinterpret_cast<uint8_t*>(type_chunk) +
       //     offset + dtohl(type_chunk.entriesStart));
-      return new ResTable_entry(type_chunk.myBuf(),
-          type_chunk.myOffset() + offset + dtohl(type_chunk.entriesStart));
+      return new ResTable_entry(
+          type_chunk.myBuf(), type_chunk.myOffset() + offset + dtohl(type_chunk.entriesStart));
     }
 
-    void CollectConfigurations(boolean exclude_mipmap,
-        Set<ResTable_config> out_configs) {
+    void CollectConfigurations(boolean exclude_mipmap, Set<ResTable_config> out_configs) {
       String kMipMap = "mipmap";
       int type_count = type_specs_.size();
       for (int i = 0; i < type_count; i++) {
@@ -525,15 +527,18 @@ public class LoadedArsc {
           int offset = dtohl(type.entryOffset(entry_idx));
           if (offset != ResTable_type.NO_ENTRY) {
             // const ResTable_entry* entry =
-            //     reinterpret_cast<const ResTable_entry*>(reinterpret_cast<const uint8_t*>(type.type) +
+            //     reinterpret_cast<const ResTable_entry*>(reinterpret_cast<const
+            // uint8_t*>(type.type) +
             //     dtohl(type.type.entriesStart) + offset);
             ResTable_entry entry =
-                new ResTable_entry(type.myBuf(), type.myOffset() +
-                    dtohl(type.entriesStart) + offset);
+                new ResTable_entry(
+                    type.myBuf(), type.myOffset() + dtohl(type.entriesStart) + offset);
             if (dtohl(entry.key.index) == key_idx) {
-              // The package ID will be overridden by the caller (due to runtime assignment of package
+              // The package ID will be overridden by the caller (due to runtime assignment of
+              // package
               // IDs for shared libraries).
-              return make_resid((byte) 0x00, (byte) (type_idx + type_id_offset_ + 1), (short) entry_idx);
+              return make_resid(
+                  (byte) 0x00, (byte) (type_idx + type_id_offset_ + 1), (short) entry_idx);
             }
           }
         }
@@ -541,9 +546,8 @@ public class LoadedArsc {
       return 0;
     }
 
-    static LoadedPackage Load(Chunk chunk,
-        LoadedIdmap loaded_idmap,
-        boolean system, boolean load_as_shared_library) {
+    static LoadedPackage Load(
+        Chunk chunk, LoadedIdmap loaded_idmap, boolean system, boolean load_as_shared_library) {
       // ATRACE_NAME("LoadedPackage::Load");
       LoadedPackage loaded_package = new LoadedPackage();
 
@@ -562,8 +566,8 @@ public class LoadedArsc {
       loaded_package.system_ = system;
 
       loaded_package.package_id_ = dtohl(header.id);
-      if (loaded_package.package_id_ == 0 ||
-          (loaded_package.package_id_ == kAppPackageId && load_as_shared_library)) {
+      if (loaded_package.package_id_ == 0
+          || (loaded_package.package_id_ == kAppPackageId && load_as_shared_library)) {
         // Package ID of 0 means this is a shared library.
         loaded_package.dynamic_ = true;
       }
@@ -584,11 +588,12 @@ public class LoadedArsc {
         loaded_package.type_id_offset_ = type_id_offset;
       }
 
-      loaded_package.package_name_ = Util
-          .ReadUtf16StringFromDevice(header.name, header.name.length);
+      loaded_package.package_name_ =
+          Util.ReadUtf16StringFromDevice(header.name, header.name.length);
 
       // A map of TypeSpec builders, each associated with an type index.
-      // We use these to accumulate the set of Types available for a TypeSpec, and later build a single,
+      // We use these to accumulate the set of Types available for a TypeSpec, and later build a
+      // single,
       // contiguous block of memory that holds all the Types together with the TypeSpec.
       Map<Integer, TypeSpecPtrBuilder> type_builder_map = new HashMap<>();
 
@@ -596,155 +601,169 @@ public class LoadedArsc {
       while (iter.HasNext()) {
         Chunk child_chunk = iter.Next();
         switch (child_chunk.type()) {
-          case RES_STRING_POOL_TYPE: {
-            // uintptr_t pool_address =
-            //     reinterpret_cast<uintptr_t>(child_chunk.header<ResChunk_header>());
-            // uintptr_t header_address = reinterpret_cast<uintptr_t>(header);
-            int pool_address =
-                child_chunk.myOffset();
-            int header_address = header.myOffset();
-            if (pool_address == header_address + dtohl(header.typeStrings)) {
-              // This string pool is the type string pool.
-              int err = loaded_package.type_string_pool_.setTo(
-                  child_chunk.myBuf(), child_chunk.myOffset(), child_chunk.size(), false);
-              if (err != NO_ERROR) {
-                logError("RES_STRING_POOL_TYPE for types corrupt.");
-                return emptyBraces();
+          case RES_STRING_POOL_TYPE:
+            {
+              // uintptr_t pool_address =
+              //     reinterpret_cast<uintptr_t>(child_chunk.header<ResChunk_header>());
+              // uintptr_t header_address = reinterpret_cast<uintptr_t>(header);
+              int pool_address = child_chunk.myOffset();
+              int header_address = header.myOffset();
+              if (pool_address == header_address + dtohl(header.typeStrings)) {
+                // This string pool is the type string pool.
+                int err =
+                    loaded_package.type_string_pool_.setTo(
+                        child_chunk.myBuf(), child_chunk.myOffset(), child_chunk.size(), false);
+                if (err != NO_ERROR) {
+                  logError("RES_STRING_POOL_TYPE for types corrupt.");
+                  return emptyBraces();
+                }
+              } else if (pool_address == header_address + dtohl(header.keyStrings)) {
+                // This string pool is the key string pool.
+                int err =
+                    loaded_package.key_string_pool_.setTo(
+                        child_chunk.myBuf(), child_chunk.myOffset(), child_chunk.size(), false);
+                if (err != NO_ERROR) {
+                  logError("RES_STRING_POOL_TYPE for keys corrupt.");
+                  return emptyBraces();
+                }
+              } else {
+                logWarning("Too many RES_STRING_POOL_TYPEs found in RES_TABLE_PACKAGE_TYPE.");
               }
-            } else if (pool_address == header_address + dtohl(header.keyStrings)) {
-              // This string pool is the key string pool.
-              int err = loaded_package.key_string_pool_.setTo(
-                  child_chunk.myBuf(), child_chunk.myOffset(), child_chunk.size(), false);
-              if (err != NO_ERROR) {
-                logError("RES_STRING_POOL_TYPE for keys corrupt.");
-                return emptyBraces();
-              }
-            } else {
-              logWarning("Too many RES_STRING_POOL_TYPEs found in RES_TABLE_PACKAGE_TYPE.");
             }
-          } break;
+            break;
 
-          case RES_TABLE_TYPE_SPEC_TYPE: {
-            ResTable_typeSpec type_spec = new ResTable_typeSpec(child_chunk.myBuf(),
-                child_chunk.myOffset());
-            if (type_spec == null) {
-              logError("RES_TABLE_TYPE_SPEC_TYPE too small.");
-              return emptyBraces();
-            }
-
-            if (type_spec.id == 0) {
-              logError("RES_TABLE_TYPE_SPEC_TYPE has invalid ID 0.");
-              return emptyBraces();
-            }
-
-            // if (loaded_package.type_id_offset_ + static_cast<int>(type_spec.id) >
-            //     std.numeric_limits<uint8_t>.max()) {
-            if (loaded_package.type_id_offset_ + type_spec.id > 255) {
-              logError("RES_TABLE_TYPE_SPEC_TYPE has out of range ID.");
-              return emptyBraces();
-            }
-
-            // The data portion of this chunk contains entry_count 32bit entries,
-            // each one representing a set of flags.
-            // Here we only validate that the chunk is well formed.
-            int entry_count = dtohl(type_spec.entryCount);
-
-            // There can only be 2^16 entries in a type, because that is the ID
-            // space for entries (EEEE) in the resource ID 0xPPTTEEEE.
-            // if (entry_count > std.numeric_limits<short>.max()) {
-            if (entry_count > 0xffff) {
-              logError("RES_TABLE_TYPE_SPEC_TYPE has too many entries (" + entry_count + ").");
-              return emptyBraces();
-            }
-
-            if (entry_count * 4 /*sizeof(int)*/ > chunk.data_size()) {
-              logError("RES_TABLE_TYPE_SPEC_TYPE too small to hold entries.");
-              return emptyBraces();
-            }
-
-            // If this is an overlay, associate the mapping of this type to the target type
-            // from the IDMAP.
-            IdmapEntry_header idmap_entry_header = null;
-            if (loaded_idmap != null) {
-              idmap_entry_header = loaded_idmap.GetEntryMapForType(type_spec.id);
-            }
-
-            TypeSpecPtrBuilder builder_ptr = type_builder_map.get(type_spec.id - 1);
-            if (builder_ptr == null) {
-              // builder_ptr = util.make_unique<TypeSpecPtrBuilder>(type_spec, idmap_entry_header);
-              builder_ptr = new TypeSpecPtrBuilder(type_spec, idmap_entry_header);
-              type_builder_map.put(type_spec.id - 1, builder_ptr);
-            } else {
-              logWarning(String.format("RES_TABLE_TYPE_SPEC_TYPE already defined for ID %02x",
-                  type_spec.id));
-            }
-          } break;
-
-          case RES_TABLE_TYPE_TYPE: {
-            // ResTable_type type = child_chunk.header<ResTable_type, kResTableTypeMinSize>();
-            ResTable_type type = child_chunk.asResTable_type(kResTableTypeMinSize);
-            if (type == null) {
-              logError("RES_TABLE_TYPE_TYPE too small.");
-              return emptyBraces();
-            }
-
-            if (!VerifyResTableType(type)) {
-              return emptyBraces();
-            }
-
-            // Type chunks must be preceded by their TypeSpec chunks.
-            TypeSpecPtrBuilder builder_ptr = type_builder_map.get(type.id - 1);
-            if (builder_ptr != null) {
-              builder_ptr.AddType(type);
-            } else {
-              logError(String.format(
-                  "RES_TABLE_TYPE_TYPE with ID %02x found without preceding RES_TABLE_TYPE_SPEC_TYPE.",
-                  type.id));
-              return emptyBraces();
-            }
-          } break;
-
-          case RES_TABLE_LIBRARY_TYPE: {
-            ResTable_lib_header lib = child_chunk.asResTable_lib_header();
-            if (lib == null) {
-              logError("RES_TABLE_LIBRARY_TYPE too small.");
-              return emptyBraces();
-            }
-
-            if (child_chunk.data_size() / ResTable_lib_entry.SIZEOF < dtohl(lib.count)) {
-              logError("RES_TABLE_LIBRARY_TYPE too small to hold entries.");
-              return emptyBraces();
-            }
-
-            // loaded_package.dynamic_package_map_.reserve(dtohl(lib.count));
-
-            // ResTable_lib_entry entry_begin =
-            //     reinterpret_cast<ResTable_lib_entry*>(child_chunk.data_ptr());
-            ResTable_lib_entry entry_begin =
-                child_chunk.asResTable_lib_entry();
-            // ResTable_lib_entry entry_end = entry_begin + dtohl(lib.count);
-            // for (auto entry_iter = entry_begin; entry_iter != entry_end; ++entry_iter) {
-            for (ResTable_lib_entry entry_iter = entry_begin;
-                entry_iter.myOffset() != entry_begin.myOffset() + dtohl(lib.count);
-                entry_iter = new ResTable_lib_entry(entry_iter.myBuf(), entry_iter.myOffset() + ResTable_lib_entry.SIZEOF)) {
-              String package_name =
-                  Util.ReadUtf16StringFromDevice(entry_iter.packageName,
-                      entry_iter.packageName.length);
-              
-              if (dtohl(entry_iter.packageId) >= 255) {
-                logError(String.format(
-                    "Package ID %02x in RES_TABLE_LIBRARY_TYPE too large for package '%s'.",
-                    dtohl(entry_iter.packageId), package_name));
+          case RES_TABLE_TYPE_SPEC_TYPE:
+            {
+              ResTable_typeSpec type_spec =
+                  new ResTable_typeSpec(child_chunk.myBuf(), child_chunk.myOffset());
+              if (type_spec == null) {
+                logError("RES_TABLE_TYPE_SPEC_TYPE too small.");
                 return emptyBraces();
               }
 
-              // loaded_package.dynamic_package_map_.emplace_back(std.move(package_name),
-              //     dtohl(entry_iter.packageId));
-              loaded_package.dynamic_package_map_.add(new DynamicPackageEntry(package_name,
-                  dtohl(entry_iter.packageId)));
-            }
+              if (type_spec.id == 0) {
+                logError("RES_TABLE_TYPE_SPEC_TYPE has invalid ID 0.");
+                return emptyBraces();
+              }
 
-          } break;
+              // if (loaded_package.type_id_offset_ + static_cast<int>(type_spec.id) >
+              //     std.numeric_limits<uint8_t>.max()) {
+              if (loaded_package.type_id_offset_ + type_spec.id > 255) {
+                logError("RES_TABLE_TYPE_SPEC_TYPE has out of range ID.");
+                return emptyBraces();
+              }
+
+              // The data portion of this chunk contains entry_count 32bit entries,
+              // each one representing a set of flags.
+              // Here we only validate that the chunk is well formed.
+              int entry_count = dtohl(type_spec.entryCount);
+
+              // There can only be 2^16 entries in a type, because that is the ID
+              // space for entries (EEEE) in the resource ID 0xPPTTEEEE.
+              // if (entry_count > std.numeric_limits<short>.max()) {
+              if (entry_count > 0xffff) {
+                logError("RES_TABLE_TYPE_SPEC_TYPE has too many entries (" + entry_count + ").");
+                return emptyBraces();
+              }
+
+              if (entry_count * 4 /*sizeof(int)*/ > chunk.data_size()) {
+                logError("RES_TABLE_TYPE_SPEC_TYPE too small to hold entries.");
+                return emptyBraces();
+              }
+
+              // If this is an overlay, associate the mapping of this type to the target type
+              // from the IDMAP.
+              IdmapEntry_header idmap_entry_header = null;
+              if (loaded_idmap != null) {
+                idmap_entry_header = loaded_idmap.GetEntryMapForType(type_spec.id);
+              }
+
+              TypeSpecPtrBuilder builder_ptr = type_builder_map.get(type_spec.id - 1);
+              if (builder_ptr == null) {
+                // builder_ptr = util.make_unique<TypeSpecPtrBuilder>(type_spec,
+                // idmap_entry_header);
+                builder_ptr = new TypeSpecPtrBuilder(type_spec, idmap_entry_header);
+                type_builder_map.put(type_spec.id - 1, builder_ptr);
+              } else {
+                logWarning(
+                    String.format(
+                        "RES_TABLE_TYPE_SPEC_TYPE already defined for ID %02x", type_spec.id));
+              }
+            }
+            break;
+
+          case RES_TABLE_TYPE_TYPE:
+            {
+              // ResTable_type type = child_chunk.header<ResTable_type, kResTableTypeMinSize>();
+              ResTable_type type = child_chunk.asResTable_type(kResTableTypeMinSize);
+              if (type == null) {
+                logError("RES_TABLE_TYPE_TYPE too small.");
+                return emptyBraces();
+              }
+
+              if (!VerifyResTableType(type)) {
+                return emptyBraces();
+              }
+
+              // Type chunks must be preceded by their TypeSpec chunks.
+              TypeSpecPtrBuilder builder_ptr = type_builder_map.get(type.id - 1);
+              if (builder_ptr != null) {
+                builder_ptr.AddType(type);
+              } else {
+                logError(
+                    String.format(
+                        "RES_TABLE_TYPE_TYPE with ID %02x found without preceding"
+                            + " RES_TABLE_TYPE_SPEC_TYPE.",
+                        type.id));
+                return emptyBraces();
+              }
+            }
+            break;
+
+          case RES_TABLE_LIBRARY_TYPE:
+            {
+              ResTable_lib_header lib = child_chunk.asResTable_lib_header();
+              if (lib == null) {
+                logError("RES_TABLE_LIBRARY_TYPE too small.");
+                return emptyBraces();
+              }
+
+              if (child_chunk.data_size() / ResTable_lib_entry.SIZEOF < dtohl(lib.count)) {
+                logError("RES_TABLE_LIBRARY_TYPE too small to hold entries.");
+                return emptyBraces();
+              }
+
+              // loaded_package.dynamic_package_map_.reserve(dtohl(lib.count));
+
+              // ResTable_lib_entry entry_begin =
+              //     reinterpret_cast<ResTable_lib_entry*>(child_chunk.data_ptr());
+              ResTable_lib_entry entry_begin = child_chunk.asResTable_lib_entry();
+              // ResTable_lib_entry entry_end = entry_begin + dtohl(lib.count);
+              // for (auto entry_iter = entry_begin; entry_iter != entry_end; ++entry_iter) {
+              for (ResTable_lib_entry entry_iter = entry_begin;
+                  entry_iter.myOffset() != entry_begin.myOffset() + dtohl(lib.count);
+                  entry_iter =
+                      new ResTable_lib_entry(
+                          entry_iter.myBuf(), entry_iter.myOffset() + ResTable_lib_entry.SIZEOF)) {
+                String package_name =
+                    Util.ReadUtf16StringFromDevice(
+                        entry_iter.packageName, entry_iter.packageName.length);
+
+                if (dtohl(entry_iter.packageId) >= 255) {
+                  logError(
+                      String.format(
+                          "Package ID %02x in RES_TABLE_LIBRARY_TYPE too large for package '%s'.",
+                          dtohl(entry_iter.packageId), package_name));
+                  return emptyBraces();
+                }
+
+                // loaded_package.dynamic_package_map_.emplace_back(std.move(package_name),
+                //     dtohl(entry_iter.packageId));
+                loaded_package.dynamic_package_map_.add(
+                    new DynamicPackageEntry(package_name, dtohl(entry_iter.packageId)));
+              }
+            }
+            break;
 
           default:
             logWarning(String.format("Unknown chunk type '%02x'.", chunk.type()));
@@ -826,7 +845,8 @@ public class LoadedArsc {
 
     // type_idx is TT - 1 from 0xPPTTEEEE.
     TypeSpec GetTypeSpecByTypeIndex(int type_index) {
-      // If the type IDs are offset in this package, we need to take that into account when searching
+      // If the type IDs are offset in this package, we need to take that into account when
+      // searching
       // for a type.
       return type_specs_.get(type_index - type_id_offset_);
     }
@@ -865,8 +885,7 @@ public class LoadedArsc {
     return null;
   }
 
-  boolean LoadTable(Chunk chunk, LoadedIdmap loaded_idmap,
-      boolean load_as_shared_library) {
+  boolean LoadTable(Chunk chunk, LoadedIdmap loaded_idmap, boolean load_as_shared_library) {
     // ResTable_header header = chunk.header<ResTable_header>();
     ResTable_header header = chunk.asResTable_header();
     if (header == null) {
@@ -887,9 +906,12 @@ public class LoadedArsc {
           // Only use the first string pool. Ignore others.
           if (global_string_pool_.getError() == NO_INIT) {
             ResStringPool_header resStringPool_header = child_chunk.asResStringPool_header();
-            int err = global_string_pool_.setTo(resStringPool_header.myBuf(),
-                resStringPool_header.myOffset(),
-                child_chunk.size(), false);
+            int err =
+                global_string_pool_.setTo(
+                    resStringPool_header.myBuf(),
+                    resStringPool_header.myOffset(),
+                    child_chunk.size(),
+                    false);
             if (err != NO_ERROR) {
               logError("RES_STRING_POOL_TYPE corrupt.");
               return false;
@@ -899,21 +921,25 @@ public class LoadedArsc {
           }
           break;
 
-        case RES_TABLE_PACKAGE_TYPE: {
-          if (packages_seen + 1 > package_count) {
-            logError("More package chunks were found than the " + package_count
-                + " declared in the header.");
-            return false;
-          }
-          packages_seen++;
+        case RES_TABLE_PACKAGE_TYPE:
+          {
+            if (packages_seen + 1 > package_count) {
+              logError(
+                  "More package chunks were found than the "
+                      + package_count
+                      + " declared in the header.");
+              return false;
+            }
+            packages_seen++;
 
-          LoadedPackage loaded_package =
-              LoadedPackage.Load(child_chunk, loaded_idmap, system_, load_as_shared_library);
-          if (!isTruthy(loaded_package)) {
-            return false;
+            LoadedPackage loaded_package =
+                LoadedPackage.Load(child_chunk, loaded_idmap, system_, load_as_shared_library);
+            if (!isTruthy(loaded_package)) {
+              return false;
+            }
+            packages_.add(loaded_package);
           }
-          packages_.add(loaded_package);
-        } break;
+          break;
 
         default:
           logWarning(String.format("Unknown chunk type '%02x'.", chunk.type()));
@@ -931,17 +957,19 @@ public class LoadedArsc {
   }
 
   // Read-only view into a resource table. This class validates all data
-// when loading, including offsets and lengths.
-//class LoadedArsc {
-// public:
+  // when loading, including offsets and lengths.
+  // class LoadedArsc {
+  // public:
   // Load a resource table from memory pointed to by `data` of size `len`.
   // The lifetime of `data` must out-live the LoadedArsc returned from this method.
   // If `system` is set to true, the LoadedArsc is considered as a system provided resource.
   // If `load_as_shared_library` is set to true, the application package (0x7f) is treated
   // as a shared library (0x00). When loaded into an AssetManager, the package will be assigned an
   // ID.
-  static LoadedArsc Load(StringPiece data,
-      LoadedIdmap loaded_idmap /* = null */, boolean system /* = false */,
+  static LoadedArsc Load(
+      StringPiece data,
+      LoadedIdmap loaded_idmap /* = null */,
+      boolean system /* = false */,
       boolean load_as_shared_library /* = false */) {
     // ATRACE_NAME("LoadedArsc::LoadTable");
 
@@ -994,5 +1022,4 @@ public class LoadedArsc {
   private static LoadedArsc emptyBraces() {
     return new LoadedArsc();
   }
-
 }

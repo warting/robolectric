@@ -23,7 +23,7 @@ public class ShadowXmlBlock {
     }
 
     int bLen = bArray.length;
-    if (off < 0 || off >= bLen || len < 0 || len > bLen || (off+len) > bLen) {
+    if (off < 0 || off >= bLen || len < 0 || len > bLen || (off + len) > bLen) {
       throw new IndexOutOfBoundsException();
     }
 
@@ -33,7 +33,7 @@ public class ShadowXmlBlock {
 
     ResXMLTree osb = new ResXMLTree(null);
     osb.setTo(b, len, true);
-//    env->ReleaseByteArrayElements(bArray, b, 0);
+    //    env->ReleaseByteArrayElements(bArray, b, 0);
 
     if (osb.getError() != NO_ERROR) {
       throw new IllegalArgumentException();
@@ -44,38 +44,38 @@ public class ShadowXmlBlock {
 
   @Implementation(maxSdk = VERSION_CODES.KITKAT_WATCH)
   protected static int nativeGetStringBlock(int obj) {
-    return (int)nativeGetStringBlock((long)obj);
+    return (int) nativeGetStringBlock((long) obj);
   }
 
   @Implementation(minSdk = VERSION_CODES.LOLLIPOP)
   protected static Number nativeGetStringBlock(long obj) {
     ResXMLTree osb = Registries.NATIVE_RES_XML_TREES.getNativeObject(obj);
-//    if (osb == NULL) {
-//      jniThrowNullPointerException(env, NULL);
-//      return 0;
-//    }
+    //    if (osb == NULL) {
+    //      jniThrowNullPointerException(env, NULL);
+    //      return 0;
+    //    }
 
     return RuntimeEnvironment.castNativePtr(osb.getStrings().getNativePtr());
   }
 
   @Implementation(maxSdk = VERSION_CODES.KITKAT_WATCH)
   protected static int nativeCreateParseState(int obj) {
-    return (int)nativeCreateParseState((long)obj);
+    return (int) nativeCreateParseState((long) obj);
   }
 
   @Implementation(minSdk = VERSION_CODES.LOLLIPOP, maxSdk = VERSION_CODES.P)
   protected static long nativeCreateParseState(long obj) {
     ResXMLTree osb = Registries.NATIVE_RES_XML_TREES.getNativeObject(obj);
-//    if (osb == NULL) {
-//      jniThrowNullPointerException(env, NULL);
-//      return 0;
-//    }
+    //    if (osb == NULL) {
+    //      jniThrowNullPointerException(env, NULL);
+    //      return 0;
+    //    }
 
     ResXMLParser st = new ResXMLParser(osb);
-//    if (st == NULL) {
-//      jniThrowException(env, "java/lang/OutOfMemoryError", NULL);
-//      return 0;
-//    }
+    //    if (st == NULL) {
+    //      jniThrowException(env, "java/lang/OutOfMemoryError", NULL);
+    //      return 0;
+    //    }
 
     st.restart();
 
@@ -85,16 +85,16 @@ public class ShadowXmlBlock {
   @Implementation(minSdk = VERSION_CODES.Q)
   protected static long nativeCreateParseState(long obj, int resid) {
     ResXMLTree osb = Registries.NATIVE_RES_XML_TREES.getNativeObject(obj);
-//    if (osb == NULL) {
-//      jniThrowNullPointerException(env, NULL);
-//      return 0;
-//    }
+    //    if (osb == NULL) {
+    //      jniThrowNullPointerException(env, NULL);
+    //      return 0;
+    //    }
 
     ResXMLParser st = new ResXMLParser(osb);
-//    if (st == NULL) {
-//      jniThrowException(env, "java/lang/OutOfMemoryError", NULL);
-//      return 0;
-//    }
+    //    if (st == NULL) {
+    //      jniThrowException(env, "java/lang/OutOfMemoryError", NULL);
+    //      return 0;
+    //    }
 
     st.restart();
 
@@ -103,7 +103,7 @@ public class ShadowXmlBlock {
 
   @Implementation(maxSdk = VERSION_CODES.KITKAT_WATCH)
   protected static int nativeNext(int state) throws XmlPullParserException {
-    return (int)nativeNext((long)state);
+    return (int) nativeNext((long) state);
   }
 
   @Implementation(minSdk = VERSION_CODES.LOLLIPOP)
@@ -127,7 +127,7 @@ public class ShadowXmlBlock {
         case ResXMLParser.event_code_t.END_DOCUMENT:
           return 1;
         case ResXMLParser.event_code_t.BAD_DOCUMENT:
-//                goto bad;
+          //                goto bad;
           throw new XmlPullParserException("Corrupt XML binary file");
         default:
           break;
@@ -138,7 +138,7 @@ public class ShadowXmlBlock {
 
   @Implementation(maxSdk = VERSION_CODES.KITKAT_WATCH)
   protected static int nativeGetNamespace(int state) {
-    return nativeGetNamespace((long)state);
+    return nativeGetNamespace((long) state);
   }
 
   @Implementation(minSdk = VERSION_CODES.LOLLIPOP)
@@ -149,7 +149,7 @@ public class ShadowXmlBlock {
 
   @Implementation(maxSdk = VERSION_CODES.KITKAT_WATCH)
   protected static int nativeGetName(int state) {
-    return (int)nativeGetName((long)state);
+    return (int) nativeGetName((long) state);
   }
 
   @Implementation(minSdk = VERSION_CODES.LOLLIPOP)
@@ -160,7 +160,7 @@ public class ShadowXmlBlock {
 
   @Implementation(maxSdk = VERSION_CODES.KITKAT_WATCH)
   protected static int nativeGetText(int state) {
-    return (int)nativeGetText((long)state);
+    return (int) nativeGetText((long) state);
   }
 
   @Implementation(minSdk = VERSION_CODES.LOLLIPOP)
@@ -171,7 +171,7 @@ public class ShadowXmlBlock {
 
   @Implementation(maxSdk = VERSION_CODES.KITKAT_WATCH)
   protected static int nativeGetLineNumber(int state) {
-    return (int)nativeGetLineNumber((long)state);
+    return (int) nativeGetLineNumber((long) state);
   }
 
   @Implementation(minSdk = VERSION_CODES.LOLLIPOP)
@@ -182,7 +182,7 @@ public class ShadowXmlBlock {
 
   @Implementation(maxSdk = VERSION_CODES.KITKAT_WATCH)
   protected static int nativeGetAttributeCount(int state) {
-    return (int)nativeGetAttributeCount((long)state);
+    return (int) nativeGetAttributeCount((long) state);
   }
 
   @Implementation(minSdk = VERSION_CODES.LOLLIPOP)
@@ -193,7 +193,7 @@ public class ShadowXmlBlock {
 
   @Implementation(maxSdk = VERSION_CODES.KITKAT_WATCH)
   protected static int nativeGetAttributeNamespace(int state, int idx) {
-    return (int)nativeGetAttributeNamespace((long)state, idx);
+    return (int) nativeGetAttributeNamespace((long) state, idx);
   }
 
   @Implementation(minSdk = VERSION_CODES.LOLLIPOP)
@@ -204,7 +204,7 @@ public class ShadowXmlBlock {
 
   @Implementation(maxSdk = VERSION_CODES.KITKAT_WATCH)
   protected static int nativeGetAttributeName(int state, int idx) {
-    return (int)nativeGetAttributeName((long) state, idx);
+    return (int) nativeGetAttributeName((long) state, idx);
   }
 
   @Implementation(minSdk = VERSION_CODES.LOLLIPOP)
@@ -215,7 +215,7 @@ public class ShadowXmlBlock {
 
   @Implementation(maxSdk = VERSION_CODES.KITKAT_WATCH)
   protected static int nativeGetAttributeResource(int state, int idx) {
-    return (int)nativeGetAttributeResource((long)state, idx);
+    return (int) nativeGetAttributeResource((long) state, idx);
   }
 
   @Implementation(minSdk = VERSION_CODES.LOLLIPOP)
@@ -226,7 +226,7 @@ public class ShadowXmlBlock {
 
   @Implementation(maxSdk = VERSION_CODES.KITKAT_WATCH)
   protected static int nativeGetAttributeDataType(int state, int idx) {
-    return (int)nativeGetAttributeDataType((long)state, idx);
+    return (int) nativeGetAttributeDataType((long) state, idx);
   }
 
   @Implementation(minSdk = VERSION_CODES.LOLLIPOP)
@@ -237,7 +237,7 @@ public class ShadowXmlBlock {
 
   @Implementation(maxSdk = VERSION_CODES.KITKAT_WATCH)
   protected static int nativeGetAttributeData(int state, int idx) {
-    return (int)nativeGetAttributeData((long)state, idx);
+    return (int) nativeGetAttributeData((long) state, idx);
   }
 
   @Implementation(minSdk = VERSION_CODES.LOLLIPOP)
@@ -248,7 +248,7 @@ public class ShadowXmlBlock {
 
   @Implementation(maxSdk = VERSION_CODES.KITKAT_WATCH)
   protected static int nativeGetAttributeStringValue(int state, int idx) {
-    return (int)nativeGetAttributeStringValue((long)state, idx);
+    return (int) nativeGetAttributeStringValue((long) state, idx);
   }
 
   @Implementation(minSdk = VERSION_CODES.LOLLIPOP)
@@ -259,7 +259,7 @@ public class ShadowXmlBlock {
 
   @Implementation(maxSdk = VERSION_CODES.KITKAT_WATCH)
   protected static int nativeGetIdAttribute(int obj) {
-    return (int)nativeGetIdAttribute((long)obj);
+    return (int) nativeGetIdAttribute((long) obj);
   }
 
   @Implementation(minSdk = VERSION_CODES.LOLLIPOP)
@@ -271,7 +271,7 @@ public class ShadowXmlBlock {
 
   @Implementation(maxSdk = VERSION_CODES.KITKAT_WATCH)
   protected static int nativeGetClassAttribute(int obj) {
-    return (int)nativeGetClassAttribute((long)obj);
+    return (int) nativeGetClassAttribute((long) obj);
   }
 
   @Implementation(minSdk = VERSION_CODES.LOLLIPOP)
@@ -283,7 +283,7 @@ public class ShadowXmlBlock {
 
   @Implementation(maxSdk = VERSION_CODES.KITKAT_WATCH)
   protected static int nativeGetStyleAttribute(int obj) {
-    return (int)nativeGetStyleAttribute((long)obj);
+    return (int) nativeGetStyleAttribute((long) obj);
   }
 
   @Implementation(minSdk = VERSION_CODES.LOLLIPOP)
@@ -301,13 +301,14 @@ public class ShadowXmlBlock {
     Res_value value = valueRef.get();
 
     return value.dataType == org.robolectric.res.android.ResourceTypes.Res_value.TYPE_REFERENCE
-        || value.dataType == org.robolectric.res.android.ResourceTypes.Res_value.TYPE_ATTRIBUTE
-        ? value.data : 0;
+            || value.dataType == org.robolectric.res.android.ResourceTypes.Res_value.TYPE_ATTRIBUTE
+        ? value.data
+        : 0;
   }
 
   @Implementation(maxSdk = VERSION_CODES.KITKAT_WATCH)
   protected static int nativeGetAttributeIndex(int obj, String ns, String name) {
-    return (int)nativeGetAttributeIndex((long)obj, ns, name);
+    return (int) nativeGetAttributeIndex((long) obj, ns, name);
   }
 
   @Implementation(minSdk = VERSION_CODES.LOLLIPOP)
@@ -327,7 +328,7 @@ public class ShadowXmlBlock {
 
   @Implementation(maxSdk = VERSION_CODES.KITKAT_WATCH)
   protected static void nativeDestroyParseState(int obj) {
-    nativeDestroyParseState((long)obj);
+    nativeDestroyParseState((long) obj);
   }
 
   @Implementation(minSdk = VERSION_CODES.LOLLIPOP)
@@ -337,7 +338,7 @@ public class ShadowXmlBlock {
 
   @Implementation(maxSdk = VERSION_CODES.KITKAT_WATCH)
   protected static void nativeDestroy(int obj) {
-    nativeDestroy((long)obj);
+    nativeDestroy((long) obj);
   }
 
   @Implementation(minSdk = VERSION_CODES.LOLLIPOP)

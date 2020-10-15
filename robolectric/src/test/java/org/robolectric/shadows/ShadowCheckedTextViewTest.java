@@ -38,12 +38,13 @@ public class ShadowCheckedTextViewTest {
     assertTrue(checkedTextView.isChecked());
   }
 
-  @Test public void toggle_shouldChangeCheckedness() throws Exception {
+  @Test
+  public void toggle_shouldChangeCheckedness() throws Exception {
     CheckedTextView view = new CheckedTextView(ApplicationProvider.getApplicationContext());
     assertFalse(view.isChecked());
     view.toggle();
     assertTrue(view.isChecked());
-    view.toggle();  // Used to support performClick(), but Android doesn't. Sigh.
+    view.toggle(); // Used to support performClick(), but Android doesn't. Sigh.
     assertFalse(view.isChecked());
   }
 }

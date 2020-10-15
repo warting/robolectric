@@ -15,8 +15,7 @@ import org.robolectric.annotation.RealObject;
 @Implements(value = Icon.class, minSdk = M)
 public class ShadowIcon {
 
-  @RealObject
-  private Icon realIcon;
+  @RealObject private Icon realIcon;
 
   @HiddenApi
   @Implementation

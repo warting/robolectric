@@ -77,19 +77,17 @@ public class ShadowViewGroupTest {
   public void testLayoutAnimationListener() {
     assertThat(root.getLayoutAnimationListener()).isNull();
 
-    AnimationListener animationListener = new AnimationListener() {
-      @Override
-      public void onAnimationEnd(Animation a) {
-      }
+    AnimationListener animationListener =
+        new AnimationListener() {
+          @Override
+          public void onAnimationEnd(Animation a) {}
 
-      @Override
-      public void onAnimationRepeat(Animation a) {
-      }
+          @Override
+          public void onAnimationRepeat(Animation a) {}
 
-      @Override
-      public void onAnimationStart(Animation a) {
-      }
-    };
+          @Override
+          public void onAnimationStart(Animation a) {}
+        };
     root.setLayoutAnimationListener(animationListener);
 
     assertThat(root.getLayoutAnimationListener()).isSameInstanceAs(animationListener);
@@ -230,22 +228,27 @@ public class ShadowViewGroupTest {
 
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     shadowOf(root).dump(new PrintStream(out), 0);
-    String expected = "<FrameLayout>\n" +
-        "  <View/>\n" +
-        "  <View/>\n" +
-        "  <FrameLayout id=\"org.robolectric:id/snippet_text\">\n" +
-        "    <View/>\n" +
-        "    <View visibility=\"GONE\"/>\n" +
-        "    <TextView visibility=\"INVISIBLE\" text=\"Here&#39;s some text!\"/>\n" +
-        "  </FrameLayout>\n" +
-        "</FrameLayout>\n";
+    String expected =
+        "<FrameLayout>\n"
+            + "  <View/>\n"
+            + "  <View/>\n"
+            + "  <FrameLayout id=\"org.robolectric:id/snippet_text\">\n"
+            + "    <View/>\n"
+            + "    <View visibility=\"GONE\"/>\n"
+            + "    <TextView visibility=\"INVISIBLE\" text=\"Here&#39;s some text!\"/>\n"
+            + "  </FrameLayout>\n"
+            + "</FrameLayout>\n";
     assertEquals(expected.replaceAll("\n", System.lineSeparator()), out.toString());
   }
 
   @Test
   public void addViewWithLayoutParams_shouldStoreLayoutParams() throws Exception {
-    FrameLayout.LayoutParams layoutParams1 = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    FrameLayout.LayoutParams layoutParams2 = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    FrameLayout.LayoutParams layoutParams1 =
+        new FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    FrameLayout.LayoutParams layoutParams2 =
+        new FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     View child1 = new View(ApplicationProvider.getApplicationContext());
     View child2 = new View(ApplicationProvider.getApplicationContext());
     root.addView(child1, layoutParams1);
@@ -254,26 +257,27 @@ public class ShadowViewGroupTest {
     assertSame(layoutParams2, child2.getLayoutParams());
   }
 
-//  todo: re-enable this
-//  @Test @Config(minSdk = FROYO)
-//  public void getChildAt_shouldThrowIndexOutOfBoundsForInvalidIndices() { // 'cause that's what Android does
-//    assertThat(root.getChildCount()).isEqualTo(3);
-//    assertThrowsExceptionForBadIndex(13);
-//    assertThrowsExceptionForBadIndex(3);
-//    assertThrowsExceptionForBadIndex(-1);
-//  }
-//
-//  private void assertThrowsExceptionForBadIndex(int index) {
-//    try {
-//      assertThat(root.getChildAt(index)).isNull();
-//      fail("no exception");
-//    } catch (IndexOutOfBoundsException ex) {
-//      //noinspection UnnecessaryReturnStatement
-//      return;
-//    } catch (Exception ex) {
-//      fail("wrong exception type");
-//    }
-//  }
+  //  todo: re-enable this
+  //  @Test @Config(minSdk = FROYO)
+  //  public void getChildAt_shouldThrowIndexOutOfBoundsForInvalidIndices() { // 'cause that's what
+  // Android does
+  //    assertThat(root.getChildCount()).isEqualTo(3);
+  //    assertThrowsExceptionForBadIndex(13);
+  //    assertThrowsExceptionForBadIndex(3);
+  //    assertThrowsExceptionForBadIndex(-1);
+  //  }
+  //
+  //  private void assertThrowsExceptionForBadIndex(int index) {
+  //    try {
+  //      assertThat(root.getChildAt(index)).isNull();
+  //      fail("no exception");
+  //    } catch (IndexOutOfBoundsException ex) {
+  //      //noinspection UnnecessaryReturnStatement
+  //      return;
+  //    } catch (Exception ex) {
+  //      fail("wrong exception type");
+  //    }
+  //  }
 
   @Test
   public void layoutParams_shouldBeViewGroupLayoutParams() {
@@ -395,8 +399,7 @@ public class ShadowViewGroupTest {
     boolean wasCalled = false;
 
     @Override
-    public void onChildViewAdded(View parent, View child) {
-    }
+    public void onChildViewAdded(View parent, View child) {}
 
     @Override
     public void onChildViewRemoved(View parent, View child) {

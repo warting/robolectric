@@ -11,7 +11,9 @@ import org.junit.runners.JUnit4;
 public class InvocationProfileTest {
   @Test
   public void shouldConvertFromMethodSignature() throws Exception {
-    InvocationProfile profile = new InvocationProfile("android/view/View/invalidate()V", false, getClass().getClassLoader());
+    InvocationProfile profile =
+        new InvocationProfile(
+            "android/view/View/invalidate()V", false, getClass().getClassLoader());
     assertThat(profile.clazz).isEqualTo(View.class);
     assertThat(profile.methodName).isEqualTo("invalidate");
     assertThat(profile.isStatic).isEqualTo(false);
@@ -20,7 +22,11 @@ public class InvocationProfileTest {
 
   @Test
   public void shouldHandleParamTypes() throws Exception {
-    InvocationProfile profile = new InvocationProfile("android/view/View/invalidate(I[ZLjava/lang/String;)Lwhatever/Foo;", false, getClass().getClassLoader());
+    InvocationProfile profile =
+        new InvocationProfile(
+            "android/view/View/invalidate(I[ZLjava/lang/String;)Lwhatever/Foo;",
+            false,
+            getClass().getClassLoader());
     assertThat(profile.clazz).isEqualTo(View.class);
     assertThat(profile.methodName).isEqualTo("invalidate");
     assertThat(profile.isStatic).isEqualTo(false);

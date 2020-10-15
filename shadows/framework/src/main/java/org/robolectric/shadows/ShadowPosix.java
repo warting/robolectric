@@ -11,7 +11,10 @@ import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.Implements;
 import org.robolectric.util.ReflectionHelpers;
 
-@Implements(className = "libcore.io.Posix", maxSdk = Build.VERSION_CODES.N_MR1, isInAndroidSdk = false)
+@Implements(
+    className = "libcore.io.Posix",
+    maxSdk = Build.VERSION_CODES.N_MR1,
+    isInAndroidSdk = false)
 public class ShadowPosix {
   @Implementation
   public static void mkdir(String path, int mode) throws ErrnoException {
@@ -31,20 +34,20 @@ public class ShadowPosix {
 
     if (RuntimeEnvironment.getApiLevel() >= Build.VERSION_CODES.LOLLIPOP) {
       return new StructStat(
-        1, // st_dev
-        0, // st_ino
-        mode, // st_mode
-        0, // st_nlink
-        0, // st_uid
-        0, // st_gid
-        0, // st_rdev
-        size, // st_size
-        0, // st_atime
-        modifiedTime, // st_mtime
-        0, // st_ctime,
-        0, // st_blksize
-        0 // st_blocks
-        );
+          1, // st_dev
+          0, // st_ino
+          mode, // st_mode
+          0, // st_nlink
+          0, // st_uid
+          0, // st_gid
+          0, // st_rdev
+          size, // st_size
+          0, // st_atime
+          modifiedTime, // st_mtime
+          0, // st_ctime,
+          0, // st_blksize
+          0 // st_blocks
+          );
     } else {
       Object structStat =
           ReflectionHelpers.newInstance(

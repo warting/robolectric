@@ -20,7 +20,8 @@ public class ShadowDateIntervalFormat {
   @Implementation(maxSdk = LOLLIPOP_MR1)
   public static long createDateIntervalFormat(String skeleton, String localeName, String tzName) {
     address++;
-    INTERVAL_CACHE.put(address, com.ibm.icu.text.DateIntervalFormat.getInstance(skeleton, new Locale(localeName)));
+    INTERVAL_CACHE.put(
+        address, com.ibm.icu.text.DateIntervalFormat.getInstance(skeleton, new Locale(localeName)));
     return address;
   }
 
@@ -35,7 +36,9 @@ public class ShadowDateIntervalFormat {
     StringBuffer buffer = new StringBuffer();
 
     FieldPosition pos = new FieldPosition(0);
-    INTERVAL_CACHE.get(address).format(new com.ibm.icu.util.DateInterval(fromDate, toDate), buffer, pos);
+    INTERVAL_CACHE
+        .get(address)
+        .format(new com.ibm.icu.util.DateInterval(fromDate, toDate), buffer, pos);
 
     return buffer.toString();
   }

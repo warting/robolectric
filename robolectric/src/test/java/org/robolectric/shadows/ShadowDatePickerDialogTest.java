@@ -26,18 +26,20 @@ public class ShadowDatePickerDialogTest {
 
   @Test
   public void savesTheCallback() {
-    DatePickerDialog.OnDateSetListener expectedDateSetListener = new DatePickerDialog.OnDateSetListener() {
-      @Override
-      public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-        // ignored
-      }
-    };
+    DatePickerDialog.OnDateSetListener expectedDateSetListener =
+        new DatePickerDialog.OnDateSetListener() {
+          @Override
+          public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+            // ignored
+          }
+        };
 
     DatePickerDialog datePickerDialog =
         new DatePickerDialog(
             ApplicationProvider.getApplicationContext(), expectedDateSetListener, 2012, 6, 7);
 
     ShadowDatePickerDialog shadowDatePickerDialog = shadowOf(datePickerDialog);
-    assertThat(shadowDatePickerDialog.getOnDateSetListenerCallback()).isEqualTo(expectedDateSetListener);
+    assertThat(shadowDatePickerDialog.getOnDateSetListenerCallback())
+        .isEqualTo(expectedDateSetListener);
   }
 }

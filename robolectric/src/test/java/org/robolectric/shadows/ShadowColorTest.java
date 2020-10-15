@@ -69,9 +69,9 @@ public class ShadowColorTest {
 
   @Test
   public void HSVToColorShouldReverseColorToHSV() {
-      float[] hsv = new float[3];
-      Color.colorToHSV(Color.RED, hsv);
+    float[] hsv = new float[3];
+    Color.colorToHSV(Color.RED, hsv);
 
-      assertThat(Color.HSVToColor(hsv)).isEqualTo(Color.RED);
+    assertThat(Color.HSVToColor(hsv)).isEqualTo(Color.RED);
   }
 }

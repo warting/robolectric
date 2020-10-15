@@ -9,14 +9,10 @@ import static org.robolectric.shadows.ShadowAssetManager.legacyShadowOf;
 import static org.robolectric.util.ReflectionHelpers.ClassParameter.from;
 
 import android.content.res.AssetFileDescriptor;
-import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.content.res.ResourcesImpl;
-import android.content.res.TypedArray;
-import android.content.res.XmlResourceParser;
 import android.graphics.drawable.Drawable;
 import android.os.ParcelFileDescriptor;
-import android.util.AttributeSet;
 import android.util.LongSparseArray;
 import android.util.TypedValue;
 import java.io.FileInputStream;
@@ -28,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.HiddenApi;
 import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.Implements;
 import org.robolectric.annotation.RealObject;
@@ -40,17 +35,17 @@ import org.robolectric.res.ResType;
 import org.robolectric.res.ResourceTable;
 import org.robolectric.res.TypedResource;
 import org.robolectric.shadows.ShadowResourcesImpl.Picker;
-import org.robolectric.util.ReflectionHelpers;
-import org.robolectric.util.ReflectionHelpers.ClassParameter;
 
 @SuppressWarnings("NewApi")
-@Implements(value = ResourcesImpl.class, isInAndroidSdk = false, minSdk = N,
+@Implements(
+    value = ResourcesImpl.class,
+    isInAndroidSdk = false,
+    minSdk = N,
     shadowPicker = Picker.class)
 public class ShadowArscResourcesImpl extends ShadowResourcesImpl {
   private static List<LongSparseArray<?>> resettableArrays;
 
-  @RealObject
-  ResourcesImpl realResourcesImpl;
+  @RealObject ResourcesImpl realResourcesImpl;
 
   @Resetter
   public static void reset() {
@@ -63,7 +58,8 @@ public class ShadowArscResourcesImpl extends ShadowResourcesImpl {
     List<LongSparseArray<?>> resettableArrays = new ArrayList<>();
     Field[] allFields = Resources.class.getDeclaredFields();
     for (Field field : allFields) {
-      if (Modifier.isStatic(field.getModifiers()) && field.getType().equals(LongSparseArray.class)) {
+      if (Modifier.isStatic(field.getModifiers())
+          && field.getType().equals(LongSparseArray.class)) {
         field.setAccessible(true);
         try {
           LongSparseArray<?> longSparseArray = (LongSparseArray<?>) field.get(null);
@@ -79,7 +75,8 @@ public class ShadowArscResourcesImpl extends ShadowResourcesImpl {
   }
 
   @Implementation(maxSdk = M)
-  public String getQuantityString(int id, int quantity, Object... formatArgs) throws Resources.NotFoundException {
+  public String getQuantityString(int id, int quantity, Object... formatArgs)
+      throws Resources.NotFoundException {
     String raw = getQuantityString(id, quantity);
     return String.format(Locale.ENGLISH, raw, formatArgs);
   }
@@ -88,7 +85,8 @@ public class ShadowArscResourcesImpl extends ShadowResourcesImpl {
   public String getQuantityString(int resId, int quantity) throws Resources.NotFoundException {
     ShadowLegacyAssetManager shadowAssetManager = legacyShadowOf(realResourcesImpl.getAssets());
 
-    TypedResource typedResource = shadowAssetManager.getResourceTable().getValue(resId, shadowAssetManager.config);
+    TypedResource typedResource =
+        shadowAssetManager.getResourceTable().getValue(resId, shadowAssetManager.config);
     if (typedResource != null && typedResource instanceof PluralRules) {
       PluralRules pluralRules = (PluralRules) typedResource;
       Plural plural = pluralRules.find(quantity);
@@ -97,8 +95,12 @@ public class ShadowArscResourcesImpl extends ShadowResourcesImpl {
         return null;
       }
 
-      TypedResource<?> resolvedTypedResource = shadowAssetManager.resolve(
-          new TypedResource<>(plural.getString(), ResType.CHAR_SEQUENCE, pluralRules.getXmlContext()), shadowAssetManager.config, resId);
+      TypedResource<?> resolvedTypedResource =
+          shadowAssetManager.resolve(
+              new TypedResource<>(
+                  plural.getString(), ResType.CHAR_SEQUENCE, pluralRules.getXmlContext()),
+              shadowAssetManager.config,
+              resId);
       return resolvedTypedResource == null ? null : resolvedTypedResource.asString();
     } else {
       return null;
@@ -117,15 +119,15 @@ public class ShadowArscResourcesImpl extends ShadowResourcesImpl {
         return inputStream;
       }
     } else {
-      return directlyOn(realResourcesImpl, ResourcesImpl.class, "openRawResource",
-          from(int.class, id));
+      return directlyOn(
+          realResourcesImpl, ResourcesImpl.class, "openRawResource", from(int.class, id));
     }
   }
 
   /**
-   * Since {@link AssetFileDescriptor}s are not yet supported by Robolectric, {@code null} will
-   * be returned if the resource is found. If the resource cannot be found, {@link Resources.NotFoundException} will
-   * be thrown.
+   * Since {@link AssetFileDescriptor}s are not yet supported by Robolectric, {@code null} will be
+   * returned if the resource is found. If the resource cannot be found, {@link
+   * Resources.NotFoundException} will be thrown.
    */
   @Implementation(maxSdk = M)
   public AssetFileDescriptor openRawResourceFd(int id) throws Resources.NotFoundException {
@@ -137,7 +139,8 @@ public class ShadowArscResourcesImpl extends ShadowResourcesImpl {
 
     FileInputStream fis = (FileInputStream) inputStream;
     try {
-      return new AssetFileDescriptor(ParcelFileDescriptor.dup(fis.getFD()), 0, fis.getChannel().size());
+      return new AssetFileDescriptor(
+          ParcelFileDescriptor.dup(fis.getFD()), 0, fis.getChannel().size());
     } catch (IOException e) {
       throw newNotFoundException(id);
     }
@@ -154,27 +157,37 @@ public class ShadowArscResourcesImpl extends ShadowResourcesImpl {
   }
 
   @Implementation(maxSdk = N_MR1)
-  public Drawable loadDrawable(Resources wrapper, TypedValue value, int id, Resources.Theme theme, boolean useCache) throws Resources.NotFoundException {
-    Drawable drawable = directlyOn(realResourcesImpl, ResourcesImpl.class, "loadDrawable",
-        from(Resources.class, wrapper),
-        from(TypedValue.class, value),
-        from(int.class, id),
-        from(Resources.Theme.class, theme),
-        from(boolean.class, useCache)
-    );
+  public Drawable loadDrawable(
+      Resources wrapper, TypedValue value, int id, Resources.Theme theme, boolean useCache)
+      throws Resources.NotFoundException {
+    Drawable drawable =
+        directlyOn(
+            realResourcesImpl,
+            ResourcesImpl.class,
+            "loadDrawable",
+            from(Resources.class, wrapper),
+            from(TypedValue.class, value),
+            from(int.class, id),
+            from(Resources.Theme.class, theme),
+            from(boolean.class, useCache));
 
     ShadowResources.setCreatedFromResId(wrapper, id, drawable);
     return drawable;
   }
 
   @Implementation(minSdk = O)
-  public Drawable loadDrawable(Resources wrapper,  TypedValue value, int id, int density, Resources.Theme theme) {
-    Drawable drawable = directlyOn(realResourcesImpl, ResourcesImpl.class, "loadDrawable",
-        from(Resources.class, wrapper),
-        from(TypedValue.class, value),
-        from(int.class, id),
-        from(int.class, density),
-        from(Resources.Theme.class, theme));
+  public Drawable loadDrawable(
+      Resources wrapper, TypedValue value, int id, int density, Resources.Theme theme) {
+    Drawable drawable =
+        directlyOn(
+            realResourcesImpl,
+            ResourcesImpl.class,
+            "loadDrawable",
+            from(Resources.class, wrapper),
+            from(TypedValue.class, value),
+            from(int.class, id),
+            from(int.class, density),
+            from(Resources.Theme.class, theme));
 
     ShadowResources.setCreatedFromResId(wrapper, id, drawable);
     return drawable;

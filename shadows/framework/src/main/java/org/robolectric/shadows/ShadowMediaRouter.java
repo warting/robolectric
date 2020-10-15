@@ -85,9 +85,7 @@ public class ShadowMediaRouter {
   private void callUpdateAudioRoutes(AudioRoutesInfo routesInfo) {
     ReflectionHelpers.callInstanceMethod(
         ReflectionHelpers.getStaticField(MediaRouter.class, "sStatic"),
-        RuntimeEnvironment.getApiLevel() <= JELLY_BEAN
-            ? "updateRoutes"
-            : "updateAudioRoutes",
+        RuntimeEnvironment.getApiLevel() <= JELLY_BEAN ? "updateRoutes" : "updateAudioRoutes",
         ClassParameter.from(AudioRoutesInfo.class, routesInfo));
   }
 

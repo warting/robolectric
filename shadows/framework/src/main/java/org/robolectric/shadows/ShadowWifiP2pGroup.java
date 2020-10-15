@@ -9,8 +9,7 @@ import org.robolectric.annotation.RealObject;
 @Implements(WifiP2pGroup.class)
 public class ShadowWifiP2pGroup {
 
-  @RealObject
-  private WifiP2pGroup realObject;
+  @RealObject private WifiP2pGroup realObject;
 
   public void setInterface(String intf) {
     directlyOn(realObject, WifiP2pGroup.class).setInterface(intf);

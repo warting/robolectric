@@ -153,11 +153,11 @@ public class ShadowBackupManager {
     }
 
     // Override method for SDK <= 28
-    public int restoreSome(long token, IRestoreObserver observer, IBackupManagerMonitor monitor,
-        String[] packages) throws RemoteException {
+    public int restoreSome(
+        long token, IRestoreObserver observer, IBackupManagerMonitor monitor, String[] packages)
+        throws RemoteException {
       return restorePackages(token, observer, packages, monitor);
     }
-
 
     public int restorePackages(
         long token, IRestoreObserver observer, String[] packages, IBackupManagerMonitor monitor)

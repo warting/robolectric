@@ -63,7 +63,9 @@ public class ShadowEnvironmentTest {
   public void getExternalStoragePublicDirectory_shouldReturnDirectory() {
     final File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES);
     assertThat(path.exists()).isTrue();
-    assertThat(path).isEqualTo(new File(ShadowEnvironment.EXTERNAL_FILES_DIR.toFile(), Environment.DIRECTORY_MOVIES));
+    assertThat(path)
+        .isEqualTo(
+            new File(ShadowEnvironment.EXTERNAL_FILES_DIR.toFile(), Environment.DIRECTORY_MOVIES));
   }
 
   @Test
@@ -178,8 +180,9 @@ public class ShadowEnvironmentTest {
     assertThat(externalFilesDirs[1].getCanonicalPath()).contains("external_dir_2");
 
     // TODO(jongerrish): This fails because ShadowContext overwrites getExternalFilesDir.
-//     assertThat(RuntimeEnvironment.application.getExternalFilesDir(Environment.DIRECTORY_MOVIES)
-//         .getCanonicalPath()).contains("external_dir_1");
+    //
+    // assertThat(RuntimeEnvironment.application.getExternalFilesDir(Environment.DIRECTORY_MOVIES)
+    //         .getCanonicalPath()).contains("external_dir_1");
   }
 
   @Test
@@ -198,10 +201,8 @@ public class ShadowEnvironmentTest {
     ShadowEnvironment.setExternalStorageState(storageDir2, Environment.MEDIA_REMOVED);
     ShadowEnvironment.setExternalStorageState("blah");
 
-    assertThat(ShadowEnvironment.getStorageState(storageDir1))
-        .isEqualTo(Environment.MEDIA_MOUNTED);
-    assertThat(ShadowEnvironment.getStorageState(storageDir2))
-        .isEqualTo(Environment.MEDIA_REMOVED);
+    assertThat(ShadowEnvironment.getStorageState(storageDir1)).isEqualTo(Environment.MEDIA_MOUNTED);
+    assertThat(ShadowEnvironment.getStorageState(storageDir2)).isEqualTo(Environment.MEDIA_REMOVED);
     assertThat(ShadowEnvironment.getStorageState(new File(storageDir1, "subpath")))
         .isEqualTo(Environment.MEDIA_MOUNTED);
     assertThat(ShadowEnvironment.getExternalStorageState()).isEqualTo("blah");
@@ -218,12 +219,10 @@ public class ShadowEnvironmentTest {
 
     assertThat(ShadowEnvironment.getExternalStorageState(storageDir1))
         .isEqualTo(Environment.MEDIA_MOUNTED);
-    assertThat(ShadowEnvironment.getStorageState(storageDir1))
-        .isEqualTo(Environment.MEDIA_MOUNTED);
+    assertThat(ShadowEnvironment.getStorageState(storageDir1)).isEqualTo(Environment.MEDIA_MOUNTED);
     assertThat(ShadowEnvironment.getExternalStorageState(storageDir2))
         .isEqualTo(Environment.MEDIA_REMOVED);
-    assertThat(ShadowEnvironment.getStorageState(storageDir2))
-        .isEqualTo(Environment.MEDIA_REMOVED);
+    assertThat(ShadowEnvironment.getStorageState(storageDir2)).isEqualTo(Environment.MEDIA_REMOVED);
     assertThat(ShadowEnvironment.getExternalStorageState(new File(storageDir1, "subpath")))
         .isEqualTo(Environment.MEDIA_MOUNTED);
     assertThat(ShadowEnvironment.getStorageState(new File(storageDir1, "subpath")))

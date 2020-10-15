@@ -4,5 +4,4 @@ import android.graphics.BitmapShader;
 import org.robolectric.annotation.Implements;
 
 @Implements(BitmapShader.class)
-public class ShadowBitmapShader {
-}
+public class ShadowBitmapShader {}

@@ -28,13 +28,14 @@ public class ShadowHandlerTest {
   private List<String> transcript;
   TestRunnable scratchRunnable = new TestRunnable();
 
-  private Handler.Callback callback = new Handler.Callback() {
-    @Override
-    public boolean handleMessage(Message msg) {
-      hasHandlerCallbackHandledMessage = true;
-      return false;
-    }
-  };
+  private Handler.Callback callback =
+      new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+          hasHandlerCallbackHandledMessage = true;
+          return false;
+        }
+      };
 
   private Boolean hasHandlerCallbackHandledMessage = false;
 
@@ -76,7 +77,7 @@ public class ShadowHandlerTest {
   private static Looper newLooper(boolean canQuit) {
     return ReflectionHelpers.callConstructor(Looper.class, from(boolean.class, canQuit));
   }
-  
+
   @Test
   public void testDifferentLoopersGetDifferentQueues() throws Exception {
     Looper looper1 = newLooper(true);
@@ -147,7 +148,8 @@ public class ShadowHandlerTest {
   }
 
   @Test
-  public void testPostDelayedTwiceThenRunMainLooperToNextTask_shouldRunMultipleTasks() throws Exception {
+  public void testPostDelayedTwiceThenRunMainLooperToNextTask_shouldRunMultipleTasks()
+      throws Exception {
     TestRunnable task1 = new TestRunnable();
     TestRunnable task2 = new TestRunnable();
 
@@ -173,7 +175,8 @@ public class ShadowHandlerTest {
   }
 
   @Test
-  public void testPostDelayedMultipleThenRunMainLooperOneTask_shouldRunMultipleTask() throws Exception {
+  public void testPostDelayedMultipleThenRunMainLooperOneTask_shouldRunMultipleTask()
+      throws Exception {
     TestRunnable task1 = new TestRunnable();
     TestRunnable task2 = new TestRunnable();
     TestRunnable task3 = new TestRunnable();
@@ -189,7 +192,8 @@ public class ShadowHandlerTest {
   }
 
   @Test
-  public void testPostAtFrontOfQueueThenRunMainLooperOneTaskAtATime_shouldRunFrontOfQueueTaskFirst() throws Exception {
+  public void testPostAtFrontOfQueueThenRunMainLooperOneTaskAtATime_shouldRunFrontOfQueueTaskFirst()
+      throws Exception {
     TestRunnable task1 = new TestRunnable();
     TestRunnable task2 = new TestRunnable();
 
@@ -211,30 +215,35 @@ public class ShadowHandlerTest {
     ShadowLooper.pauseMainLooper();
     final List<Integer> order = new ArrayList<>();
     final Handler h = new Handler();
-    h.post(new Runnable() {
-      @Override
-      public void run() {
-        order.add(1);
-        h.post(new Runnable() {
+    h.post(
+        new Runnable() {
           @Override
           public void run() {
-            order.add(3);
+            order.add(1);
+            h.post(
+                new Runnable() {
+                  @Override
+                  public void run() {
+                    order.add(3);
+                  }
+                });
           }
         });
-      }
-    });
-    h.post(new Runnable() {
-      @Override
-      public void run() {
-        order.add(2);
-      }
-    });
+    h.post(
+        new Runnable() {
+          @Override
+          public void run() {
+            order.add(2);
+          }
+        });
     ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
     assertThat(order).containsExactly(1, 2, 3);
   }
 
   @Test
-  public void testSendMessageAtFrontOfQueueThenRunMainLooperOneMsgAtATime_shouldRunFrontOfQueueMsgFirst() throws Exception {
+  public void
+      testSendMessageAtFrontOfQueueThenRunMainLooperOneMsgAtATime_shouldRunFrontOfQueueMsgFirst()
+          throws Exception {
     Handler handler = new Handler();
 
     ShadowLooper.pauseMainLooper();
@@ -353,12 +362,13 @@ public class ShadowHandlerTest {
   public void removeMessages_removesFromLooperQueueAsWell() {
     final boolean[] wasRun = new boolean[1];
     ShadowLooper.pauseMainLooper();
-    Handler handler = new Handler() {
-      @Override
-      public void handleMessage(Message msg) {
-        wasRun[0] = true;
-      }
-    };
+    Handler handler =
+        new Handler() {
+          @Override
+          public void handleMessage(Message msg) {
+            wasRun[0] = true;
+          }
+        };
     handler.sendEmptyMessageDelayed(123, 500);
     handler.removeMessages(123);
     ShadowLooper.unPauseMainLooper();
@@ -369,12 +379,13 @@ public class ShadowHandlerTest {
   public void scheduler_wontDispatchRemovedMessage_evenIfMessageReused() {
     final ArrayList<Long> runAt = new ArrayList<>();
     ShadowLooper.pauseMainLooper();
-    Handler handler = new Handler() {
-      @Override
-      public void handleMessage(Message msg) {
-        runAt.add(shadowOf(Looper.myLooper()).getScheduler().getCurrentTime());
-      }
-    };
+    Handler handler =
+        new Handler() {
+          @Override
+          public void handleMessage(Message msg) {
+            runAt.add(shadowOf(Looper.myLooper()).getScheduler().getCurrentTime());
+          }
+        };
 
     final long startTime = Robolectric.getForegroundThreadScheduler().getCurrentTime();
     Message msg = handler.obtainMessage(123);
@@ -393,12 +404,13 @@ public class ShadowHandlerTest {
   public void shouldRemoveAllCallbacksAndMessages() throws Exception {
     final boolean[] wasRun = new boolean[1];
     ShadowLooper.pauseMainLooper();
-    Handler handler = new Handler() {
-      @Override
-      public void handleMessage(Message msg) {
-        wasRun[0] = true;
-      }
-    };
+    Handler handler =
+        new Handler() {
+          @Override
+          public void handleMessage(Message msg) {
+            wasRun[0] = true;
+          }
+        };
     handler.sendEmptyMessage(0);
     handler.post(scratchRunnable);
 
@@ -414,12 +426,13 @@ public class ShadowHandlerTest {
     final List<Object> objects = new ArrayList<>();
     ShadowLooper.pauseMainLooper();
 
-    Handler handler = new Handler() {
-      @Override
-      public void handleMessage(Message msg) {
-        objects.add(msg.obj);
-      }
-    };
+    Handler handler =
+        new Handler() {
+          @Override
+          public void handleMessage(Message msg) {
+            objects.add(msg.obj);
+          }
+        };
 
     Object firstObj = new Object();
     handler.sendMessage(handler.obtainMessage(0, firstObj));
@@ -437,17 +450,18 @@ public class ShadowHandlerTest {
   public void shouldRemoveTaggedCallback() throws Exception {
     ShadowLooper.pauseMainLooper();
     Handler handler = new Handler();
-    
+
     final int[] count = new int[1];
-    Runnable r = new Runnable() {
-      @Override
-      public void run() {
-        count[0]++;  
-      }
-    };
-    
+    Runnable r =
+        new Runnable() {
+          @Override
+          public void run() {
+            count[0]++;
+          }
+        };
+
     String tag1 = "tag1", tag2 = "tag2";
-    
+
     handler.postAtTime(r, tag1, 100);
     handler.postAtTime(r, tag2, 105);
 
@@ -491,14 +505,16 @@ public class ShadowHandlerTest {
 
   @Test
   public void shouldSetWhenOnMessage() throws Exception {
-    final List<Long>  whens = new ArrayList<>();
-    Handler h = new Handler(new Handler.Callback() {
-      @Override
-      public boolean handleMessage(Message msg) {
-        whens.add(msg.getWhen());
-        return false;
-      }
-    });
+    final List<Long> whens = new ArrayList<>();
+    Handler h =
+        new Handler(
+            new Handler.Callback() {
+              @Override
+              public boolean handleMessage(Message msg) {
+                whens.add(msg.getWhen());
+                return false;
+              }
+            });
 
     final long startTime = Robolectric.getForegroundThreadScheduler().getCurrentTime();
     h.sendEmptyMessage(0);
@@ -514,16 +530,16 @@ public class ShadowHandlerTest {
 
   @Test
   public void shouldRemoveMessageFromQueueBeforeDispatching() throws Exception {
-    Handler h = new Handler(Looper.myLooper()) {
-      @Override
-      public void handleMessage(Message msg) {
-        assertFalse(hasMessages(0));
-      }
-    };
+    Handler h =
+        new Handler(Looper.myLooper()) {
+          @Override
+          public void handleMessage(Message msg) {
+            assertFalse(hasMessages(0));
+          }
+        };
     h.sendEmptyMessage(0);
     h.sendMessageAtFrontOfQueue(h.obtainMessage());
   }
-
 
   private class Say implements Runnable {
     private String event;

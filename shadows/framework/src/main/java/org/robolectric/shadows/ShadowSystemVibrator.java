@@ -46,7 +46,8 @@ public class ShadowSystemVibrator extends ShadowVibrator {
   }
 
   @Implementation(minSdk = LOLLIPOP, maxSdk = N_MR1)
-  protected void vibrate(int uid, String opPkg, long[] pattern, int repeat, AudioAttributes attributes) {
+  protected void vibrate(
+      int uid, String opPkg, long[] pattern, int repeat, AudioAttributes attributes) {
     recordVibratePattern(pattern, repeat);
   }
 
@@ -66,7 +67,8 @@ public class ShadowSystemVibrator extends ShadowVibrator {
   }
 
   @Implementation(minSdk = O, maxSdk = VERSION_CODES.P)
-  protected void vibrate(int uid, String opPkg, VibrationEffect effect, AudioAttributes attributes) {
+  protected void vibrate(
+      int uid, String opPkg, VibrationEffect effect, AudioAttributes attributes) {
     vibrate(uid, opPkg, effect, null, attributes);
   }
 

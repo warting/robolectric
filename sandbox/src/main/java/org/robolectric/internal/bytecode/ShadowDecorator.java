@@ -58,25 +58,36 @@ public class ShadowDecorator implements ClassInstrumentor.Decorator {
       MethodNode originalMethod,
       String originalMethodName,
       RobolectricGeneratorAdapter generator) {
-    boolean isNormalInstanceMethod = !generator.isStatic
-        && !originalMethodName.equals(ShadowConstants.CONSTRUCTOR_METHOD_NAME);
+    boolean isNormalInstanceMethod =
+        !generator.isStatic && !originalMethodName.equals(ShadowConstants.CONSTRUCTOR_METHOD_NAME);
     // maybe perform direct call...
     if (isNormalInstanceMethod) {
       int exceptionLocalVar = generator.newLocal(THROWABLE_TYPE);
       Label notInstanceOfThis = new Label();
 
-      generator.loadThis();                                         // this
-      generator.getField(mutableClass.classType, ShadowConstants.CLASS_HANDLER_DATA_FIELD_NAME, OBJECT_TYPE);  // contents of this.__robo_data__
-      generator.instanceOf(mutableClass.classType);                 // __robo_data__, is instance of same class?
-      generator.visitJumpInsn(Opcodes.IFEQ, notInstanceOfThis);     // jump if no (is not instance)
+      generator.loadThis(); // this
+      generator.getField(
+          mutableClass.classType,
+          ShadowConstants.CLASS_HANDLER_DATA_FIELD_NAME,
+          OBJECT_TYPE); // contents of this.__robo_data__
+      generator.instanceOf(mutableClass.classType); // __robo_data__, is instance of same class?
+      generator.visitJumpInsn(Opcodes.IFEQ, notInstanceOfThis); // jump if no (is not instance)
 
       TryCatch tryCatchForProxyCall = generator.tryStart(THROWABLE_TYPE);
-      generator.loadThis();                                         // this
-      generator.getField(mutableClass.classType, ShadowConstants.CLASS_HANDLER_DATA_FIELD_NAME, OBJECT_TYPE);  // contents of this.__robo_data__
-      generator.checkCast(mutableClass.classType);                  // __robo_data__ but cast to my class
-      generator.loadArgs();                                         // __robo_data__ instance, [args]
+      generator.loadThis(); // this
+      generator.getField(
+          mutableClass.classType,
+          ShadowConstants.CLASS_HANDLER_DATA_FIELD_NAME,
+          OBJECT_TYPE); // contents of this.__robo_data__
+      generator.checkCast(mutableClass.classType); // __robo_data__ but cast to my class
+      generator.loadArgs(); // __robo_data__ instance, [args]
 
-      generator.visitMethodInsn(Opcodes.INVOKESPECIAL, mutableClass.internalClassName, originalMethod.name, originalMethod.desc, false);
+      generator.visitMethodInsn(
+          Opcodes.INVOKESPECIAL,
+          mutableClass.internalClassName,
+          originalMethod.name,
+          originalMethod.desc,
+          false);
       tryCatchForProxyCall.end();
 
       generator.returnValue();
@@ -102,8 +113,11 @@ public class ShadowDecorator implements ClassInstrumentor.Decorator {
             null,
             null);
     RobolectricGeneratorAdapter generator = new RobolectricGeneratorAdapter(initMethodNode);
-    generator.loadThis();                                         // this
-    generator.getField(mutableClass.classType, ShadowConstants.CLASS_HANDLER_DATA_FIELD_NAME, OBJECT_TYPE);  // contents of __robo_data__
+    generator.loadThis(); // this
+    generator.getField(
+        mutableClass.classType,
+        ShadowConstants.CLASS_HANDLER_DATA_FIELD_NAME,
+        OBJECT_TYPE); // contents of __robo_data__
     generator.returnValue();
     generator.endMethod();
     mutableClass.addMethod(initMethodNode);

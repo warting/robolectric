@@ -27,7 +27,8 @@ public class ShadowAlertController {
   private int iconId;
 
   @Implementation
-  public void setTitle(CharSequence title) throws InvocationTargetException, IllegalAccessException {
+  public void setTitle(CharSequence title)
+      throws InvocationTargetException, IllegalAccessException {
     this.title = title;
     directlyOn(realAlertController, AlertController.class).setTitle(title);
   }
@@ -82,6 +83,7 @@ public class ShadowAlertController {
   }
 
   public Adapter getAdapter() {
-    return ReflectionHelpers.<ListView>callInstanceMethod(realAlertController, "getListView").getAdapter();
+    return ReflectionHelpers.<ListView>callInstanceMethod(realAlertController, "getListView")
+        .getAdapter();
   }
 }

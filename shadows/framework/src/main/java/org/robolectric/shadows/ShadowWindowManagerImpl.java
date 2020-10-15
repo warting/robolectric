@@ -48,18 +48,18 @@ public class ShadowWindowManagerImpl extends ShadowWindowManager {
   /** internal only */
   public static void configureDefaultDisplayForJBOnly(
       Configuration configuration, DisplayMetrics displayMetrics) {
-    Class<?> arg2Type = ReflectionHelpers.loadClass(ShadowWindowManagerImpl.class.getClassLoader(),
-        "android.view.CompatibilityInfoHolder");
+    Class<?> arg2Type =
+        ReflectionHelpers.loadClass(
+            ShadowWindowManagerImpl.class.getClassLoader(), "android.view.CompatibilityInfoHolder");
 
-    defaultDisplayJB = ReflectionHelpers.callConstructor(Display.class,
-        ClassParameter.from(int.class, 0),
-        ClassParameter.from(arg2Type, null));
+    defaultDisplayJB =
+        ReflectionHelpers.callConstructor(
+            Display.class, ClassParameter.from(int.class, 0), ClassParameter.from(arg2Type, null));
     ShadowDisplay shadowDisplay = Shadow.extract(defaultDisplayJB);
     shadowDisplay.configureForJBOnly(configuration, displayMetrics);
   }
 
-  @RealObject
-  WindowManagerImpl realObject;
+  @RealObject WindowManagerImpl realObject;
   private static final Multimap<Integer, View> views = ArrayListMultimap.create();
 
   @Implementation
@@ -77,8 +77,8 @@ public class ShadowWindowManagerImpl extends ShadowWindowManager {
   @Implementation
   public void removeView(View view) {
     views.remove(realObject.getDefaultDisplay().getDisplayId(), view);
-    directlyOn(realObject, WindowManagerImpl.class, "removeView",
-        ClassParameter.from(View.class, view));
+    directlyOn(
+        realObject, WindowManagerImpl.class, "removeView", ClassParameter.from(View.class, view));
   }
 
   @Implementation
@@ -110,7 +110,6 @@ public class ShadowWindowManagerImpl extends ShadowWindowManager {
     protected Display getDefaultDisplay() {
       return defaultDisplayJB;
     }
-
   }
 
   /** Re implement to avoid server call */

@@ -74,11 +74,10 @@ public class ShadowEnvironment {
   }
 
   /**
-   * Sets the return value of {@link #getExternalStorageDirectory()}.  Note that
-   * the default value provides a directory that is usable in the test environment.
-   * If the test app uses this method to override that default directory, please
-   * clean up any files written to that directory, as the Robolectric environment
-   * will not purge that directory when the test ends.
+   * Sets the return value of {@link #getExternalStorageDirectory()}. Note that the default value
+   * provides a directory that is usable in the test environment. If the test app uses this method
+   * to override that default directory, please clean up any files written to that directory, as the
+   * Robolectric environment will not purge that directory when the test ends.
    *
    * @param directory Path to return from {@link #getExternalStorageDirectory()}.
    */
@@ -278,7 +277,9 @@ public class ShadowEnvironment {
     storageState.put(directory.toPath(), state);
   }
 
-  @Implements(className = "android.os.Environment$UserEnvironment", isInAndroidSdk = false,
+  @Implements(
+      className = "android.os.Environment$UserEnvironment",
+      isInAndroidSdk = false,
       minSdk = JELLY_BEAN_MR1)
   public static class ShadowUserEnvironment {
 

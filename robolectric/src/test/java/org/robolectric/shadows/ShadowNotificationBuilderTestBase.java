@@ -114,7 +114,8 @@ public abstract class ShadowNotificationBuilderTestBase {
   @Test
   @Config(minSdk = JELLY_BEAN_MR1)
   public void build_setsUsesChronometerOnNotification_true() throws Exception {
-    Notification notification = builder.setUsesChronometer(true).setWhen(10).setShowWhen(true).build();
+    Notification notification =
+        builder.setUsesChronometer(true).setWhen(10).setShowWhen(true).build();
 
     assertThat(shadowOf(notification).usesChronometer()).isTrue();
   }
@@ -122,33 +123,38 @@ public abstract class ShadowNotificationBuilderTestBase {
   @Test
   @Config(minSdk = JELLY_BEAN_MR1)
   public void build_setsUsesChronometerOnNotification_false() throws Exception {
-    Notification notification = builder.setUsesChronometer(false).setWhen(10).setShowWhen(true).build();
+    Notification notification =
+        builder.setUsesChronometer(false).setWhen(10).setShowWhen(true).build();
 
     assertThat(shadowOf(notification).usesChronometer()).isFalse();
   }
 
-  @Test @Config(maxSdk = M)
+  @Test
+  @Config(maxSdk = M)
   public void build_handlesNullContentTitle() {
     Notification notification = builder.setContentTitle(null).build();
 
     assertThat(shadowOf(notification).getContentTitle().toString()).isEmpty();
   }
 
-  @Test @Config(minSdk = N)
+  @Test
+  @Config(minSdk = N)
   public void build_handlesNullContentTitle_atLeastN() {
     Notification notification = builder.setContentTitle(null).build();
 
     assertThat(shadowOf(notification).getContentTitle()).isNull();
   }
 
-  @Test @Config(maxSdk = M)
+  @Test
+  @Config(maxSdk = M)
   public void build_handlesNullContentText() {
     Notification notification = builder.setContentText(null).build();
 
     assertThat(shadowOf(notification).getContentText().toString()).isEmpty();
   }
 
-  @Test @Config(minSdk = N)
+  @Test
+  @Config(minSdk = N)
   public void build_handlesNullContentText_atLeastN() {
     Notification notification = builder.setContentText(null).build();
 
@@ -162,14 +168,16 @@ public abstract class ShadowNotificationBuilderTestBase {
     assertThat(notification.tickerText).isNull();
   }
 
-  @Test @Config(maxSdk = M)
+  @Test
+  @Config(maxSdk = M)
   public void build_handlesNullContentInfo() {
     Notification notification = builder.setContentInfo(null).build();
 
     assertThat(shadowOf(notification).getContentInfo().toString()).isEmpty();
   }
 
-  @Test @Config(minSdk = N)
+  @Test
+  @Config(minSdk = N)
   public void build_handlesNullContentInfo_atLeastN() {
     Notification notification = builder.setContentInfo(null).build();
 
@@ -220,11 +228,14 @@ public abstract class ShadowNotificationBuilderTestBase {
 
   @Test
   public void withBigTextStyle() {
-    Notification notification = builder.setStyle(new Notification.BigTextStyle(builder)
-        .bigText("BigText")
-        .setBigContentTitle("Title")
-        .setSummaryText("Summary"))
-        .build();
+    Notification notification =
+        builder
+            .setStyle(
+                new Notification.BigTextStyle(builder)
+                    .bigText("BigText")
+                    .setBigContentTitle("Title")
+                    .setSummaryText("Summary"))
+            .build();
 
     assertThat(shadowOf(notification).getBigText()).isEqualTo("BigText");
     assertThat(shadowOf(notification).getBigContentTitle()).isEqualTo("Title");
@@ -240,10 +251,13 @@ public abstract class ShadowNotificationBuilderTestBase {
             ApplicationProvider.getApplicationContext().getResources(), R.drawable.an_image);
 
     Icon bigLargeIcon = Icon.createWithBitmap(bigPicture);
-    Notification notification = builder.setStyle(new Notification.BigPictureStyle(builder)
-        .bigPicture(bigPicture)
-        .bigLargeIcon(bigLargeIcon))
-        .build();
+    Notification notification =
+        builder
+            .setStyle(
+                new Notification.BigPictureStyle(builder)
+                    .bigPicture(bigPicture)
+                    .bigLargeIcon(bigLargeIcon))
+            .build();
 
     assertThat(shadowOf(notification).getBigPicture()).isEqualTo(bigPicture);
   }

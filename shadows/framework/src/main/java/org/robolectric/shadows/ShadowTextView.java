@@ -92,7 +92,7 @@ public class ShadowTextView extends ShadowView {
   /**
    * Returns the text string of this {@code TextView}.
    *
-   * Robolectric extension.
+   * <p>Robolectric extension.
    */
   @Override
   public String innerText() {
@@ -116,14 +116,13 @@ public class ShadowTextView extends ShadowView {
     directlyOn(realTextView, TextView.class).removeTextChangedListener(watcher);
   }
 
-  /**
-   * @return the list of currently registered watchers/listeners
-   */
+  /** @return the list of currently registered watchers/listeners */
   public List<TextWatcher> getWatchers() {
     return watchers;
   }
 
-  @HiddenApi @Implementation
+  @HiddenApi
+  @Implementation
   public Locale getTextServicesLocale() {
     return Locale.getDefault();
   }
@@ -163,7 +162,8 @@ public class ShadowTextView extends ShadowView {
     this.compoundDrawablesWithIntrinsicBoundsTop = top;
     this.compoundDrawablesWithIntrinsicBoundsRight = right;
     this.compoundDrawablesWithIntrinsicBoundsBottom = bottom;
-    directlyOn(realTextView, TextView.class).setCompoundDrawablesWithIntrinsicBounds(left, top, right, bottom);
+    directlyOn(realTextView, TextView.class)
+        .setCompoundDrawablesWithIntrinsicBounds(left, top, right, bottom);
   }
 
   public int getCompoundDrawablesWithIntrinsicBoundsLeft() {

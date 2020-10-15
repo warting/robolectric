@@ -28,16 +28,15 @@ import org.robolectric.annotation.processing.validator.ResetterValidator;
 import org.robolectric.annotation.processing.validator.SdkStore;
 import org.robolectric.annotation.processing.validator.Validator;
 
-/**
- * Annotation processor entry point for Robolectric annotations.
- */
+/** Annotation processor entry point for Robolectric annotations. */
 @SupportedOptions({
-  RobolectricProcessor.PACKAGE_OPT, 
-  RobolectricProcessor.SHOULD_INSTRUMENT_PKG_OPT})
+  RobolectricProcessor.PACKAGE_OPT,
+  RobolectricProcessor.SHOULD_INSTRUMENT_PKG_OPT
+})
 @SupportedAnnotationTypes("org.robolectric.annotation.*")
 public class RobolectricProcessor extends AbstractProcessor {
   static final String PACKAGE_OPT = "org.robolectric.annotation.processing.shadowPackage";
-  static final String SHOULD_INSTRUMENT_PKG_OPT = 
+  static final String SHOULD_INSTRUMENT_PKG_OPT =
       "org.robolectric.annotation.processing.shouldInstrumentPackage";
   static final String JSON_DOCS_DIR = "org.robolectric.annotation.processing.jsonDocsDir";
   static final String JSON_DOCS_ENABLED = "org.robolectric.annotation.processing.jsonDocsEnabled";
@@ -58,19 +57,15 @@ public class RobolectricProcessor extends AbstractProcessor {
   private File jsonDocsDir;
   private boolean jsonDocsEnabled;
 
-  /**
-   * Default constructor.
-   */
-  public RobolectricProcessor() {
-  }
+  /** Default constructor. */
+  public RobolectricProcessor() {}
 
   /**
-   * Constructor to use for testing passing options in. Only
-   * necessary until compile-testing supports passing options
-   * in.
+   * Constructor to use for testing passing options in. Only necessary until compile-testing
+   * supports passing options in.
    *
-   * @param options simulated options that would ordinarily
-   *                be passed in the {@link ProcessingEnvironment}.
+   * @param options simulated options that would ordinarily be passed in the {@link
+   *     ProcessingEnvironment}.
    */
   @VisibleForTesting
   public RobolectricProcessor(Map<String, String> options) {
@@ -135,8 +130,7 @@ public class RobolectricProcessor extends AbstractProcessor {
       this.sdkCheckMode =
           SdkCheckMode.valueOf(options.getOrDefault(SDK_CHECK_MODE, "WARN").toUpperCase());
       this.sdksFile = options.getOrDefault(SDKS_FILE, "/sdks.txt");
-      this.priority =
-          Integer.parseInt(options.getOrDefault(PRIORITY, "0"));
+      this.priority = Integer.parseInt(options.getOrDefault(PRIORITY, "0"));
 
       if (this.shadowPackage == null) {
         throw new IllegalArgumentException("no package specified for " + PACKAGE_OPT);

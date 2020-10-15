@@ -151,7 +151,6 @@ public class ShadowTraceTest {
     ShadowTrace.setEnabled(true);
     assertThat(ShadowTrace.isEnabled()).isTrue();
     Trace.endSection();
-
   }
 
   @Test

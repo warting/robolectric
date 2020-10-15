@@ -6,7 +6,8 @@ import org.robolectric.annotation.Implements;
 /**
  * The shadow API for {@link AsyncTaskLoader}.
  *
- * Different shadow implementations will be used based on the current {@link LooperMode.Mode}.
+ * <p>Different shadow implementations will be used based on the current {@link LooperMode.Mode}.
+ *
  * @see ShadowLegacyAsyncTaskLoader, ShadowPausedAsyncTaskLoader
  */
 @Implements(value = AsyncTaskLoader.class, shadowPicker = ShadowAsyncTaskLoader.Picker.class)

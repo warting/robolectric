@@ -84,13 +84,16 @@ public class RobolectricTest {
 
   @Test
   public void idleMainLooper_executesScheduledTasks() {
-    final boolean[] wasRun = new boolean[]{false};
-    new Handler().postDelayed(new Runnable() {
-      @Override
-      public void run() {
-        wasRun[0] = true;
-      }
-    }, 2000);
+    final boolean[] wasRun = new boolean[] {false};
+    new Handler()
+        .postDelayed(
+            new Runnable() {
+              @Override
+              public void run() {
+                wasRun[0] = true;
+              }
+            },
+            2000);
 
     assertFalse(wasRun[0]);
     ShadowLooper.idleMainLooper(1999);
@@ -117,7 +120,8 @@ public class RobolectricTest {
         new Intent("i.dont.exist.activity").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
   }
 
-  @Test @Config(sdk = 16)
+  @Test
+  @Config(sdk = 16)
   public void setupActivity_returnsAVisibleActivity() throws Exception {
     LifeCycleActivity activity = Robolectric.setupActivity(LifeCycleActivity.class);
 
@@ -163,5 +167,4 @@ public class RobolectricTest {
       return getWindow().getDecorView().getWindowToken() != null;
     }
   }
-
 }

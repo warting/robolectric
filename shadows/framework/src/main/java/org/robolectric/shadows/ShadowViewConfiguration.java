@@ -68,8 +68,7 @@ public class ShadowViewConfiguration {
   private int windowTouchSlop;
   private static boolean hasPermanentMenuKey = true;
 
-  @RealObject
-  private ViewConfiguration realViewConfiguration;
+  @RealObject private ViewConfiguration realViewConfiguration;
 
   private void setup(Context context) {
     DisplayMetrics metrics = context.getResources().getDisplayMetrics();

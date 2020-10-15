@@ -58,8 +58,7 @@ public class ShadowPendingIntent {
 
   private static final List<PendingIntent> parceledPendingIntents = new ArrayList<>();
 
-  @RealObject
-  private PendingIntent realPendingIntent;
+  @RealObject private PendingIntent realPendingIntent;
 
   @NonNull private Intent[] savedIntents;
   private Context savedContext;
@@ -148,21 +147,39 @@ public class ShadowPendingIntent {
   }
 
   @Implementation
-  protected void send(Context context, int code, Intent intent, PendingIntent.OnFinished onFinished,
-      Handler handler) throws CanceledException {
+  protected void send(
+      Context context,
+      int code,
+      Intent intent,
+      PendingIntent.OnFinished onFinished,
+      Handler handler)
+      throws CanceledException {
     send(context, code, intent, onFinished, handler, null);
   }
 
   @Implementation
-  protected void send(Context context, int code, Intent intent, PendingIntent.OnFinished onFinished,
-      Handler handler, String requiredPermission) throws CanceledException {
+  protected void send(
+      Context context,
+      int code,
+      Intent intent,
+      PendingIntent.OnFinished onFinished,
+      Handler handler,
+      String requiredPermission)
+      throws CanceledException {
     // Manually propagating to keep only one implementation regardless of SDK
     send(context, code, intent, onFinished, handler, requiredPermission, null);
   }
 
   @Implementation(minSdk = M)
-  protected void send(Context context, int code, Intent intent, PendingIntent.OnFinished onFinished,
-      Handler handler, String requiredPermission, Bundle options) throws CanceledException {
+  protected void send(
+      Context context,
+      int code,
+      Intent intent,
+      PendingIntent.OnFinished onFinished,
+      Handler handler,
+      String requiredPermission,
+      Bundle options)
+      throws CanceledException {
     if (canceled) {
       throw new CanceledException();
     }
@@ -180,7 +197,8 @@ public class ShadowPendingIntent {
     }
 
     ActivityThread activityThread = (ActivityThread) RuntimeEnvironment.getActivityThread();
-    ShadowInstrumentation shadowInstrumentation = Shadow.extract(activityThread.getInstrumentation());
+    ShadowInstrumentation shadowInstrumentation =
+        Shadow.extract(activityThread.getInstrumentation());
     if (isActivityIntent()) {
       for (Intent intentToSend : intentsToSend) {
         shadowInstrumentation.execStartActivity(
@@ -217,23 +235,17 @@ public class ShadowPendingIntent {
     return new RoboIntentSender(realPendingIntent);
   }
 
-  /**
-   * @return {@code true} iff sending this PendingIntent will start an activity
-   */
+  /** @return {@code true} iff sending this PendingIntent will start an activity */
   public boolean isActivityIntent() {
     return type == Type.ACTIVITY;
   }
 
-  /**
-   * @return {@code true} iff sending this PendingIntent will broadcast an Intent
-   */
+  /** @return {@code true} iff sending this PendingIntent will broadcast an Intent */
   public boolean isBroadcastIntent() {
     return type == Type.BROADCAST;
   }
 
-  /**
-   * @return {@code true} iff sending this PendingIntent will start a service
-   */
+  /** @return {@code true} iff sending this PendingIntent will start a service */
   public boolean isServiceIntent() {
     return type == Type.SERVICE;
   }
@@ -243,9 +255,7 @@ public class ShadowPendingIntent {
     return type == Type.FOREGROUND_SERVICE;
   }
 
-  /**
-   * @return the context in which this PendingIntent was created
-   */
+  /** @return the context in which this PendingIntent was created */
   public Context getSavedContext() {
     return savedContext;
   }
@@ -253,11 +263,12 @@ public class ShadowPendingIntent {
   /**
    * This returns the last Intent in the Intent[] to be delivered when the PendingIntent is sent.
    * This method is particularly useful for PendingIntents created with a single Intent:
+   *
    * <ul>
-   *   <li>{@link #getActivity(Context, int, Intent, int)}</li>
-   *   <li>{@link #getActivity(Context, int, Intent, int, Bundle)}</li>
-   *   <li>{@link #getBroadcast(Context, int, Intent, int)}</li>
-   *   <li>{@link #getService(Context, int, Intent, int)}</li>
+   *   <li>{@link #getActivity(Context, int, Intent, int)}
+   *   <li>{@link #getActivity(Context, int, Intent, int, Bundle)}
+   *   <li>{@link #getBroadcast(Context, int, Intent, int)}
+   *   <li>{@link #getService(Context, int, Intent, int)}
    * </ul>
    *
    * @return the final Intent to be delivered when the PendingIntent is sent
@@ -268,9 +279,10 @@ public class ShadowPendingIntent {
 
   /**
    * This method is particularly useful for PendingIntents created with multiple Intents:
+   *
    * <ul>
-   *   <li>{@link #getActivities(Context, int, Intent[], int)}</li>
-   *   <li>{@link #getActivities(Context, int, Intent[], int, Bundle)}</li>
+   *   <li>{@link #getActivities(Context, int, Intent[], int)}
+   *   <li>{@link #getActivities(Context, int, Intent[], int, Bundle)}
    * </ul>
    *
    * @return all Intents to be delivered when the PendingIntent is sent
@@ -279,23 +291,17 @@ public class ShadowPendingIntent {
     return savedIntents;
   }
 
-  /**
-   * @return {@true} iff this PendingIntent has been canceled
-   */
+  /** @return {@true} iff this PendingIntent has been canceled */
   public boolean isCanceled() {
     return canceled;
   }
 
-  /**
-   * @return the request code with which this PendingIntent was created
-   */
+  /** @return the request code with which this PendingIntent was created */
   public int getRequestCode() {
     return requestCode;
   }
 
-  /**
-   * @return the flags with which this PendingIntent was created
-   */
+  /** @return the flags with which this PendingIntent was created */
   public int getFlags() {
     return flags;
   }
@@ -380,8 +386,8 @@ public class ShadowPendingIntent {
     out.writeInt(index);
   }
 
-  private static PendingIntent create(Context context, Intent[] intents, Type type, int requestCode,
-      int flags) {
+  private static PendingIntent create(
+      Context context, Intent[] intents, Type type, int requestCode, int flags) {
     synchronized (lock) {
       Objects.requireNonNull(intents, "intents may not be null");
 
@@ -427,8 +433,8 @@ public class ShadowPendingIntent {
     }
   }
 
-  private static PendingIntent getCreatedIntentFor(Type type, Intent[] intents, int requestCode,
-      int flags) {
+  private static PendingIntent getCreatedIntentFor(
+      Type type, Intent[] intents, int requestCode, int flags) {
     synchronized (lock) {
       for (PendingIntent createdIntent : createdIntents) {
         ShadowPendingIntent shadowPendingIntent = Shadow.extract(createdIntent);

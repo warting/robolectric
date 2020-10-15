@@ -12,6 +12,6 @@ public class ShadowBluetoothManager {
 
   @Implementation
   protected BluetoothAdapter getAdapter() {
-      return BluetoothAdapter.getDefaultAdapter();
-    }
+    return BluetoothAdapter.getDefaultAdapter();
+  }
 }

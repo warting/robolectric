@@ -6,6 +6,5 @@ import com.example.objects.ParameterizedDummy;
 
 @Implements(ParameterizedDummy.class)
 public class ShadowParameterizedDummy<T, S extends Number> {
-  @RealObject
-  ParameterizedDummy<T,S> real;
+  @RealObject ParameterizedDummy<T, S> real;
 }

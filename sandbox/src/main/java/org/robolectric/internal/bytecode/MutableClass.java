@@ -22,7 +22,9 @@ public class MutableClass {
   final Type classType;
   final ImmutableSet<String> foundMethods;
 
-  MutableClass(ClassNode classNode, InstrumentationConfiguration config,
+  MutableClass(
+      ClassNode classNode,
+      InstrumentationConfiguration config,
       ClassNodeProvider classNodeProvider) {
     this.classNode = classNode;
     this.config = config;

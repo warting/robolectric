@@ -59,14 +59,16 @@ public class ShadowAccessibilityManagerTest {
 
   @Test
   public void shouldReturnExpectedEnabledServiceList() {
-    List<AccessibilityServiceInfo> expected = new ArrayList<>(Arrays.asList(new AccessibilityServiceInfo()));
+    List<AccessibilityServiceInfo> expected =
+        new ArrayList<>(Arrays.asList(new AccessibilityServiceInfo()));
     shadowOf(accessibilityManager).setEnabledAccessibilityServiceList(expected);
     assertThat(accessibilityManager.getEnabledAccessibilityServiceList(0)).isEqualTo(expected);
   }
 
   @Test
   public void shouldReturnExpectedInstalledServiceList() {
-    List<AccessibilityServiceInfo> expected = new ArrayList<>(Arrays.asList(new AccessibilityServiceInfo()));
+    List<AccessibilityServiceInfo> expected =
+        new ArrayList<>(Arrays.asList(new AccessibilityServiceInfo()));
     shadowOf(accessibilityManager).setInstalledAccessibilityServiceList(expected);
     assertThat(accessibilityManager.getInstalledAccessibilityServiceList()).isEqualTo(expected);
   }

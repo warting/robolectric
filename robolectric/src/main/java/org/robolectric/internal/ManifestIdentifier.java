@@ -101,7 +101,8 @@ public class ManifestIdentifier {
 
     ManifestIdentifier that = (ManifestIdentifier) o;
 
-    if (manifestFile != null ? !manifestFile.equals(that.manifestFile)
+    if (manifestFile != null
+        ? !manifestFile.equals(that.manifestFile)
         : that.manifestFile != null) {
       return false;
     }
@@ -133,13 +134,20 @@ public class ManifestIdentifier {
 
   @Override
   public String toString() {
-    return "ManifestIdentifier{" +
-        "manifestFile=" + manifestFile +
-        ", resDir=" + resDir +
-        ", assetDir=" + assetDir +
-        ", packageName='" + packageName + '\'' +
-        ", libraries=" + libraries +
-        ", apkFile=" + apkFile +
-        '}';
+    return "ManifestIdentifier{"
+        + "manifestFile="
+        + manifestFile
+        + ", resDir="
+        + resDir
+        + ", assetDir="
+        + assetDir
+        + ", packageName='"
+        + packageName
+        + '\''
+        + ", libraries="
+        + libraries
+        + ", apkFile="
+        + apkFile
+        + '}';
   }
 }

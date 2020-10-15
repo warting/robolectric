@@ -17,8 +17,7 @@ import org.robolectric.util.reflector.ForType;
 @Implements(value = AssetInputStream.class, shadowPicker = Picker.class)
 public class ShadowArscAssetInputStream extends ShadowAssetInputStream {
 
-  @RealObject
-  private AssetInputStream realObject;
+  @RealObject private AssetInputStream realObject;
 
   @Override
   InputStream getDelegate() {

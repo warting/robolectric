@@ -75,7 +75,7 @@ public class CachedDependencyResolverFileCacheTest {
   public void shouldWriteUrlArrayToFile() throws Exception {
     Cache cache = new CachedDependencyResolver.FileCache(temporaryFolder.getRoot(), VALID_TIME);
 
-    URL[] urls = { new URL("http://localhost") };
+    URL[] urls = {new URL("http://localhost")};
 
     assertTrue(cache.write(ID, urls));
 
@@ -111,5 +111,4 @@ public class CachedDependencyResolverFileCacheTest {
       out.close();
     }
   }
-
 }

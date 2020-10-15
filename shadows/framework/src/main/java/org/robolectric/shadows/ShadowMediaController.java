@@ -17,13 +17,10 @@ import org.robolectric.annotation.RealObject;
 import org.robolectric.util.ReflectionHelpers;
 import org.robolectric.util.ReflectionHelpers.ClassParameter;
 
-/**
- * Implementation of {@link android.media.session.MediaController}.
- */
+/** Implementation of {@link android.media.session.MediaController}. */
 @Implements(value = MediaController.class, minSdk = LOLLIPOP)
 public class ShadowMediaController {
-  @RealObject
-  private MediaController realMediaController;
+  @RealObject private MediaController realMediaController;
   private PlaybackState playbackState;
   private MediaMetadata mediaMetadata;
   private final List<Callback> callbacks = new ArrayList<>();
@@ -89,12 +86,15 @@ public class ShadowMediaController {
   public void executeOnPlaybackStateChanged(PlaybackState playbackState) {
     setPlaybackState(playbackState);
 
-    int messageId = ReflectionHelpers.getStaticField(MediaController.class,
-        "MSG_UPDATE_PLAYBACK_STATE");
-    ReflectionHelpers.callInstanceMethod(MediaController.class, realMediaController, "postMessage",
-          ClassParameter.from(int.class, messageId),
-          ClassParameter.from(Object.class, playbackState),
-          ClassParameter.from(Bundle.class, new Bundle()));
+    int messageId =
+        ReflectionHelpers.getStaticField(MediaController.class, "MSG_UPDATE_PLAYBACK_STATE");
+    ReflectionHelpers.callInstanceMethod(
+        MediaController.class,
+        realMediaController,
+        "postMessage",
+        ClassParameter.from(int.class, messageId),
+        ClassParameter.from(Object.class, playbackState),
+        ClassParameter.from(Bundle.class, new Bundle()));
   }
 
   /** Executes all registered onMetadataChanged callbacks. */

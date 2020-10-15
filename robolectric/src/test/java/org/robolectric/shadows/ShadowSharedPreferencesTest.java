@@ -21,7 +21,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class ShadowSharedPreferencesTest {
-  private final static String FILENAME = "filename";
+  private static final String FILENAME = "filename";
   private SharedPreferences.Editor editor;
   private SharedPreferences sharedPreferences;
 
@@ -44,9 +44,9 @@ public class ShadowSharedPreferencesTest {
     editor.putLong("long", 3L);
     editor.putString("string", "foobar");
 
-    stringSet.add( "string1" );
-    stringSet.add( "string2" );
-    stringSet.add( "string3" );
+    stringSet.add("string1");
+    stringSet.add("string2");
+    stringSet.add("string3");
     editor.putStringSet("stringSet", stringSet);
   }
 
@@ -54,7 +54,8 @@ public class ShadowSharedPreferencesTest {
   public void commit_shouldStoreValues() throws Exception {
     editor.commit();
 
-    SharedPreferences anotherSharedPreferences = context.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+    SharedPreferences anotherSharedPreferences =
+        context.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
     assertTrue(anotherSharedPreferences.getBoolean("boolean", false));
     assertThat(anotherSharedPreferences.getFloat("float", 666f)).isEqualTo(1.1f);
     assertThat(anotherSharedPreferences.getInt("int", 666)).isEqualTo(2);
@@ -68,13 +69,16 @@ public class ShadowSharedPreferencesTest {
     editor.commit();
     editor.remove("string").commit();
 
-    assertThat(sharedPreferences.getString("string", "no value for key")).isEqualTo("no value for key");
+    assertThat(sharedPreferences.getString("string", "no value for key"))
+        .isEqualTo("no value for key");
 
-    SharedPreferences anotherSharedPreferences = context.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+    SharedPreferences anotherSharedPreferences =
+        context.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
     anotherSharedPreferences.edit().putString("string", "value for key").commit();
 
     editor.commit();
-    assertThat(sharedPreferences.getString("string", "no value for key")).isEqualTo("value for key");
+    assertThat(sharedPreferences.getString("string", "no value for key"))
+        .isEqualTo("value for key");
   }
 
   @Test
@@ -95,7 +99,8 @@ public class ShadowSharedPreferencesTest {
 
     editor.commit();
 
-    SharedPreferences anotherSharedPreferences = context.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+    SharedPreferences anotherSharedPreferences =
+        context.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
     assertThat(anotherSharedPreferences.getBoolean("boolean", false)).isTrue();
     assertThat(anotherSharedPreferences.getFloat("float", 666f)).isEqualTo(1.1f);
     assertThat(anotherSharedPreferences.getInt("int", 666)).isEqualTo(2);
@@ -115,14 +120,16 @@ public class ShadowSharedPreferencesTest {
 
     editor.commit();
 
-    SharedPreferences anotherSharedPreferences = context.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+    SharedPreferences anotherSharedPreferences =
+        context.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
     assertTrue(anotherSharedPreferences.getBoolean("boolean", false));
     assertThat(anotherSharedPreferences.getFloat("float", 666f)).isEqualTo(1.1f);
     assertThat(anotherSharedPreferences.getInt("int", 666)).isEqualTo(2);
     assertThat(anotherSharedPreferences.getLong("long", 666L)).isEqualTo(3L);
     assertThat(anotherSharedPreferences.getString("string", "wacka wa")).isEqualTo("foobar");
 
-    // Android always calls clear before put on any open editor, so here "foo" is preserved rather than cleared.
+    // Android always calls clear before put on any open editor, so here "foo" is preserved rather
+    // than cleared.
     assertThat(anotherSharedPreferences.getString("deleteMe", "awol")).isEqualTo("foo");
     assertThat(anotherSharedPreferences.getString("dontDeleteMe", "oops")).isEqualTo("baz");
   }
@@ -151,13 +158,15 @@ public class ShadowSharedPreferencesTest {
   public void apply_shouldStoreValues() throws Exception {
     editor.apply();
 
-    SharedPreferences anotherSharedPreferences = context.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+    SharedPreferences anotherSharedPreferences =
+        context.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
     assertThat(anotherSharedPreferences.getString("string", "wacka wa")).isEqualTo("foobar");
   }
 
   @Test
   public void shouldReturnDefaultValues() throws Exception {
-    SharedPreferences anotherSharedPreferences = context.getSharedPreferences("bazBang", Context.MODE_PRIVATE);
+    SharedPreferences anotherSharedPreferences =
+        context.getSharedPreferences("bazBang", Context.MODE_PRIVATE);
 
     assertFalse(anotherSharedPreferences.getBoolean("boolean", false));
     assertThat(anotherSharedPreferences.getFloat("float", 666f)).isEqualTo(666f);
@@ -168,9 +177,11 @@ public class ShadowSharedPreferencesTest {
 
   @Test
   public void shouldRemoveRegisteredListenersOnUnresgister() {
-    SharedPreferences anotherSharedPreferences = context.getSharedPreferences("bazBang", Context.MODE_PRIVATE);
+    SharedPreferences anotherSharedPreferences =
+        context.getSharedPreferences("bazBang", Context.MODE_PRIVATE);
 
-    SharedPreferences.OnSharedPreferenceChangeListener mockListener = mock(SharedPreferences.OnSharedPreferenceChangeListener.class);
+    SharedPreferences.OnSharedPreferenceChangeListener mockListener =
+        mock(SharedPreferences.OnSharedPreferenceChangeListener.class);
     anotherSharedPreferences.registerOnSharedPreferenceChangeListener(mockListener);
 
     anotherSharedPreferences.unregisterOnSharedPreferenceChangeListener(mockListener);
@@ -181,22 +192,24 @@ public class ShadowSharedPreferencesTest {
 
   @Test
   public void shouldTriggerRegisteredListeners() {
-    SharedPreferences anotherSharedPreferences = context.getSharedPreferences("bazBang", Context.MODE_PRIVATE);
+    SharedPreferences anotherSharedPreferences =
+        context.getSharedPreferences("bazBang", Context.MODE_PRIVATE);
 
     final String testKey = "foo";
 
     final List<String> transcript = new ArrayList<>();
 
-    SharedPreferences.OnSharedPreferenceChangeListener listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-      @Override
-      public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        transcript.add(key + " called");
-      }
-    };
+    SharedPreferences.OnSharedPreferenceChangeListener listener =
+        new SharedPreferences.OnSharedPreferenceChangeListener() {
+          @Override
+          public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            transcript.add(key + " called");
+          }
+        };
     anotherSharedPreferences.registerOnSharedPreferenceChangeListener(listener);
     anotherSharedPreferences.edit().putString(testKey, "bar").commit();
 
-    assertThat(transcript).containsExactly(testKey+ " called");
+    assertThat(transcript).containsExactly(testKey + " called");
   }
 
   @Test
@@ -204,7 +217,8 @@ public class ShadowSharedPreferencesTest {
     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     sharedPreferences.edit().putString("foo", "bar").commit();
 
-    SharedPreferences anotherSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+    SharedPreferences anotherSharedPreferences =
+        PreferenceManager.getDefaultSharedPreferences(context);
     String restored = anotherSharedPreferences.getString("foo", null);
     assertThat(restored).isEqualTo("bar");
   }

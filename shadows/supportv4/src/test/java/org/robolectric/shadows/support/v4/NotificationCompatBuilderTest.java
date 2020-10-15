@@ -17,9 +17,7 @@ public class NotificationCompatBuilderTest {
     NotificationCompat.Action action =
         new NotificationCompat.Action.Builder(R.drawable.ic_corp_icon, "a title", null).build();
     Notification notification =
-        new NotificationCompat.Builder(RuntimeEnvironment.application)
-            .addAction(action)
-            .build();
+        new NotificationCompat.Builder(RuntimeEnvironment.application).addAction(action).build();
     assertThat(notification.actions).asList().hasSize(1);
   }
 }

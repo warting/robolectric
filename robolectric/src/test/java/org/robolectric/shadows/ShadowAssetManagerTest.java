@@ -32,8 +32,7 @@ import org.robolectric.shadows.ShadowResources.ShadowLegacyTheme;
 @RunWith(AndroidJUnit4.class)
 public class ShadowAssetManagerTest {
 
-  @Rule
-  public ExpectedException expectedException = ExpectedException.none();
+  @Rule public ExpectedException expectedException = ExpectedException.none();
 
   private AssetManager assetManager;
   private Resources resources;
@@ -48,7 +47,8 @@ public class ShadowAssetManagerTest {
   public void openFd_shouldProvideFileDescriptorForDeflatedAsset() throws Exception {
     assumeTrue(!useLegacy());
     expectedException.expect(FileNotFoundException.class);
-    expectedException.expectMessage("This file can not be opened as a file descriptor; it is probably compressed");
+    expectedException.expectMessage(
+        "This file can not be opened as a file descriptor; it is probably compressed");
 
     assetManager.openFd("deflatedAsset.xml");
   }
@@ -69,7 +69,8 @@ public class ShadowAssetManagerTest {
   public void openNonAssetShouldOpenFileFromAndroidJar() throws IOException {
     String fileName = "res/raw/fallbackring.ogg";
     if (useLegacy()) {
-      // Not the real full path (it's in .m2/repository), but it only cares about the last folder and file name;
+      // Not the real full path (it's in .m2/repository), but it only cares about the last folder
+      // and file name;
       // retrieves the uncompressed, un-version-qualified file from raw-res/...
       fileName = "jar:" + fileName;
     }
@@ -82,8 +83,7 @@ public class ShadowAssetManagerTest {
     assumeTrue(useLegacy());
 
     expectedException.expect(IOException.class);
-    expectedException.expectMessage(
-        "res/drawable/does_not_exist.png");
+    expectedException.expectMessage("res/drawable/does_not_exist.png");
 
     assetManager.openNonAsset(0, "res/drawable/does_not_exist.png", 0);
   }
@@ -186,7 +186,7 @@ public class ShadowAssetManagerTest {
     when(mockAttributeSet.getAttributeName(0)).thenReturn("android:windowBackground");
     when(mockAttributeSet.getAttributeValue(0)).thenReturn("value");
 
-    resources.obtainAttributes(mockAttributeSet, new int[]{android.R.attr.windowBackground});
+    resources.obtainAttributes(mockAttributeSet, new int[] {android.R.attr.windowBackground});
   }
 
   @Test
@@ -195,11 +195,11 @@ public class ShadowAssetManagerTest {
     if (!useLegacy()) return;
     expectedException.expect(RuntimeException.class);
     expectedException.expectMessage(
-        "no value for org.robolectric:attr/styleNotSpecifiedInAnyTheme " +
-            "in theme with applied styles: [Style org.robolectric:Theme.Robolectric (and parents)]");
+        "no value for org.robolectric:attr/styleNotSpecifiedInAnyTheme in theme with applied"
+            + " styles: [Style org.robolectric:Theme.Robolectric (and parents)]");
 
-   Resources.Theme theme = resources.newTheme();
-   theme.applyStyle(R.style.Theme_Robolectric, false);
+    Resources.Theme theme = resources.newTheme();
+    theme.applyStyle(R.style.Theme_Robolectric, false);
 
     legacyShadowOf(assetManager)
         .attrsToTypedArray(

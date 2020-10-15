@@ -28,30 +28,32 @@ public class CachedDependencyResolverTest {
   @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
   private static final String CACHE_NAME = "someName";
   private DependencyResolver internalResolver = mock(DependencyResolver.class);
-  private CacheNamingStrategy cacheNamingStrategy = new CacheNamingStrategy() {
-    @Override
-    public String getName(String prefix, DependencyJar... dependencies) {
-      return CACHE_NAME;
-    }
-  };
-  private CacheValidationStrategy cacheValidationStrategy = new CacheValidationStrategy() {
-    @Override
-    public boolean isValid(URL url) {
-      return true;
-    }
+  private CacheNamingStrategy cacheNamingStrategy =
+      new CacheNamingStrategy() {
+        @Override
+        public String getName(String prefix, DependencyJar... dependencies) {
+          return CACHE_NAME;
+        }
+      };
+  private CacheValidationStrategy cacheValidationStrategy =
+      new CacheValidationStrategy() {
+        @Override
+        public boolean isValid(URL url) {
+          return true;
+        }
 
-    @Override
-    public boolean isValid(URL[] urls) {
-      return true;
-    }
-  };
+        @Override
+        public boolean isValid(URL[] urls) {
+          return true;
+        }
+      };
 
   private URL url;
   private Cache cache = new CacheStub();
-  private DependencyJar[] dependencies = new DependencyJar[]{
-      createDependency("group1", "artifact1"),
-      createDependency("group2", "artifact2"),
-  };
+  private DependencyJar[] dependencies =
+      new DependencyJar[] {
+        createDependency("group1", "artifact1"), createDependency("group2", "artifact2"),
+      };
   private DependencyJar dependency = dependencies[0];
 
   @Before
@@ -60,7 +62,7 @@ public class CachedDependencyResolverTest {
   }
 
   @Test
-  public void getLocalArtifactUrl_shouldWriteLocalArtifactUrlWhenCacheMiss() throws Exception{
+  public void getLocalArtifactUrl_shouldWriteLocalArtifactUrlWhenCacheMiss() throws Exception {
     DependencyResolver res = createResolver();
 
     when(internalResolver.getLocalArtifactUrl(dependency)).thenReturn(url);
@@ -88,7 +90,8 @@ public class CachedDependencyResolverTest {
     CacheValidationStrategy failStrategy = mock(CacheValidationStrategy.class);
     when(failStrategy.isValid(any(URL.class))).thenReturn(false);
 
-    DependencyResolver res = new CachedDependencyResolver(internalResolver, cache, cacheNamingStrategy, failStrategy);
+    DependencyResolver res =
+        new CachedDependencyResolver(internalResolver, cache, cacheNamingStrategy, failStrategy);
     cache.write(CACHE_NAME, this.url);
 
     res.getLocalArtifactUrl(dependency);
@@ -101,7 +104,8 @@ public class CachedDependencyResolverTest {
   }
 
   private DependencyResolver createResolver() {
-    return new CachedDependencyResolver(internalResolver, cache, cacheNamingStrategy, cacheValidationStrategy);
+    return new CachedDependencyResolver(
+        internalResolver, cache, cacheNamingStrategy, cacheValidationStrategy);
   }
 
   private DependencyJar createDependency(final String groupId, final String artifactId) {
@@ -109,7 +113,7 @@ public class CachedDependencyResolverTest {
 
       @Override
       public boolean equals(Object o) {
-        if(!(o instanceof DependencyJar)) return false;
+        if (!(o instanceof DependencyJar)) return false;
 
         DependencyJar d = (DependencyJar) o;
 

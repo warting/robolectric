@@ -13,8 +13,7 @@ import org.robolectric.shadows.ShadowAssetInputStream.Picker;
 @Implements(value = AssetInputStream.class, shadowPicker = Picker.class)
 public class ShadowLegacyAssetInputStream extends ShadowAssetInputStream {
 
-  @RealObject
-  private AssetInputStream realObject;
+  @RealObject private AssetInputStream realObject;
 
   private InputStream delegate;
   private boolean ninePatch;

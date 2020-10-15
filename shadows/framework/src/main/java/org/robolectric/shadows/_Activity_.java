@@ -217,11 +217,10 @@ public interface _Activity_ {
           null,
           null);
     } else if (apiLevel <= Build.VERSION_CODES.Q
-                   &&
-                   Integer.parseInt(
-                       Build.VERSION.INCREMENTAL.substring(
-                           Build.VERSION.INCREMENTAL.lastIndexOf(".") + 1)) < 5515639) {
-        attach(
+        && Integer.parseInt(
+                Build.VERSION.INCREMENTAL.substring(Build.VERSION.INCREMENTAL.lastIndexOf(".") + 1))
+            < 5515639) {
+      attach(
           baseContext,
           activityThread,
           instrumentation,

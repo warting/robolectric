@@ -107,8 +107,8 @@ public class ShadowResources {
     if (isLegacyAssetManager()) {
       ShadowLegacyAssetManager shadowAssetManager = legacyShadowOf(realResources.getAssets());
 
-      TypedResource typedResource = shadowAssetManager.getResourceTable()
-          .getValue(resId, shadowAssetManager.config);
+      TypedResource typedResource =
+          shadowAssetManager.getResourceTable().getValue(resId, shadowAssetManager.config);
       if (typedResource != null && typedResource instanceof PluralRules) {
         PluralRules pluralRules = (PluralRules) typedResource;
         Plural plural = pluralRules.find(quantity);
@@ -117,9 +117,12 @@ public class ShadowResources {
           return null;
         }
 
-        TypedResource<?> resolvedTypedResource = shadowAssetManager.resolve(
-            new TypedResource<>(plural.getString(), ResType.CHAR_SEQUENCE, pluralRules.getXmlContext()),
-            shadowAssetManager.config, resId);
+        TypedResource<?> resolvedTypedResource =
+            shadowAssetManager.resolve(
+                new TypedResource<>(
+                    plural.getString(), ResType.CHAR_SEQUENCE, pluralRules.getXmlContext()),
+                shadowAssetManager.config,
+                resId);
         return resolvedTypedResource == null ? null : resolvedTypedResource.asString();
       } else {
         return null;
@@ -161,8 +164,8 @@ public class ShadowResources {
 
       FileInputStream fis = (FileInputStream) inputStream;
       try {
-        return new AssetFileDescriptor(ParcelFileDescriptor.dup(fis.getFD()), 0,
-            fis.getChannel().size());
+        return new AssetFileDescriptor(
+            ParcelFileDescriptor.dup(fis.getFD()), 0, fis.getChannel().size());
       } catch (IOException e) {
         throw newNotFoundException(id);
       }
@@ -204,7 +207,10 @@ public class ShadowResources {
       ShadowLegacyAssetManager shadowAssetManager = legacyShadowOf(realResources.getAssets());
       return shadowAssetManager.loadXmlResourceParser(resId, type);
     } else {
-      return directlyOn(realResources, Resources.class, "loadXmlResourceParser",
+      return directlyOn(
+          realResources,
+          Resources.class,
+          "loadXmlResourceParser",
           ClassParameter.from(int.class, resId),
           ClassParameter.from(String.class, type));
     }
@@ -217,7 +223,10 @@ public class ShadowResources {
     if (isLegacyAssetManager()) {
       return loadXmlResourceParser(id, type);
     } else {
-      return directlyOn(realResources, Resources.class, "loadXmlResourceParser",
+      return directlyOn(
+          realResources,
+          Resources.class,
+          "loadXmlResourceParser",
           ClassParameter.from(String.class, file),
           ClassParameter.from(int.class, id),
           ClassParameter.from(int.class, assetCookie),
@@ -228,9 +237,13 @@ public class ShadowResources {
   @HiddenApi
   @Implementation(maxSdk = KITKAT_WATCH)
   protected Drawable loadDrawable(TypedValue value, int id) {
-    Drawable drawable = directlyOn(realResources, Resources.class, "loadDrawable",
-        ClassParameter.from(TypedValue.class, value),
-        ClassParameter.from(int.class, id));
+    Drawable drawable =
+        directlyOn(
+            realResources,
+            Resources.class,
+            "loadDrawable",
+            ClassParameter.from(TypedValue.class, value),
+            ClassParameter.from(int.class, id));
     setCreatedFromResId(realResources, id, drawable);
     return drawable;
   }
@@ -238,8 +251,14 @@ public class ShadowResources {
   @Implementation(minSdk = LOLLIPOP, maxSdk = N_MR1)
   protected Drawable loadDrawable(TypedValue value, int id, Resources.Theme theme)
       throws Resources.NotFoundException {
-    Drawable drawable = directlyOn(realResources, Resources.class, "loadDrawable",
-        ClassParameter.from(TypedValue.class, value), ClassParameter.from(int.class, id), ClassParameter.from(Resources.Theme.class, theme));
+    Drawable drawable =
+        directlyOn(
+            realResources,
+            Resources.class,
+            "loadDrawable",
+            ClassParameter.from(TypedValue.class, value),
+            ClassParameter.from(int.class, id),
+            ClassParameter.from(Resources.Theme.class, theme));
     setCreatedFromResId(realResources, id, drawable);
     return drawable;
   }
@@ -248,7 +267,8 @@ public class ShadowResources {
     List<LongSparseArray<?>> resettableArrays = new ArrayList<>();
     Field[] allFields = Resources.class.getDeclaredFields();
     for (Field field : allFields) {
-      if (Modifier.isStatic(field.getModifiers()) && field.getType().equals(LongSparseArray.class)) {
+      if (Modifier.isStatic(field.getModifiers())
+          && field.getType().equals(LongSparseArray.class)) {
         field.setAccessible(true);
         try {
           LongSparseArray<?> longSparseArray = (LongSparseArray<?>) field.get(null);
@@ -263,7 +283,7 @@ public class ShadowResources {
     return resettableArrays;
   }
 
-  public static abstract class ShadowTheme {
+  public abstract static class ShadowTheme {
 
     public static class Picker extends ResourceModeShadowPicker<ShadowTheme> {
 
@@ -300,7 +320,8 @@ public class ShadowResources {
     @Implementation(maxSdk = M)
     protected TypedArray obtainStyledAttributes(
         AttributeSet set, int[] attrs, int defStyleAttr, int defStyleRes) {
-      return getShadowAssetManager().attrsToTypedArray(getResources(), set, attrs, defStyleAttr, getNativePtr(), defStyleRes);
+      return getShadowAssetManager()
+          .attrsToTypedArray(getResources(), set, attrs, defStyleAttr, getNativePtr(), defStyleRes);
     }
 
     private ShadowLegacyAssetManager getShadowAssetManager() {
@@ -312,7 +333,6 @@ public class ShadowResources {
     }
   }
 
-
   static void setCreatedFromResId(Resources resources, int id, Drawable drawable) {
     // todo: this kinda sucks, find some better way...
     if (drawable != null && Shadow.extract(drawable) instanceof ShadowDrawable) {
@@ -320,7 +340,7 @@ public class ShadowResources {
       shadowDrawable.createdFromResId = id;
       if (drawable instanceof BitmapDrawable) {
         Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-        if (bitmap != null  && Shadow.extract(bitmap) instanceof ShadowBitmap) {
+        if (bitmap != null && Shadow.extract(bitmap) instanceof ShadowBitmap) {
           ShadowBitmap shadowBitmap = Shadow.extract(bitmap);
           if (shadowBitmap.createdFromResId == -1) {
             String resourceName;
@@ -354,7 +374,8 @@ public class ShadowResources {
       this.message = name;
     }
 
-    @Override @Implementation
+    @Override
+    @Implementation
     public String toString() {
       return realObject.getClass().getName() + ": " + message;
     }

@@ -4,5 +4,4 @@ import android.widget.AbsSeekBar;
 import org.robolectric.annotation.Implements;
 
 @Implements(AbsSeekBar.class)
-public class ShadowAbsSeekBar extends ShadowProgressBar {
-}
+public class ShadowAbsSeekBar extends ShadowProgressBar {}

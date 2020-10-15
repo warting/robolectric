@@ -7,7 +7,6 @@ import com.example.objects.Dummy;
 @Implements(Dummy.class)
 public class ShadowResetterWithParameters {
 
-  
   @Resetter
   public static void resetter_method(String param) {}
 }

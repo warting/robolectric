@@ -12,13 +12,13 @@ import org.robolectric.util.ReflectionHelpers;
 @Implements(PopupWindow.class)
 public class ShadowPopupWindow {
 
-  @RealObject
-  private PopupWindow realPopupWindow;
+  @RealObject private PopupWindow realPopupWindow;
 
   @Implementation
   protected void invokePopup(WindowManager.LayoutParams p) {
     ShadowApplication.getInstance().setLatestPopupWindow(realPopupWindow);
-    directlyOn(realPopupWindow,
+    directlyOn(
+        realPopupWindow,
         PopupWindow.class,
         "invokePopup",
         ReflectionHelpers.ClassParameter.from(WindowManager.LayoutParams.class, p));

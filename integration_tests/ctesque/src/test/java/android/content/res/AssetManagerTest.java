@@ -20,15 +20,12 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.internal.DoNotInstrument;
 
-/**
- * Compatibility test for {@link AssetManager}
- */
+/** Compatibility test for {@link AssetManager} */
 @DoNotInstrument
 @RunWith(AndroidJUnit4.class)
 public class AssetManagerTest {
 
-  @Rule
-  public ExpectedException expectedException = ExpectedException.none();
+  @Rule public ExpectedException expectedException = ExpectedException.none();
 
   private AssetManager assetManager;
 
@@ -46,8 +43,7 @@ public class AssetManagerTest {
         .asList()
         .containsAtLeast("assetsHome.txt", "robolectric.png", "myFont.ttf");
 
-    assertThat(assetManager.list("testing")).asList()
-        .contains("hello.txt");
+    assertThat(assetManager.list("testing")).asList().contains("hello.txt");
 
     assertThat(assetManager.list("bogus-dir")).isEmpty();
   }
@@ -61,15 +57,20 @@ public class AssetManagerTest {
 
   @Test
   public void open_withAccessMode_shouldOpenFile() throws IOException {
-    final String contents = CharStreams.toString(
-        new InputStreamReader(assetManager.open("assetsHome.txt", AssetManager.ACCESS_BUFFER), UTF_8));
+    final String contents =
+        CharStreams.toString(
+            new InputStreamReader(
+                assetManager.open("assetsHome.txt", AssetManager.ACCESS_BUFFER), UTF_8));
     assertThat(contents).isEqualTo("assetsHome!");
   }
 
-  @Test @Ignore("TODO(xian): re-enable; see https://github.com/robolectric/robolectric/issues/4091")
+  @Test
+  @Ignore("TODO(xian): re-enable; see https://github.com/robolectric/robolectric/issues/4091")
   public void openFd_shouldProvideFileDescriptorForAsset() throws Exception {
     AssetFileDescriptor assetFileDescriptor = assetManager.openFd("assetsHome.txt");
-    assertThat(CharStreams.toString(new InputStreamReader(assetFileDescriptor.createInputStream(), UTF_8)))
+    assertThat(
+            CharStreams.toString(
+                new InputStreamReader(assetFileDescriptor.createInputStream(), UTF_8)))
         .isEqualTo("assetsHome!");
     assertThat(assetFileDescriptor.getLength()).isEqualTo(11);
   }

@@ -160,21 +160,26 @@ public class SdkStore {
       if (!sdkMethod.equals(implMethod)
           && !suppressWarnings(methodElement, "robolectric.ShadowReturnTypeMismatch")) {
         if (implMethod.isStatic != sdkMethod.isStatic) {
-          return "@Implementation for " + methodElement.getSimpleName()
-              + " is " + (implMethod.isStatic ? "static" : "not static")
+          return "@Implementation for "
+              + methodElement.getSimpleName()
+              + " is "
+              + (implMethod.isStatic ? "static" : "not static")
               + " unlike the SDK method";
         }
         if (!implMethod.returnType.equals(sdkMethod.returnType)) {
-          if (
-              (looseSignatures && typeIsOkForLooseSignatures(implMethod, sdkMethod))
-                  || (looseSignatures && implMethod.returnType.equals("java.lang.Object[]"))
-                  // Number is allowed for int or long return types
-                  || typeIsNumeric(sdkMethod, implMethod)) {
+          if ((looseSignatures && typeIsOkForLooseSignatures(implMethod, sdkMethod))
+              || (looseSignatures && implMethod.returnType.equals("java.lang.Object[]"))
+              // Number is allowed for int or long return types
+              || typeIsNumeric(sdkMethod, implMethod)) {
             return null;
           } else {
-            return "@Implementation for " + methodElement.getSimpleName()
-                + " has a return type of " + implMethod.returnType
-                + ", not " + sdkMethod.returnType + " as in the SDK method";
+            return "@Implementation for "
+                + methodElement.getSimpleName()
+                + " has a return type of "
+                + implMethod.returnType
+                + ", not "
+                + sdkMethod.returnType
+                + " as in the SDK method";
           }
         }
       }
@@ -183,7 +188,8 @@ public class SdkStore {
     }
 
     private boolean suppressWarnings(ExecutableElement methodElement, String warningName) {
-      SuppressWarnings[] suppressWarnings = methodElement.getAnnotationsByType(SuppressWarnings.class);
+      SuppressWarnings[] suppressWarnings =
+          methodElement.getAnnotationsByType(SuppressWarnings.class);
       for (SuppressWarnings suppression : suppressWarnings) {
         for (String name : suppression.value()) {
           if (warningName.equals(name)) {
@@ -196,16 +202,17 @@ public class SdkStore {
 
     private boolean typeIsNumeric(MethodExtraInfo sdkMethod, MethodExtraInfo implMethod) {
       return implMethod.returnType.equals("java.lang.Number")
-      && isNumericType(sdkMethod.returnType);
+          && isNumericType(sdkMethod.returnType);
     }
 
-    private boolean typeIsOkForLooseSignatures(MethodExtraInfo implMethod, MethodExtraInfo sdkMethod) {
+    private boolean typeIsOkForLooseSignatures(
+        MethodExtraInfo implMethod, MethodExtraInfo sdkMethod) {
       return
-          // loose signatures allow a return type of Object...
-          implMethod.returnType.equals("java.lang.Object")
-              // or Object[] for arrays...
-              || (implMethod.returnType.equals("java.lang.Object[]")
-                  && sdkMethod.returnType.endsWith("[]"));
+      // loose signatures allow a return type of Object...
+      implMethod.returnType.equals("java.lang.Object")
+          // or Object[] for arrays...
+          || (implMethod.returnType.equals("java.lang.Object[]")
+              && sdkMethod.returnType.endsWith("[]"));
     }
 
     private boolean isNumericType(String type) {
@@ -273,7 +280,7 @@ public class SdkStore {
     }
 
     private static File copyResourceToFile(String resourcePath) throws IOException {
-      if (tempDir == null){
+      if (tempDir == null) {
         File tempFile = File.createTempFile("prefix", "suffix");
         tempFile.deleteOnExit();
         tempDir = tempFile.getParentFile();
@@ -304,8 +311,8 @@ public class SdkStore {
       try (InputStream inputStream = jarFile.getInputStream(entry)) {
         ClassReader classReader = new ClassReader(inputStream);
         ClassNode classNode = new ClassNode();
-        classReader.accept(classNode,
-            ClassReader.SKIP_CODE | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
+        classReader.accept(
+            classNode, ClassReader.SKIP_CODE | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
         return classNode;
       } catch (IOException e) {
         throw new RuntimeException("failed to analyze " + classFileName + " in " + path, e);
@@ -322,8 +329,7 @@ public class SdkStore {
     private final Map<MethodInfo, MethodExtraInfo> methods = new HashMap<>();
     private final Map<MethodInfo, MethodExtraInfo> erasedParamTypesMethods = new HashMap<>();
 
-    private ClassInfo() {
-    }
+    private ClassInfo() {}
 
     public ClassInfo(ClassNode classNode) {
       for (Object aMethod : classNode.methods) {
@@ -402,20 +408,17 @@ public class SdkStore {
         return false;
       }
       MethodInfo that = (MethodInfo) o;
-      return Objects.equals(name, that.name)
-          && Objects.equals(paramTypes, that.paramTypes);
+      return Objects.equals(name, that.name) && Objects.equals(paramTypes, that.paramTypes);
     }
 
     @Override
     public int hashCode() {
       return Objects.hash(name, paramTypes);
     }
+
     @Override
     public String toString() {
-      return "MethodInfo{"
-          + "name='" + name + '\''
-          + ", paramTypes=" + paramTypes
-          + '}';
+      return "MethodInfo{" + "name='" + name + '\'' + ", paramTypes=" + paramTypes + '}';
     }
   }
 
@@ -446,8 +449,7 @@ public class SdkStore {
         return false;
       }
       MethodExtraInfo that = (MethodExtraInfo) o;
-      return isStatic == that.isStatic &&
-          Objects.equals(returnType, that.returnType);
+      return isStatic == that.isStatic && Objects.equals(returnType, that.returnType);
     }
 
     @Override

@@ -20,23 +20,23 @@ import org.robolectric.annotation.Config;
 public class ShadowJobServiceTest {
 
   private JobService jobService;
-  @Mock
-  private JobParameters params;
+  @Mock private JobParameters params;
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    jobService = new JobService() {
-      @Override
-      public boolean onStartJob(JobParameters params) {
-        return false;
-      }
+    jobService =
+        new JobService() {
+          @Override
+          public boolean onStartJob(JobParameters params) {
+            return false;
+          }
 
-      @Override
-      public boolean onStopJob(JobParameters params) {
-        return false;
-      }
-    };
+          @Override
+          public boolean onStopJob(JobParameters params) {
+            return false;
+          }
+        };
   }
 
   @Test

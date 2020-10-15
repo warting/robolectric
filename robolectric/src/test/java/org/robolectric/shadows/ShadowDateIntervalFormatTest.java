@@ -28,7 +28,13 @@ public class ShadowDateIntervalFormatTest {
     calendar.set(Calendar.DAY_OF_MONTH, 20);
 
     long timeInMillis = calendar.getTimeInMillis();
-    String actual = DateIntervalFormat.formatDateRange(ULocale.getDefault(), TimeZone.getDefault(), timeInMillis, timeInMillis, DateUtils.FORMAT_NUMERIC_DATE);
+    String actual =
+        DateIntervalFormat.formatDateRange(
+            ULocale.getDefault(),
+            TimeZone.getDefault(),
+            timeInMillis,
+            timeInMillis,
+            DateUtils.FORMAT_NUMERIC_DATE);
 
     DateFormat format = new SimpleDateFormat("MM/dd/yyyy", ULocale.getDefault());
     Date date = format.parse(actual);

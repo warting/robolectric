@@ -68,5 +68,4 @@ public class ShadowPausedAsyncTask<Params, Progress, Result> extends ShadowAsync
   public static void overrideExecutor(Executor executor) {
     executorOverride = executor;
   }
-
 }

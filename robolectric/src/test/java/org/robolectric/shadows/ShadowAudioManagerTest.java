@@ -407,7 +407,7 @@ public class ShadowAudioManagerTest {
     int volumeBefore = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 
     audioManager.adjustStreamVolume(
-            AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, /* flags= */ 0);
+        AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, /* flags= */ 0);
 
     int volumeAfter = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
     assertThat(volumeAfter).isLessThan(volumeBefore);
@@ -420,7 +420,7 @@ public class ShadowAudioManagerTest {
     int volumeBefore = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 
     audioManager.adjustStreamVolume(
-            AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, /* flags= */ 0);
+        AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, /* flags= */ 0);
 
     int volumeAfter = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
     assertThat(volumeAfter).isEqualTo(volumeBefore);
@@ -433,7 +433,7 @@ public class ShadowAudioManagerTest {
     int volumeBefore = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 
     audioManager.adjustStreamVolume(
-            AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, /* flags= */ 0);
+        AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, /* flags= */ 0);
 
     int volumeAfter = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
     assertThat(volumeAfter).isGreaterThan(volumeBefore);
@@ -447,7 +447,7 @@ public class ShadowAudioManagerTest {
     int volumeBefore = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 
     audioManager.adjustStreamVolume(
-            AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, /* flags= */ 0);
+        AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, /* flags= */ 0);
 
     int volumeAfter = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
     assertThat(volumeAfter).isEqualTo(volumeBefore);

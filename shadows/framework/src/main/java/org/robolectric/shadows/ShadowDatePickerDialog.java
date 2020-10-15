@@ -35,7 +35,9 @@ public class ShadowDatePickerDialog extends ShadowAlertDialog {
     this.dayOfMonth = dayOfMonth;
     this.callBack = callBack;
 
-    invokeConstructor(DatePickerDialog.class, realDatePickerDialog,
+    invokeConstructor(
+        DatePickerDialog.class,
+        realDatePickerDialog,
         ClassParameter.from(Context.class, context),
         ClassParameter.from(int.class, theme),
         ClassParameter.from(DatePickerDialog.OnDateSetListener.class, callBack),
@@ -59,7 +61,9 @@ public class ShadowDatePickerDialog extends ShadowAlertDialog {
     this.dayOfMonth = dayOfMonth;
     this.callBack = callBack;
 
-    invokeConstructor(DatePickerDialog.class, realDatePickerDialog,
+    invokeConstructor(
+        DatePickerDialog.class,
+        realDatePickerDialog,
         ClassParameter.from(Context.class, context),
         ClassParameter.from(int.class, theme),
         ClassParameter.from(DatePickerDialog.OnDateSetListener.class, callBack),

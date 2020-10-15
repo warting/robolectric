@@ -109,8 +109,8 @@ public class SupportFragmentController<F extends Fragment>
   }
 
   /**
-   * Creates the activity with {@link Bundle} and adds the fragment to the view with ID
-   * {@code contentViewId}.
+   * Creates the activity with {@link Bundle} and adds the fragment to the view with ID {@code
+   * contentViewId}.
    */
   public SupportFragmentController<F> create(final int contentViewId, final Bundle bundle) {
     shadowMainLooper.runPaused(
@@ -143,73 +143,80 @@ public class SupportFragmentController<F extends Fragment>
   }
 
   public SupportFragmentController<F> postCreate(Bundle bundle) {
-    shadowMainLooper.runPaused(new Runnable() {
-      @Override
-      public void run() {
-        activityController.postCreate(bundle);
-      }
-    });
+    shadowMainLooper.runPaused(
+        new Runnable() {
+          @Override
+          public void run() {
+            activityController.postCreate(bundle);
+          }
+        });
     return this;
   }
 
   @Override
   public SupportFragmentController<F> destroy() {
-    shadowMainLooper.runPaused(new Runnable() {
-      @Override
-      public void run() {
-        activityController.destroy();
-      }
-    });
+    shadowMainLooper.runPaused(
+        new Runnable() {
+          @Override
+          public void run() {
+            activityController.destroy();
+          }
+        });
     return this;
   }
 
   public SupportFragmentController<F> start() {
-    shadowMainLooper.runPaused(new Runnable() {
-      @Override
-      public void run() {
-        activityController.start();
-      }
-    });
+    shadowMainLooper.runPaused(
+        new Runnable() {
+          @Override
+          public void run() {
+            activityController.start();
+          }
+        });
     return this;
   }
 
   public SupportFragmentController<F> resume() {
-    shadowMainLooper.runPaused(new Runnable() {
-      @Override
-      public void run() {
-        activityController.resume();
-      }
-    });
+    shadowMainLooper.runPaused(
+        new Runnable() {
+          @Override
+          public void run() {
+            activityController.resume();
+          }
+        });
     return this;
   }
 
   public SupportFragmentController<F> pause() {
-    shadowMainLooper.runPaused(new Runnable() {
-      @Override
-      public void run() {
-        activityController.pause();
-      }
-    });
+    shadowMainLooper.runPaused(
+        new Runnable() {
+          @Override
+          public void run() {
+            activityController.pause();
+          }
+        });
     return this;
   }
 
   public SupportFragmentController<F> stop() {
-    shadowMainLooper.runPaused(new Runnable() {
-      @Override
-      public void run() {
-        activityController.stop();
-      }
-    });
+    shadowMainLooper.runPaused(
+        new Runnable() {
+          @Override
+          public void run() {
+            activityController.stop();
+          }
+        });
     return this;
   }
 
   public SupportFragmentController<F> visible() {
-    shadowMainLooper.runPaused(new Runnable() {
-      @Override
-      public void run() {
-        activityController.visible();
-      }
-    });
+    shadowMainLooper.runPaused(
+        new Runnable() {
+          @Override
+          public void run() {
+            activityController.visible();
+          }
+        });
     return this;
   }
 

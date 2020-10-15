@@ -75,10 +75,11 @@ public class ShadowBitmapTest {
 
   @Test
   public void shouldCreateBitmapWithColors() throws Exception {
-    int[] colors = new int[] {
-        Color.parseColor("#ff0000"), Color.parseColor("#00ff00"), Color.parseColor("#0000ff"),
-        Color.parseColor("#990000"), Color.parseColor("#009900"), Color.parseColor("#000099")
-    };
+    int[] colors =
+        new int[] {
+          Color.parseColor("#ff0000"), Color.parseColor("#00ff00"), Color.parseColor("#0000ff"),
+          Color.parseColor("#990000"), Color.parseColor("#009900"), Color.parseColor("#000099")
+        };
     Bitmap bitmap = Bitmap.createBitmap(colors, 3, 2, Bitmap.Config.ARGB_8888);
     assertThat(bitmap.getWidth()).isEqualTo(3);
     assertThat(bitmap.getHeight()).isEqualTo(2);
@@ -110,8 +111,9 @@ public class ShadowBitmapTest {
 
     ShadowBitmap shadowBitmap = shadowOf(newBitmap);
     assertThat(shadowBitmap.getDescription())
-        .isEqualTo("Original bitmap at (0,0) with width 100 and height 50" +
-            " using matrix Matrix[pre=[], set={}, post=[rotate 90.0]] with filter");
+        .isEqualTo(
+            "Original bitmap at (0,0) with width 100 and height 50"
+                + " using matrix Matrix[pre=[], set={}, post=[rotate 90.0]] with filter");
     assertThat(shadowBitmap.getCreatedFromBitmap()).isEqualTo(originalBitmap);
     assertThat(shadowBitmap.getCreatedFromX()).isEqualTo(0);
     assertThat(shadowBitmap.getCreatedFromY()).isEqualTo(0);
@@ -159,7 +161,8 @@ public class ShadowBitmapTest {
   }
 
   @Test
-  public void shouldReceiveDescriptionWhenDrawingToCanvasWithBitmapAndMatrixAndPaint() throws Exception {
+  public void shouldReceiveDescriptionWhenDrawingToCanvasWithBitmapAndMatrixAndPaint()
+      throws Exception {
     Bitmap bitmap1 = create("Bitmap One");
     Bitmap bitmap2 = create("Bitmap Two");
 
@@ -181,16 +184,16 @@ public class ShadowBitmapTest {
     canvas.drawBitmap(bitmap2, new Matrix(), paint);
 
     assertThat(shadowOf(bitmap1).getDescription())
-        .isEqualTo("Bitmap One\n" +
-            "Bitmap Two with ColorMatrixColorFilter<1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0>" +
-            " transformed by Matrix[pre=[], set={}, post=[]]");
+        .isEqualTo(
+            "Bitmap One\n"
+                + "Bitmap Two with ColorMatrixColorFilter<1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0>"
+                + " transformed by Matrix[pre=[], set={}, post=[]]");
   }
 
   @Test
   public void visualize_shouldReturnDescription() throws Exception {
     Bitmap bitmap = create("Bitmap One");
-    assertThat(ShadowBitmap.visualize(bitmap))
-        .isEqualTo("Bitmap One");
+    assertThat(ShadowBitmap.visualize(bitmap)).isEqualTo("Bitmap One");
   }
 
   @Test
@@ -229,18 +232,19 @@ public class ShadowBitmapTest {
   @Test
   @Config(minSdk = JELLY_BEAN_MR1)
   public void shouldSetDensity() {
-    final Bitmap bitmap = Bitmap.createBitmap(new DisplayMetrics(), 100, 100, Bitmap.Config.ARGB_8888);
+    final Bitmap bitmap =
+        Bitmap.createBitmap(new DisplayMetrics(), 100, 100, Bitmap.Config.ARGB_8888);
     bitmap.setDensity(1000);
     assertThat(bitmap.getDensity()).isEqualTo(1000);
   }
 
   @Test
   public void shouldSetPixel() {
-    Bitmap bitmap = Bitmap.createBitmap(new int[] { 1 }, 1, 1, Bitmap.Config.ARGB_8888);
+    Bitmap bitmap = Bitmap.createBitmap(new int[] {1}, 1, 1, Bitmap.Config.ARGB_8888);
     shadowOf(bitmap).setMutable(true);
     bitmap.setPixel(0, 0, 2);
     assertThat(bitmap.getPixel(0, 0)).isEqualTo(2);
-    assertThat(shadowOf(bitmap).getCreatedFromColors()).isEqualTo(new int[] { 1 });
+    assertThat(shadowOf(bitmap).getCreatedFromColors()).isEqualTo(new int[] {1});
   }
 
   @Test
@@ -276,7 +280,7 @@ public class ShadowBitmapTest {
 
   @Test(expected = IllegalStateException.class)
   public void shouldThrowExceptionForSetPixelOnImmutableBitmap() {
-    Bitmap bitmap = Bitmap.createBitmap(new int[] { 1 }, 1, 1, Bitmap.Config.ARGB_8888);
+    Bitmap bitmap = Bitmap.createBitmap(new int[] {1}, 1, 1, Bitmap.Config.ARGB_8888);
     bitmap.setPixel(0, 0, 2);
   }
 
@@ -305,12 +309,12 @@ public class ShadowBitmapTest {
     Bitmap b = Bitmap.createBitmap(10, 20, Bitmap.Config.ARGB_8888);
     Bitmap.createBitmap(b, 0, 0, 20, 10, null, false);
   }
-  
+
   @Test(expected = IllegalArgumentException.class)
   public void throwsExceptionForNegativeWidth() {
     Bitmap.createBitmap(-100, 10, Bitmap.Config.ARGB_8888);
   }
-  
+
   @Test(expected = IllegalArgumentException.class)
   public void throwsExceptionForZeroHeight() {
     Bitmap.createBitmap(100, 0, Bitmap.Config.ARGB_8888);
@@ -384,24 +388,18 @@ public class ShadowBitmapTest {
     Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
     Matrix matrix = new Matrix();
     transformedBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, false);
-    assertThat(transformedBitmap.getWidth())
-        .isEqualTo(width);
-    assertThat(transformedBitmap.getHeight())
-        .isEqualTo(height);
+    assertThat(transformedBitmap.getWidth()).isEqualTo(width);
+    assertThat(transformedBitmap.getHeight()).isEqualTo(height);
 
     matrix.setRotate(90);
     transformedBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, false);
-    assertThat(transformedBitmap.getWidth())
-        .isEqualTo(height);
-    assertThat(transformedBitmap.getHeight())
-        .isEqualTo(width);
+    assertThat(transformedBitmap.getWidth()).isEqualTo(height);
+    assertThat(transformedBitmap.getHeight()).isEqualTo(width);
 
     matrix.setScale(2, 3);
     transformedBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, false);
-    assertThat(transformedBitmap.getWidth())
-        .isEqualTo(width * 2);
-    assertThat(transformedBitmap.getHeight())
-        .isEqualTo(height * 3);
+    assertThat(transformedBitmap.getWidth()).isEqualTo(width * 2);
+    assertThat(transformedBitmap.getHeight()).isEqualTo(height * 3);
   }
 
   @Test
@@ -423,7 +421,7 @@ public class ShadowBitmapTest {
     int reconstructedHeight = bitmapReconstructed.getHeight();
     int reconstructedWidth = bitmapReconstructed.getWidth();
 
-    //compare bitmap properties
+    // compare bitmap properties
     assertThat(originalHeight).isEqualTo(reconstructedHeight);
     assertThat(originalWidth).isEqualTo(reconstructedWidth);
     assertThat(bitmapOriginal.getConfig()).isEqualTo(bitmapReconstructed.getConfig());
@@ -432,8 +430,8 @@ public class ShadowBitmapTest {
     bitmapOriginal.getPixels(pixelsOriginal, 0, originalWidth, 0, 0, originalWidth, originalHeight);
 
     int[] pixelsReconstructed = new int[reconstructedWidth * reconstructedHeight];
-    bitmapReconstructed.getPixels(pixelsReconstructed, 0, reconstructedWidth, 0, 0,
-        reconstructedWidth, reconstructedHeight);
+    bitmapReconstructed.getPixels(
+        pixelsReconstructed, 0, reconstructedWidth, 0, 0, reconstructedWidth, reconstructedHeight);
 
     assertThat(Arrays.equals(pixelsOriginal, pixelsReconstructed)).isTrue();
   }
@@ -457,8 +455,8 @@ public class ShadowBitmapTest {
     buffer.rewind();
     Bitmap bitmapReconstructed = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
     // Set some random pixels to ensure that they're properly overwritten.
-    bitmapReconstructed.setPixel(1,1, 999);
-    bitmapReconstructed.setPixel(4,4, 999);
+    bitmapReconstructed.setPixel(1, 1, 999);
+    bitmapReconstructed.setPixel(4, 4, 999);
     bitmapReconstructed.copyPixelsFromBuffer(buffer);
     assertThat(buffer.position()).isEqualTo(bitmapOriginal.getByteCount());
 

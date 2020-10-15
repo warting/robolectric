@@ -13,11 +13,10 @@ import org.robolectric.util.reflector.Accessor;
 import org.robolectric.util.reflector.ForType;
 
 @Implements(
-  className = "android.app.SystemServiceRegistry",
-  isInAndroidSdk = false,
-  looseSignatures = true,
-  minSdk = Build.VERSION_CODES.M
-)
+    className = "android.app.SystemServiceRegistry",
+    isInAndroidSdk = false,
+    looseSignatures = true,
+    minSdk = Build.VERSION_CODES.M)
 public class ShadowSystemServiceRegistry {
 
   private static final String STATIC_SERVICE_FETCHER_CLASS_NAME =
@@ -76,12 +75,10 @@ public class ShadowSystemServiceRegistry {
 
     static String getConcreteClassName(Object serviceFetcher) {
       Class<?> serviceFetcherClass = serviceFetcher.getClass();
-      while (serviceFetcherClass != null && serviceFetcherClass.getCanonicalName() == null){
+      while (serviceFetcherClass != null && serviceFetcherClass.getCanonicalName() == null) {
         serviceFetcherClass = serviceFetcherClass.getSuperclass();
       }
-      return serviceFetcherClass == null
-          ? null
-          : serviceFetcherClass.getName();
+      return serviceFetcherClass == null ? null : serviceFetcherClass.getName();
     }
 
     default void clearInstance() {
@@ -110,9 +107,8 @@ public class ShadowSystemServiceRegistry {
   }
 
   /**
-   * Accessor interface for
-   * {@link android.app.SystemServiceRegistry.StaticApplicationContextServiceFetcher}'s
-   * internals (for N+).
+   * Accessor interface for {@link
+   * android.app.SystemServiceRegistry.StaticApplicationContextServiceFetcher}'s internals (for N+).
    */
   @ForType(className = STATIC_CONTEXT_SERVICE_FETCHER_CLASS_NAME_N)
   public interface _ServiceFetcherN_ extends _ServiceFetcher_ {

@@ -121,9 +121,7 @@ public interface ClassHandler {
    */
   <T extends Throwable> T stripStackTrace(T throwable);
 
-  /**
-   * An execution plan, which can be invoked to satisfy a requested method call.
-   */
+  /** An execution plan, which can be invoked to satisfy a requested method call. */
   interface Plan {
 
     Object run(Object instance, Object[] params) throws Throwable;

@@ -29,8 +29,7 @@ import org.robolectric.util.reflector.ForType;
  */
 @Implements(value = Message.class, isInAndroidSdk = false)
 public class ShadowLegacyMessage extends ShadowMessage {
-  @RealObject
-  private Message realMessage;
+  @RealObject private Message realMessage;
   private Runnable scheduledRunnable;
 
   private void unschedule() {
@@ -43,10 +42,9 @@ public class ShadowLegacyMessage extends ShadowMessage {
   }
 
   /**
-   * Hook to unscheduled the callback when the message is recycled.
-   * Invokes {@link #unschedule()} and then calls through to the
-   * package private method {@link Message#recycleUnchecked()}
-   * on the real object.
+   * Hook to unscheduled the callback when the message is recycled. Invokes {@link #unschedule()}
+   * and then calls through to the package private method {@link Message#recycleUnchecked()} on the
+   * real object.
    */
   @HiddenApi
   @Implementation(minSdk = LOLLIPOP)

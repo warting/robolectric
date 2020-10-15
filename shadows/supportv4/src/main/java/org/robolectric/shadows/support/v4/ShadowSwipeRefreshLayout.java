@@ -19,9 +19,7 @@ public class ShadowSwipeRefreshLayout extends ShadowViewGroup {
     Shadow.directlyOn(realObject, SwipeRefreshLayout.class).setOnRefreshListener(listener);
   }
 
-  /**
-   * @return OnRefreshListener that was previously set.
-   */
+  /** @return OnRefreshListener that was previously set. */
   public OnRefreshListener getOnRefreshListener() {
     return listener;
   }

@@ -42,7 +42,7 @@ import org.robolectric.util.ReflectionHelpers.ClassParameter;
  * Properties of {@link android.view.accessibility.AccessibilityNodeInfo} that are normally locked
  * may be changed using test APIs.
  *
- * Calls to {@code obtain()} and {@code recycle()} are tracked to help spot bugs.
+ * <p>Calls to {@code obtain()} and {@code recycle()} are tracked to help spot bugs.
  */
 @Implements(AccessibilityNodeInfo.class)
 public class ShadowAccessibilityNodeInfo {
@@ -59,15 +59,16 @@ public class ShadowAccessibilityNodeInfo {
   public static final Parcelable.Creator<AccessibilityNodeInfo> CREATOR =
       new Parcelable.Creator<AccessibilityNodeInfo>() {
 
-    @Override
-    public AccessibilityNodeInfo createFromParcel(Parcel source) {
-      return obtain(orderedInstances.get(source.readInt()).mInfo);
-    }
+        @Override
+        public AccessibilityNodeInfo createFromParcel(Parcel source) {
+          return obtain(orderedInstances.get(source.readInt()).mInfo);
+        }
 
-    @Override
-    public AccessibilityNodeInfo[] newArray(int size) {
-      return new AccessibilityNodeInfo[size];
-    }};
+        @Override
+        public AccessibilityNodeInfo[] newArray(int size) {
+          return new AccessibilityNodeInfo[size];
+        }
+      };
 
   private static int sAllocationCount = 0;
 
@@ -89,34 +90,33 @@ public class ShadowAccessibilityNodeInfo {
 
   private static final int TEXT_SELECTION_SETABLE_MASK = 0x00000100;
 
-  private static final int CHECKABLE_MASK = 0x00001000; //14
+  private static final int CHECKABLE_MASK = 0x00001000; // 14
 
-  private static final int CHECKED_MASK = 0x00002000; //14
+  private static final int CHECKED_MASK = 0x00002000; // 14
 
-  private static final int ENABLED_MASK = 0x00010000; //14
+  private static final int ENABLED_MASK = 0x00010000; // 14
 
-  private static final int PASSWORD_MASK = 0x00040000; //14
+  private static final int PASSWORD_MASK = 0x00040000; // 14
 
-  private static final int SELECTED_MASK = 0x00080000; //14
+  private static final int SELECTED_MASK = 0x00080000; // 14
 
-  private static final int A11YFOCUSED_MASK = 0x00000800;  //16
+  private static final int A11YFOCUSED_MASK = 0x00000800; // 16
 
-  private static final int MULTILINE_MASK = 0x00020000; //19
+  private static final int MULTILINE_MASK = 0x00020000; // 19
 
-  private static final int CONTENT_INVALID_MASK = 0x00004000; //19
+  private static final int CONTENT_INVALID_MASK = 0x00004000; // 19
 
-  private static final int DISMISSABLE_MASK = 0x00008000; //19
+  private static final int DISMISSABLE_MASK = 0x00008000; // 19
 
-  private static final int CAN_OPEN_POPUP_MASK = 0x00100000; //19
+  private static final int CAN_OPEN_POPUP_MASK = 0x00100000; // 19
 
   private static final int TEXT_ENTRY_KEY_MASK = 0x00200000; // 29
 
   private static final int IMPORTANT_MASK = 0x00400000; // 24
 
   /**
-   * Uniquely identifies the origin of the AccessibilityNodeInfo for equality
-   * testing. Two instances that come from the same node info should have the
-   * same ID.
+   * Uniquely identifies the origin of the AccessibilityNodeInfo for equality testing. Two instances
+   * that come from the same node info should have the same ID.
    */
   private long mOriginNodeId;
 
@@ -156,38 +156,37 @@ public class ShadowAccessibilityNodeInfo {
 
   private boolean refreshReturnValue = true;
 
-  private int movementGranularities; //16
+  private int movementGranularities; // 16
 
-  private CharSequence packageName; //14
+  private CharSequence packageName; // 14
 
-  private String viewIdResourceName; //18
+  private String viewIdResourceName; // 18
 
-  private CollectionInfo collectionInfo; //19
+  private CollectionInfo collectionInfo; // 19
 
-  private CollectionItemInfo collectionItemInfo; //19
+  private CollectionItemInfo collectionItemInfo; // 19
 
-  private int inputType; //19
+  private int inputType; // 19
 
-  private int liveRegion; //19
+  private int liveRegion; // 19
 
-  private RangeInfo rangeInfo; //19
+  private RangeInfo rangeInfo; // 19
 
-  private int maxTextLength; //21
+  private int maxTextLength; // 21
 
-  private CharSequence error; //21
-  
+  private CharSequence error; // 21
+
   private AccessibilityWindowInfo accessibilityWindowInfo;
 
-  private AccessibilityNodeInfo traversalAfter; //22
+  private AccessibilityNodeInfo traversalAfter; // 22
 
-  private AccessibilityNodeInfo traversalBefore; //22
+  private AccessibilityNodeInfo traversalBefore; // 22
 
   private OnPerformActionListener actionListener;
 
   private int drawingOrder; // 24
 
-  @RealObject
-  private AccessibilityNodeInfo realAccessibilityNodeInfo;
+  @RealObject private AccessibilityNodeInfo realAccessibilityNodeInfo;
 
   @Implementation
   protected void __constructor__() {
@@ -253,12 +252,10 @@ public class ShadowAccessibilityNodeInfo {
   }
 
   /**
-   * Check for leaked objects that were {@code obtain}ed but never
-   * {@code recycle}d.
+   * Check for leaked objects that were {@code obtain}ed but never {@code recycle}d.
    *
-   * @param printUnrecycledNodesToSystemErr - if true, stack traces of calls
-   *        to {@code obtain} that lack matching calls to {@code recycle} are
-   *        dumped to System.err.
+   * @param printUnrecycledNodesToSystemErr - if true, stack traces of calls to {@code obtain} that
+   *     lack matching calls to {@code recycle} are dumped to System.err.
    * @return {@code true} if there are unrecycled nodes
    */
   public static boolean areThereUnrecycledNodes(boolean printUnrecycledNodesToSystemErr) {
@@ -266,8 +263,9 @@ public class ShadowAccessibilityNodeInfo {
       for (final StrictEqualityNodeWrapper wrapper : obtainedInstances.keySet()) {
         final ShadowAccessibilityNodeInfo shadow = Shadow.extract(wrapper.mInfo);
 
-        System.err.println(String.format(
-            "Leaked contentDescription = %s. Stack trace:", shadow.getContentDescription()));
+        System.err.println(
+            String.format(
+                "Leaked contentDescription = %s. Stack trace:", shadow.getContentDescription()));
         for (final StackTraceElement stackTraceElement : obtainedInstances.get(wrapper)) {
           System.err.println(stackTraceElement.toString());
         }
@@ -278,8 +276,8 @@ public class ShadowAccessibilityNodeInfo {
   }
 
   /**
-   * Clear list of obtained instance objects. {@code areThereUnrecycledNodes}
-   * will always return false if called immediately afterwards.
+   * Clear list of obtained instance objects. {@code areThereUnrecycledNodes} will always return
+   * false if called immediately afterwards.
    */
   @Resetter
   public static void resetObtainedInstances() {
@@ -358,7 +356,7 @@ public class ShadowAccessibilityNodeInfo {
 
   @Implementation(minSdk = JELLY_BEAN_MR2)
   protected boolean refresh() {
-      return refreshReturnValue;
+    return refreshReturnValue;
   }
 
   public void setRefreshReturnValue(boolean refreshReturnValue) {
@@ -420,14 +418,12 @@ public class ShadowAccessibilityNodeInfo {
 
   @Implementation
   protected void setCheckable(boolean checkable) {
-    propertyFlags = (propertyFlags & ~CHECKABLE_MASK) |
-        (checkable ? CHECKABLE_MASK : 0);
+    propertyFlags = (propertyFlags & ~CHECKABLE_MASK) | (checkable ? CHECKABLE_MASK : 0);
   }
 
   @Implementation
   protected void setChecked(boolean checked) {
-    propertyFlags = (propertyFlags & ~CHECKED_MASK) |
-        (checked ? CHECKED_MASK : 0);
+    propertyFlags = (propertyFlags & ~CHECKED_MASK) | (checked ? CHECKED_MASK : 0);
   }
 
   @Implementation
@@ -437,8 +433,7 @@ public class ShadowAccessibilityNodeInfo {
 
   @Implementation
   protected void setEnabled(boolean enabled) {
-    propertyFlags = (propertyFlags & ~ENABLED_MASK) |
-        (enabled ? ENABLED_MASK : 0);
+    propertyFlags = (propertyFlags & ~ENABLED_MASK) | (enabled ? ENABLED_MASK : 0);
   }
 
   @Implementation
@@ -448,8 +443,7 @@ public class ShadowAccessibilityNodeInfo {
 
   @Implementation
   protected void setPassword(boolean password) {
-    propertyFlags = (propertyFlags & ~PASSWORD_MASK) |
-        (password ? PASSWORD_MASK : 0);
+    propertyFlags = (propertyFlags & ~PASSWORD_MASK) | (password ? PASSWORD_MASK : 0);
   }
 
   @Implementation
@@ -459,8 +453,7 @@ public class ShadowAccessibilityNodeInfo {
 
   @Implementation
   protected void setSelected(boolean selected) {
-    propertyFlags = (propertyFlags & ~SELECTED_MASK) |
-        (selected ? SELECTED_MASK : 0);
+    propertyFlags = (propertyFlags & ~SELECTED_MASK) | (selected ? SELECTED_MASK : 0);
   }
 
   @Implementation
@@ -470,8 +463,7 @@ public class ShadowAccessibilityNodeInfo {
 
   @Implementation
   protected void setAccessibilityFocused(boolean focused) {
-    propertyFlags = (propertyFlags & ~A11YFOCUSED_MASK) |
-        (focused ? A11YFOCUSED_MASK : 0);
+    propertyFlags = (propertyFlags & ~A11YFOCUSED_MASK) | (focused ? A11YFOCUSED_MASK : 0);
   }
 
   @Implementation
@@ -481,8 +473,7 @@ public class ShadowAccessibilityNodeInfo {
 
   @Implementation(minSdk = LOLLIPOP)
   protected void setMultiLine(boolean multiLine) {
-    propertyFlags = (propertyFlags & ~MULTILINE_MASK) |
-        (multiLine ? MULTILINE_MASK : 0);
+    propertyFlags = (propertyFlags & ~MULTILINE_MASK) | (multiLine ? MULTILINE_MASK : 0);
   }
 
   @Implementation(minSdk = LOLLIPOP)
@@ -492,8 +483,8 @@ public class ShadowAccessibilityNodeInfo {
 
   @Implementation(minSdk = LOLLIPOP)
   protected void setContentInvalid(boolean contentInvalid) {
-    propertyFlags = (propertyFlags & ~CONTENT_INVALID_MASK) |
-        (contentInvalid ? CONTENT_INVALID_MASK : 0);
+    propertyFlags =
+        (propertyFlags & ~CONTENT_INVALID_MASK) | (contentInvalid ? CONTENT_INVALID_MASK : 0);
   }
 
   @Implementation(minSdk = LOLLIPOP)
@@ -503,8 +494,7 @@ public class ShadowAccessibilityNodeInfo {
 
   @Implementation(minSdk = LOLLIPOP)
   protected void setDismissable(boolean dismissable) {
-    propertyFlags = (propertyFlags & ~DISMISSABLE_MASK) |
-        (dismissable ? DISMISSABLE_MASK : 0);
+    propertyFlags = (propertyFlags & ~DISMISSABLE_MASK) | (dismissable ? DISMISSABLE_MASK : 0);
   }
 
   @Implementation(minSdk = LOLLIPOP)
@@ -514,8 +504,7 @@ public class ShadowAccessibilityNodeInfo {
 
   @Implementation(minSdk = LOLLIPOP)
   protected void setCanOpenPopup(boolean opensPopup) {
-    propertyFlags = (propertyFlags & ~CAN_OPEN_POPUP_MASK) |
-        (opensPopup ? CAN_OPEN_POPUP_MASK : 0);
+    propertyFlags = (propertyFlags & ~CAN_OPEN_POPUP_MASK) | (opensPopup ? CAN_OPEN_POPUP_MASK : 0);
   }
 
   @Implementation(minSdk = LOLLIPOP)
@@ -524,8 +513,9 @@ public class ShadowAccessibilityNodeInfo {
   }
 
   public void setTextSelectionSetable(boolean isTextSelectionSetable) {
-    propertyFlags = (propertyFlags & ~TEXT_SELECTION_SETABLE_MASK) |
-        (isTextSelectionSetable ? TEXT_SELECTION_SETABLE_MASK : 0);
+    propertyFlags =
+        (propertyFlags & ~TEXT_SELECTION_SETABLE_MASK)
+            | (isTextSelectionSetable ? TEXT_SELECTION_SETABLE_MASK : 0);
   }
 
   @Implementation
@@ -617,8 +607,8 @@ public class ShadowAccessibilityNodeInfo {
 
   @Implementation(minSdk = JELLY_BEAN_MR2)
   protected void setTextSelection(int start, int end) {
-      textSelectionStart = start;
-      textSelectionEnd = end;
+    textSelectionStart = start;
+    textSelectionEnd = end;
   }
 
   /**
@@ -628,7 +618,7 @@ public class ShadowAccessibilityNodeInfo {
    */
   @Implementation(minSdk = JELLY_BEAN_MR2)
   protected int getTextSelectionStart() {
-      return textSelectionStart;
+    return textSelectionStart;
   }
 
   /**
@@ -638,7 +628,7 @@ public class ShadowAccessibilityNodeInfo {
    */
   @Implementation(minSdk = JELLY_BEAN_MR2)
   protected int getTextSelectionEnd() {
-      return textSelectionEnd;
+    return textSelectionEnd;
   }
 
   @Implementation(minSdk = JELLY_BEAN_MR2)
@@ -789,15 +779,15 @@ public class ShadowAccessibilityNodeInfo {
     if (this.traversalAfter != null) {
       this.traversalAfter.recycle();
     }
-    
+
     this.traversalAfter = obtain(view);
   }
 
   /**
    * Sets the view whose node is visited after this one in accessibility traversal.
    *
-   * This may be useful for configuring traversal order in tests before the corresponding
-   * views have been inflated.
+   * <p>This may be useful for configuring traversal order in tests before the corresponding views
+   * have been inflated.
    *
    * @param info The previous node.
    * @see #getTraversalAfter()
@@ -831,8 +821,8 @@ public class ShadowAccessibilityNodeInfo {
   /**
    * Sets the view before whose node this one should be visited during traversal.
    *
-   * This may be useful for configuring traversal order in tests before the corresponding
-   * views have been inflated.
+   * <p>This may be useful for configuring traversal order in tests before the corresponding views
+   * have been inflated.
    *
    * @param info The view providing the preceding node.
    * @see #getTraversalBefore()
@@ -841,7 +831,7 @@ public class ShadowAccessibilityNodeInfo {
     if (this.traversalBefore != null) {
       this.traversalBefore.recycle();
     }
-    
+
     this.traversalBefore = obtain(info);
   }
 
@@ -893,8 +883,8 @@ public class ShadowAccessibilityNodeInfo {
   protected void addAction(int action) {
     if (getApiLevel() >= LOLLIPOP) {
       if ((action & getActionTypeMaskFromFramework()) != 0) {
-        throw new IllegalArgumentException("Action is not a combination of the standard " +
-            "actions: " + action);
+        throw new IllegalArgumentException(
+            "Action is not a combination of the standard " + "actions: " + action);
       }
       int remainingIds = action;
       while (remainingIds > 0) {
@@ -1052,8 +1042,7 @@ public class ShadowAccessibilityNodeInfo {
   }
 
   /**
-   * Add a child node to this one. Also initializes the parent field of the
-   * child.
+   * Add a child node to this one. Also initializes the parent field of the child.
    *
    * @param child The node to be added as a child.
    */
@@ -1079,9 +1068,7 @@ public class ShadowAccessibilityNodeInfo {
     addChild(node);
   }
 
-  /**
-   * @return The list of arguments for the various calls to performAction. Unmodifiable.
-   */
+  /** @return The list of arguments for the various calls to performAction. Unmodifiable. */
   public List<Integer> getPerformedActions() {
     if (performedActionAndArgsList == null) {
       performedActionAndArgsList = new ArrayList<>();
@@ -1097,9 +1084,7 @@ public class ShadowAccessibilityNodeInfo {
     return Collections.unmodifiableList(actionsOnly);
   }
 
-  /**
-   * @return The list of arguments for the various calls to performAction. Unmodifiable.
-   */
+  /** @return The list of arguments for the various calls to performAction. Unmodifiable. */
   public List<Pair<Integer, Bundle>> getPerformedActionsWithArgs() {
     if (performedActionAndArgsList == null) {
       performedActionAndArgsList = new ArrayList<>();
@@ -1107,9 +1092,7 @@ public class ShadowAccessibilityNodeInfo {
     return Collections.unmodifiableList(performedActionAndArgsList);
   }
 
-  /**
-   * @return A shallow copy.
-   */
+  /** @return A shallow copy. */
   private AccessibilityNodeInfo getClone() {
     // We explicitly avoid allocating the AccessibilityNodeInfo from the actual pool by using
     // the private constructor. Not doing so affects test suites which use both shadow and
@@ -1184,8 +1167,8 @@ public class ShadowAccessibilityNodeInfo {
   }
 
   /**
-   * Private class to keep different nodes referring to the same view straight
-   * in the mObtainedInstances map.
+   * Private class to keep different nodes referring to the same view straight in the
+   * mObtainedInstances map.
    */
   private static class StrictEqualityNodeWrapper {
     public final AccessibilityNodeInfo mInfo;
@@ -1213,9 +1196,7 @@ public class ShadowAccessibilityNodeInfo {
     }
   }
 
-  /**
-   * Shadow of AccessibilityAction.
-   */
+  /** Shadow of AccessibilityAction. */
   @Implements(value = AccessibilityNodeInfo.AccessibilityAction.class, minSdk = LOLLIPOP)
   public static final class ShadowAccessibilityAction {
     private int id;
@@ -1266,8 +1247,11 @@ public class ShadowAccessibilityNodeInfo {
 
     @Override
     public String toString() {
-      String actionSybolicName = ReflectionHelpers.callStaticMethod(
-          AccessibilityNodeInfo.class, "getActionSymbolicName", ClassParameter.from(int.class, id));
+      String actionSybolicName =
+          ReflectionHelpers.callStaticMethod(
+              AccessibilityNodeInfo.class,
+              "getActionSymbolicName",
+              ClassParameter.from(int.class, id));
       return "AccessibilityAction: " + actionSybolicName + " - " + label;
     }
   }
@@ -1292,15 +1276,15 @@ public class ShadowAccessibilityNodeInfo {
 
   private static int getActionTypeMaskFromFramework() {
     // Get the mask to determine whether an int is a legit ID for an action, defined by Android
-    return (int)ReflectionHelpers.getStaticField(AccessibilityNodeInfo.class, "ACTION_TYPE_MASK");
+    return (int) ReflectionHelpers.getStaticField(AccessibilityNodeInfo.class, "ACTION_TYPE_MASK");
   }
-  
+
   private static AccessibilityAction getActionFromIdFromFrameWork(int id) {
     // Convert an action ID to Android standard Accessibility Action defined by Android
     return ReflectionHelpers.callStaticMethod(
         AccessibilityNodeInfo.class, "getActionSingleton", ClassParameter.from(int.class, id));
   }
-  
+
   private static int getLastLegacyActionFromFrameWork() {
     return (int)
         ReflectionHelpers.getStaticField(

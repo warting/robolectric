@@ -4,5 +4,4 @@ import android.animation.ObjectAnimator;
 import org.robolectric.annotation.Implements;
 
 @Implements(ObjectAnimator.class)
-public class ShadowObjectAnimator extends ShadowValueAnimator {
-}
+public class ShadowObjectAnimator extends ShadowValueAnimator {}

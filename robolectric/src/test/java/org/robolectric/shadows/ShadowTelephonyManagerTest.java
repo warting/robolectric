@@ -161,8 +161,9 @@ public class ShadowTelephonyManagerTest {
   }
 
   @Test(expected = SecurityException.class)
-  public void getSimSerialNumber_shouldThrowSecurityExceptionWhenReadPhoneStatePermissionNotGranted()
-      throws Exception {
+  public void
+      getSimSerialNumber_shouldThrowSecurityExceptionWhenReadPhoneStatePermissionNotGranted()
+          throws Exception {
     shadowOf(telephonyManager).setReadPhoneStatePermission(false);
     telephonyManager.getSimSerialNumber();
   }
@@ -214,20 +215,21 @@ public class ShadowTelephonyManagerTest {
     assertNotEquals(callbackCellInfo, telephonyManager.getAllCellInfo());
 
     CountDownLatch callbackLatch = new CountDownLatch(1);
-    shadowOf(telephonyManager).requestCellInfoUpdate(
-          new Executor() {
-            @Override
-            public void execute(Runnable r) {
-              r.run();
-            }
-          },
-          new CellInfoCallback() {
-            @Override
-            public void onCellInfo(List<CellInfo> list) {
-              assertEquals(callbackCellInfo, list);
-              callbackLatch.countDown();
-            }
-          });
+    shadowOf(telephonyManager)
+        .requestCellInfoUpdate(
+            new Executor() {
+              @Override
+              public void execute(Runnable r) {
+                r.run();
+              }
+            },
+            new CellInfoCallback() {
+              @Override
+              public void onCellInfo(List<CellInfo> list) {
+                assertEquals(callbackCellInfo, list);
+                callbackLatch.countDown();
+              }
+            });
 
     assertTrue(callbackLatch.await(5000, TimeUnit.MILLISECONDS));
   }

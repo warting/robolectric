@@ -17,17 +17,22 @@ public class ShadowAnimationUtilsTest {
 
   @Test
   public void loadAnimation_shouldCreateAnimation() {
-    assertThat(AnimationUtils.loadAnimation(Robolectric.setupActivity(Activity.class), R.anim.fade_in)).isNotNull();
+    assertThat(
+            AnimationUtils.loadAnimation(Robolectric.setupActivity(Activity.class), R.anim.fade_in))
+        .isNotNull();
   }
 
   @Test
   public void loadLayoutAnimation_shouldCreateAnimation() {
-    assertThat(AnimationUtils.loadLayoutAnimation(Robolectric.setupActivity(Activity.class), 1)).isNotNull();
+    assertThat(AnimationUtils.loadLayoutAnimation(Robolectric.setupActivity(Activity.class), 1))
+        .isNotNull();
   }
 
   @Test
   public void getLoadedFromResourceId_forAnimationController_shouldReturnAnimationResourceId() {
-    final LayoutAnimationController anim = AnimationUtils.loadLayoutAnimation(Robolectric.setupActivity(Activity.class), R.anim.fade_in);
+    final LayoutAnimationController anim =
+        AnimationUtils.loadLayoutAnimation(
+            Robolectric.setupActivity(Activity.class), R.anim.fade_in);
     assertThat(Shadows.shadowOf(anim).getLoadedFromResourceId()).isEqualTo(R.anim.fade_in);
   }
 }

@@ -53,7 +53,8 @@ public class ShadowBinderTest {
     int flags;
 
     @Override
-    protected boolean onTransact(int code, Parcel data, Parcel reply, int flags) throws RemoteException {
+    protected boolean onTransact(int code, Parcel data, Parcel reply, int flags)
+        throws RemoteException {
       this.code = code;
       this.data = data;
       this.reply = reply;
@@ -73,7 +74,7 @@ public class ShadowBinderTest {
     testThrowingBinder.transact(2, data, reply, 3);
     try {
       reply.readException();
-      fail();  // Expect thrown
+      fail(); // Expect thrown
     } catch (SecurityException e) {
       assertThat(e.getMessage()).isEqualTo("Halt! Who goes there?");
     }
@@ -82,7 +83,8 @@ public class ShadowBinderTest {
   static class TestThrowingBinder extends Binder {
 
     @Override
-    protected boolean onTransact(int code, Parcel data, Parcel reply, int flags) throws RemoteException {
+    protected boolean onTransact(int code, Parcel data, Parcel reply, int flags)
+        throws RemoteException {
       throw new SecurityException("Halt! Who goes there?");
     }
   }

@@ -69,7 +69,7 @@ public class ShadowAccessibilityService extends ShadowService {
   /**
    * Returns a list of gestures that have been dispatched.
    *
-   * Gestures are dispatched by calling {@link AccessibilityService#dispatchGesture}.
+   * <p>Gestures are dispatched by calling {@link AccessibilityService#dispatchGesture}.
    */
   public List<GestureDispatch> getGesturesDispatched() {
     return gesturesDispatched;
@@ -78,7 +78,7 @@ public class ShadowAccessibilityService extends ShadowService {
   /**
    * Sets whether the service is currently able to dispatch gestures.
    *
-   * If {@code false}, {@link AccessibilityService#dispatchGesture} will return {@code false}.
+   * <p>If {@code false}, {@link AccessibilityService#dispatchGesture} will return {@code false}.
    */
   public void setCanDispatchGestures(boolean canDispatchGestures) {
     this.canDispatchGestures = canDispatchGestures;
@@ -87,7 +87,7 @@ public class ShadowAccessibilityService extends ShadowService {
   /**
    * Represents a gesture that has been dispatched through the accessibility service.
    *
-   * Gestures are dispatched by calling {@link AccessibilityService#dispatchGesture}.
+   * <p>Gestures are dispatched by calling {@link AccessibilityService#dispatchGesture}.
    */
   public static final class GestureDispatch {
     private final GestureDescription description;
@@ -106,7 +106,7 @@ public class ShadowAccessibilityService extends ShadowService {
     /**
      * The callback that is to be invoked once the gesture has finished dispatching.
      *
-     * The shadow itself does not invoke this callback. You must manually invoke it to run it.
+     * <p>The shadow itself does not invoke this callback. You must manually invoke it to run it.
      */
     public GestureResultCallback callback() {
       return callback;

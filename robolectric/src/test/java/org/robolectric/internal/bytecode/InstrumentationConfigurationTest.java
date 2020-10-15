@@ -43,7 +43,8 @@ public class InstrumentationConfigurationTest {
   @Test
   public void shouldInstrumentAndroidCoreClasses() throws Exception {
     assertThat(config.shouldInstrument(wrap("android.content.Intent"))).isTrue();
-    assertThat(config.shouldInstrument(wrap("android.and.now.for.something.completely.different"))).isTrue();
+    assertThat(config.shouldInstrument(wrap("android.and.now.for.something.completely.different")))
+        .isTrue();
   }
 
   @Test
@@ -79,7 +80,8 @@ public class InstrumentationConfigurationTest {
     assertThat(config.shouldAcquire("scala.Test")).isFalse();
     assertThat(config.shouldAcquire("scala.util.Test")).isFalse();
     assertThat(config.shouldAcquire("org.specs2.whatever.foo")).isFalse();
-    assertThat(config.shouldAcquire("com.almworks.sqlite4java.whatever.Cls$anything$else")).isFalse();
+    assertThat(config.shouldAcquire("com.almworks.sqlite4java.whatever.Cls$anything$else"))
+        .isFalse();
   }
 
   @Test
@@ -101,7 +103,8 @@ public class InstrumentationConfigurationTest {
   public void shouldInstrumentCustomClasses() throws Exception {
     String instrumentName = "com.whatever.SomeClassNameToInstrument";
     String notInstrumentName = "com.whatever.DoNotInstrumentMe";
-    InstrumentationConfiguration customConfig = InstrumentationConfiguration.newBuilder().addInstrumentedClass(instrumentName).build();
+    InstrumentationConfiguration customConfig =
+        InstrumentationConfiguration.newBuilder().addInstrumentedClass(instrumentName).build();
     assertThat(customConfig.shouldInstrument(wrap(instrumentName))).isTrue();
     assertThat(customConfig.shouldInstrument(wrap(notInstrumentName))).isFalse();
   }
@@ -110,7 +113,8 @@ public class InstrumentationConfigurationTest {
   public void equals_ShouldCheckClassNames() throws Exception {
     String instrumentName = "com.whatever.SomeClassNameToInstrument";
     InstrumentationConfiguration baseConfig = InstrumentationConfiguration.newBuilder().build();
-    InstrumentationConfiguration customConfig = InstrumentationConfiguration.newBuilder().addInstrumentedClass(instrumentName).build();
+    InstrumentationConfiguration customConfig =
+        InstrumentationConfiguration.newBuilder().addInstrumentedClass(instrumentName).build();
 
     assertThat(baseConfig).isNotEqualTo(customConfig);
   }
@@ -118,7 +122,8 @@ public class InstrumentationConfigurationTest {
   @Test
   public void shouldNotInstrumentListedClasses() throws Exception {
     String instrumentName = "android.foo.bar";
-    InstrumentationConfiguration customConfig = InstrumentationConfiguration.newBuilder().doNotInstrumentClass(instrumentName).build();
+    InstrumentationConfiguration customConfig =
+        InstrumentationConfiguration.newBuilder().doNotInstrumentClass(instrumentName).build();
 
     assertThat(customConfig.shouldInstrument(wrap(instrumentName))).isFalse();
   }
@@ -175,7 +180,6 @@ public class InstrumentationConfigurationTest {
     assertThat(customConfig.shouldInstrument(wrap("com.random.testclass_GoodThings"))).isTrue();
     assertThat(customConfig.shouldInstrument(wrap("com.random.badpackage.testclass"))).isFalse();
     assertThat(customConfig.shouldInstrument(wrap("com.random.goodpackage.testclass"))).isTrue();
-
   }
 
   private MutableClass wrap(final String className) {

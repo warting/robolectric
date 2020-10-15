@@ -146,6 +146,7 @@ public class ShadowDialog {
   }
 
   public void callOnCreate(Bundle bundle) {
-    ReflectionHelpers.callInstanceMethod(realDialog, "onCreate", ClassParameter.from(Bundle.class, bundle));
+    ReflectionHelpers.callInstanceMethod(
+        realDialog, "onCreate", ClassParameter.from(Bundle.class, bundle));
   }
 }

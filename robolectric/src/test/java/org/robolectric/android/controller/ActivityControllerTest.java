@@ -38,8 +38,10 @@ import org.robolectric.util.TestRunnable;
 @RunWith(AndroidJUnit4.class)
 public class ActivityControllerTest {
   private static final List<String> transcript = new ArrayList<>();
-  private final ComponentName componentName = new ComponentName("org.robolectric", MyActivity.class.getName());
-  private final ActivityController<MyActivity> controller = Robolectric.buildActivity(MyActivity.class);
+  private final ComponentName componentName =
+      new ComponentName("org.robolectric", MyActivity.class.getName());
+  private final ActivityController<MyActivity> controller =
+      Robolectric.buildActivity(MyActivity.class);
 
   @Before
   public void setUp() throws Exception {
@@ -56,6 +58,7 @@ public class ActivityControllerTest {
   public static class TestDelayedPostActivity extends Activity {
     TestRunnable r1 = new TestRunnable();
     TestRunnable r2 = new TestRunnable();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
@@ -100,14 +103,16 @@ public class ActivityControllerTest {
 
   @Test
   public void shouldSetIntentComponentWithCustomIntentWithoutComponentSet() throws Exception {
-    MyActivity myActivity = Robolectric.buildActivity(MyActivity.class, new Intent(Intent.ACTION_VIEW)).create().get();
+    MyActivity myActivity =
+        Robolectric.buildActivity(MyActivity.class, new Intent(Intent.ACTION_VIEW)).create().get();
     assertThat(myActivity.getIntent().getAction()).isEqualTo(Intent.ACTION_VIEW);
     assertThat(myActivity.getIntent().getComponent()).isEqualTo(componentName);
   }
 
   @Test
   public void shouldSetIntentForGivenActivityInstance() throws Exception {
-    ActivityController<MyActivity> activityController = ActivityController.of(new MyActivity()).create();
+    ActivityController<MyActivity> activityController =
+        ActivityController.of(new MyActivity()).create();
     assertThat(activityController.get().getIntent()).isNotNull();
   }
 
@@ -132,9 +137,8 @@ public class ActivityControllerTest {
   @Test
   public void visible_addsTheDecorViewToTheWindowManager() {
     controller.create().visible();
-    assertThat(
-        controller.get().getWindow().getDecorView().getParent().getClass()).isEqualTo(
-        ViewRootImpl.class);
+    assertThat(controller.get().getWindow().getDecorView().getParent().getClass())
+        .isEqualTo(ViewRootImpl.class);
   }
 
   @Test
@@ -209,8 +213,8 @@ public class ActivityControllerTest {
     controller.setup();
     assertThat(transcript)
         .containsAtLeast("onCreate", "onStart", "onPostCreate", "onResume", "onPostResume");
-    assertThat(controller.get().getWindow().getDecorView().getParent().getClass()).isEqualTo(
-        ViewRootImpl.class);
+    assertThat(controller.get().getWindow().getDecorView().getParent().getClass())
+        .isEqualTo(ViewRootImpl.class);
   }
 
   @Test
@@ -224,8 +228,8 @@ public class ActivityControllerTest {
             "onPostCreate",
             "onResume",
             "onPostResume");
-    assertThat(controller.get().getWindow().getDecorView().getParent().getClass()).isEqualTo(
-        ViewRootImpl.class);
+    assertThat(controller.get().getWindow().getDecorView().getParent().getClass())
+        .isEqualTo(ViewRootImpl.class);
   }
 
   @Test
@@ -256,7 +260,8 @@ public class ActivityControllerTest {
             "onPostCreate",
             "onResume",
             "onPostResume");
-    assertThat(controller.get().getResources().getConfiguration().fontScale).isEqualTo(newFontScale);
+    assertThat(controller.get().getResources().getConfiguration().fontScale)
+        .isEqualTo(newFontScale);
   }
 
   @Test
@@ -271,7 +276,8 @@ public class ActivityControllerTest {
     transcript.clear();
     configController.configurationChange(config);
     assertThat(transcript).contains("onConfigurationChanged");
-    assertThat(configController.get().getResources().getConfiguration().fontScale).isEqualTo(newFontScale);
+    assertThat(configController.get().getResources().getConfiguration().fontScale)
+        .isEqualTo(newFontScale);
   }
 
   @Test
@@ -288,8 +294,10 @@ public class ActivityControllerTest {
     configController.configurationChange(config);
     assertThat(transcript)
         .containsAtLeast("onPause", "onStop", "onDestroy", "onCreate", "onStart", "onResume");
-    assertThat(configController.get().getResources().getConfiguration().fontScale).isEqualTo(newFontScale);
-    assertThat(configController.get().getResources().getConfiguration().orientation).isEqualTo(newOrientation);
+    assertThat(configController.get().getResources().getConfiguration().fontScale)
+        .isEqualTo(newFontScale);
+    assertThat(configController.get().getResources().getConfiguration().orientation)
+        .isEqualTo(newOrientation);
   }
 
   @Test
@@ -352,7 +360,6 @@ public class ActivityControllerTest {
     controller.windowFocusChanged(true);
     assertThat(transcript).containsExactly("finishedOnWindowFocusChanged");
     assertThat(controller.get().hasWindowFocus()).isTrue();
-
   }
 
   public static class MyActivity extends Activity {
@@ -455,13 +462,14 @@ public class ActivityControllerTest {
       transcript.add("finishedOnWindowFocusChanged");
     }
 
-
     private void transcribeWhilePaused(final String event) {
-      runOnUiThread(new Runnable() {
-        @Override public void run() {
-          transcript.add(event);
-        }
-      });
+      runOnUiThread(
+          new Runnable() {
+            @Override
+            public void run() {
+              transcript.add(event);
+            }
+          });
     }
   }
 
@@ -501,7 +509,8 @@ public class ActivityControllerTest {
         retainedFragment = new Fragment();
         retainedFragment.setRetainInstance(true);
         nonRetainedFragment = new Fragment();
-        getFragmentManager().beginTransaction()
+        getFragmentManager()
+            .beginTransaction()
             .add(android.R.id.content, retainedFragment, "retained")
             .add(android.R.id.content, nonRetainedFragment, "non-retained")
             .commit();

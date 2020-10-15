@@ -32,8 +32,7 @@ import org.robolectric.util.ReflectionHelpers;
 @Implements(AppWidgetManager.class)
 public class ShadowAppWidgetManager {
 
-  @RealObject
-  private AppWidgetManager realAppWidgetManager;
+  @RealObject private AppWidgetManager realAppWidgetManager;
 
   private Context context;
   private final Map<Integer, WidgetInfo> widgetInfos = new HashMap<>();
@@ -133,7 +132,8 @@ public class ShadowAppWidgetManager {
     return widgetInfo.info;
   }
 
-  @HiddenApi @Implementation
+  @HiddenApi
+  @Implementation
   public void bindAppWidgetId(int appWidgetId, ComponentName provider) {
     WidgetInfo widgetInfo = new WidgetInfo(provider);
     widgetInfos.put(appWidgetId, widgetInfo);
@@ -155,8 +155,8 @@ public class ShadowAppWidgetManager {
   }
 
   /**
-   * Triggers a reapplication of the most recent set of actions against the widget, which is what happens when the
-   * phone is rotated. Does not attempt to simulate a change in screen geometry.
+   * Triggers a reapplication of the most recent set of actions against the widget, which is what
+   * happens when the phone is rotated. Does not attempt to simulate a change in screen geometry.
    *
    * @param appWidgetId the ID of the widget to be affected
    */
@@ -170,10 +170,11 @@ public class ShadowAppWidgetManager {
    * Creates a widget by inflating its layout.
    *
    * @param appWidgetProviderClass the app widget provider class
-   * @param widgetLayoutId         id of the layout to inflate
+   * @param widgetLayoutId id of the layout to inflate
    * @return the ID of the new widget
    */
-  public int createWidget(Class<? extends AppWidgetProvider> appWidgetProviderClass, int widgetLayoutId) {
+  public int createWidget(
+      Class<? extends AppWidgetProvider> appWidgetProviderClass, int widgetLayoutId) {
     return createWidgets(appWidgetProviderClass, widgetLayoutId, 1)[0];
   }
 
@@ -181,11 +182,14 @@ public class ShadowAppWidgetManager {
    * Creates a bunch of widgets by inflating the same layout multiple times.
    *
    * @param appWidgetProviderClass the app widget provider class
-   * @param widgetLayoutId         id of the layout to inflate
-   * @param howManyToCreate        number of new widgets to create
+   * @param widgetLayoutId id of the layout to inflate
+   * @param howManyToCreate number of new widgets to create
    * @return the IDs of the new widgets
    */
-  public int[] createWidgets(Class<? extends AppWidgetProvider> appWidgetProviderClass, int widgetLayoutId, int howManyToCreate) {
+  public int[] createWidgets(
+      Class<? extends AppWidgetProvider> appWidgetProviderClass,
+      int widgetLayoutId,
+      int howManyToCreate) {
     AppWidgetProvider appWidgetProvider = ReflectionHelpers.callConstructor(appWidgetProviderClass);
 
     int[] newWidgetIds = new int[howManyToCreate];
@@ -223,9 +227,9 @@ public class ShadowAppWidgetManager {
   }
 
   /**
-   * Enables testing of widget behavior when all of the views are recreated on every
-   * update. This is useful for ensuring that your widget will behave correctly even
-   * if it is restarted by the OS between events.
+   * Enables testing of widget behavior when all of the views are recreated on every update. This is
+   * useful for ensuring that your widget will behave correctly even if it is restarted by the OS
+   * between events.
    *
    * @param alwaysRecreate whether or not to always recreate the views
    */
@@ -233,9 +237,7 @@ public class ShadowAppWidgetManager {
     alwaysRecreateViewsDuringUpdate = alwaysRecreate;
   }
 
-  /**
-   * @return the state of the{@code alwaysRecreateViewsDuringUpdate} flag
-   */
+  /** @return the state of the{@code alwaysRecreateViewsDuringUpdate} flag */
   public boolean getAlwaysRecreateViewsDuringUpdate() {
     return alwaysRecreateViewsDuringUpdate;
   }

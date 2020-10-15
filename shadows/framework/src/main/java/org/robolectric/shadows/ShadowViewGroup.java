@@ -24,12 +24,16 @@ public class ShadowViewGroup extends ShadowView {
 
   @Implementation
   protected void addView(final View child, final int index, final ViewGroup.LayoutParams params) {
-    Runnable addViewRunnable = () -> {
-      directlyOn(realViewGroup, ViewGroup.class, "addView",
-          ClassParameter.from(View.class, child),
-          ClassParameter.from(int.class, index),
-          ClassParameter.from(ViewGroup.LayoutParams.class, params));
-    };
+    Runnable addViewRunnable =
+        () -> {
+          directlyOn(
+              realViewGroup,
+              ViewGroup.class,
+              "addView",
+              ClassParameter.from(View.class, child),
+              ClassParameter.from(int.class, index),
+              ClassParameter.from(ViewGroup.LayoutParams.class, params));
+        };
     if (ShadowLooper.looperMode() == LooperMode.Mode.PAUSED) {
       addViewRunnable.run();
     } else {
@@ -38,8 +42,8 @@ public class ShadowViewGroup extends ShadowView {
   }
 
   /**
-   * Returns a string representation of this {@code ViewGroup} by concatenating all of the
-   * strings contained in all of the descendants of this {@code ViewGroup}.
+   * Returns a string representation of this {@code ViewGroup} by concatenating all of the strings
+   * contained in all of the descendants of this {@code ViewGroup}.
    */
   @Override
   public String innerText() {
@@ -61,6 +65,7 @@ public class ShadowViewGroup extends ShadowView {
 
   /**
    * Dumps the state of this {@code ViewGroup} to {@code System.out}.
+   *
    * @deprecated - Please use {@link androidx.test.espresso.util.HumanReadables#describe(View)}
    */
   @Override

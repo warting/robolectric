@@ -11,8 +11,7 @@ import org.robolectric.util.ReflectionHelpers.ClassParameter;
 @SuppressWarnings({"UnusedDeclaration"})
 @Implements(IntentService.class)
 public class ShadowIntentService extends ShadowService {
-  @RealObject
-  IntentService realIntentService;
+  @RealObject IntentService realIntentService;
   private boolean mRedelivery;
 
   public boolean getIntentRedelivery() {
@@ -22,6 +21,10 @@ public class ShadowIntentService extends ShadowService {
   @Implementation
   protected void setIntentRedelivery(boolean enabled) {
     mRedelivery = enabled;
-    directlyOn(realIntentService, IntentService.class, "setIntentRedelivery", ClassParameter.from(boolean.class, enabled));
+    directlyOn(
+        realIntentService,
+        IntentService.class,
+        "setIntentRedelivery",
+        ClassParameter.from(boolean.class, enabled));
   }
 }

@@ -89,9 +89,9 @@ public class ShadowVideoView extends ShadowSurfaceView {
 
   @Implementation
   protected boolean canPause() {
-    return (currentState != ShadowVideoView.PAUSE &&
-        currentState != ShadowVideoView.STOP &&
-        currentState != ShadowVideoView.SUSPEND);
+    return (currentState != ShadowVideoView.PAUSE
+        && currentState != ShadowVideoView.STOP
+        && currentState != ShadowVideoView.SUSPEND);
   }
 
   @Implementation
@@ -109,51 +109,37 @@ public class ShadowVideoView extends ShadowSurfaceView {
     return duration;
   }
 
-  /**
-   * @return On prepared listener.
-   */
+  /** @return On prepared listener. */
   public MediaPlayer.OnPreparedListener getOnPreparedListener() {
     return preparedListener;
   }
 
-  /**
-   * @return On error listener.
-   */
+  /** @return On error listener. */
   public MediaPlayer.OnErrorListener getOnErrorListener() {
     return errorListener;
   }
 
-  /**
-   * @return On completion listener.
-   */
+  /** @return On completion listener. */
   public MediaPlayer.OnCompletionListener getOnCompletionListener() {
     return completionListner;
   }
 
-  /**
-   * @return Video path.
-   */
+  /** @return Video path. */
   public String getVideoPath() {
     return path;
   }
 
-  /**
-   * @return Video URI.
-   */
+  /** @return Video URI. */
   public String getVideoURIString() {
     return uri == null ? null : uri.toString();
   }
 
-  /**
-   * @return Current video state.
-   */
+  /** @return Current video state. */
   public int getCurrentVideoState() {
     return currentState;
   }
 
-  /**
-   * @return Previous video state.
-   */
+  /** @return Previous video state. */
   public int getPrevVideoState() {
     return prevState;
   }

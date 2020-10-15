@@ -17,8 +17,7 @@ import org.robolectric.util.ReflectionHelpers.ClassParameter;
 public class ShadowAdapterView<T extends Adapter> extends ShadowViewGroup {
   private static int ignoreRowsAtEndOfList = 0;
 
-  @RealObject
-  private AdapterView<T> realAdapterView;
+  @RealObject private AdapterView<T> realAdapterView;
 
   private AdapterView.OnItemSelectedListener itemSelectedListener;
 
@@ -26,7 +25,11 @@ public class ShadowAdapterView<T extends Adapter> extends ShadowViewGroup {
   protected void setOnItemSelectedListener(
       AdapterView.OnItemSelectedListener itemSelectedListener) {
     this.itemSelectedListener = itemSelectedListener;
-    directlyOn(realAdapterView, AdapterView.class, "setOnItemSelectedListener", ClassParameter.from(AdapterView.OnItemSelectedListener.class, itemSelectedListener));
+    directlyOn(
+        realAdapterView,
+        AdapterView.class,
+        "setOnItemSelectedListener",
+        ClassParameter.from(AdapterView.OnItemSelectedListener.class, itemSelectedListener));
   }
 
   public AdapterView.OnItemSelectedListener getItemSelectedListener() {
@@ -34,13 +37,18 @@ public class ShadowAdapterView<T extends Adapter> extends ShadowViewGroup {
   }
 
   public boolean performItemClick(int position) {
-    return realAdapterView.performItemClick(realAdapterView.getChildAt(position),
-        position, realAdapterView.getItemIdAtPosition(position));
+    return realAdapterView.performItemClick(
+        realAdapterView.getChildAt(position),
+        position,
+        realAdapterView.getItemIdAtPosition(position));
   }
 
   public int findIndexOfItemContainingText(String targetText) {
     for (int i = 0; i < realAdapterView.getCount(); i++) {
-      View childView = realAdapterView.getAdapter().getView(i, null, new FrameLayout(realAdapterView.getContext()));
+      View childView =
+          realAdapterView
+              .getAdapter()
+              .getView(i, null, new FrameLayout(realAdapterView.getContext()));
       ShadowView shadowView = Shadow.extract(childView);
       String innerText = shadowView.innerText();
       if (innerText.contains(targetText)) {

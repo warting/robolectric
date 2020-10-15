@@ -69,14 +69,14 @@ public class ShadowMediaMetadataRetriever {
 
   @Implementation
   protected Bitmap getFrameAtTime(long timeUs, int option) {
-    return (frames.containsKey(dataSource) ?
-            frames.get(dataSource).get(timeUs) : null);
+    return (frames.containsKey(dataSource) ? frames.get(dataSource).get(timeUs) : null);
   }
 
   @Implementation(minSdk = O_MR1)
   protected Bitmap getScaledFrameAtTime(long timeUs, int option, int dstWidth, int dstHeight) {
-    return (scaledFrames.containsKey(dataSource) ?
-            scaledFrames.get(dataSource).get(getScaledFrameKey(timeUs, dstWidth, dstHeight)) : null);
+    return (scaledFrames.containsKey(dataSource)
+        ? scaledFrames.get(dataSource).get(getScaledFrameKey(timeUs, dstWidth, dstHeight))
+        : null);
   }
 
   /**
@@ -119,7 +119,8 @@ public class ShadowMediaMetadataRetriever {
     frames.get(ds).put(time, bitmap);
   }
 
-  public static void addScaledFrame(DataSource ds, long time, int dstWidth, int dstHeight, Bitmap bitmap) {
+  public static void addScaledFrame(
+      DataSource ds, long time, int dstWidth, int dstHeight, Bitmap bitmap) {
     if (!scaledFrames.containsKey(ds)) {
       scaledFrames.put(ds, new HashMap<String, Bitmap>());
     }

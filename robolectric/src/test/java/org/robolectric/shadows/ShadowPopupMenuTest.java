@@ -58,12 +58,13 @@ public class ShadowPopupMenuTest {
   public void getOnClickListener_returnsOnClickListener() throws Exception {
     assertThat(shadowOf(popupMenu).getOnMenuItemClickListener()).isNull();
 
-    PopupMenu.OnMenuItemClickListener listener = new PopupMenu.OnMenuItemClickListener() {
-      @Override
-      public boolean onMenuItemClick(MenuItem menuItem) {
-        return false;
-      }
-    };
+    PopupMenu.OnMenuItemClickListener listener =
+        new PopupMenu.OnMenuItemClickListener() {
+          @Override
+          public boolean onMenuItemClick(MenuItem menuItem) {
+            return false;
+          }
+        };
     popupMenu.setOnMenuItemClickListener(listener);
 
     assertThat(shadowOf(popupMenu).getOnMenuItemClickListener()).isEqualTo(listener);

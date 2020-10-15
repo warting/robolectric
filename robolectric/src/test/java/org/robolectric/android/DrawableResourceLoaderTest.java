@@ -55,18 +55,23 @@ public class DrawableResourceLoaderTest {
   public void testDrawableTypes() {
     assertThat(resources.getDrawable(R.drawable.l7_white)).isInstanceOf(BitmapDrawable.class);
     assertThat(resources.getDrawable(R.drawable.l0_red)).isInstanceOf(BitmapDrawable.class);
-    assertThat(resources.getDrawable(R.drawable.nine_patch_drawable)).isInstanceOf(NinePatchDrawable.class);
+    assertThat(resources.getDrawable(R.drawable.nine_patch_drawable))
+        .isInstanceOf(NinePatchDrawable.class);
     assertThat(resources.getDrawable(R.drawable.rainbow)).isInstanceOf(LayerDrawable.class);
   }
 
-  @Test @Config(maxSdk = KITKAT_WATCH)
+  @Test
+  @Config(maxSdk = KITKAT_WATCH)
   public void testVectorDrawableType_preVectors() {
-    assertThat(resources.getDrawable(R.drawable.an_image_or_vector)).isInstanceOf(BitmapDrawable.class);
+    assertThat(resources.getDrawable(R.drawable.an_image_or_vector))
+        .isInstanceOf(BitmapDrawable.class);
   }
 
-  @Test @Config(minSdk = LOLLIPOP)
+  @Test
+  @Config(minSdk = LOLLIPOP)
   public void testVectorDrawableType() {
-    assertThat(resources.getDrawable(R.drawable.an_image_or_vector)).isInstanceOf(VectorDrawable.class);
+    assertThat(resources.getDrawable(R.drawable.an_image_or_vector))
+        .isInstanceOf(VectorDrawable.class);
   }
 
   @Test
@@ -100,6 +105,7 @@ public class DrawableResourceLoaderTest {
 
   @Test
   public void shouldCreateAnimsAndColors() throws Exception {
-    assertThat(resources.getDrawable(R.color.grey42)).isInstanceOf((Class<? extends android.graphics.drawable.Drawable>) ColorDrawable.class);
+    assertThat(resources.getDrawable(R.color.grey42))
+        .isInstanceOf((Class<? extends android.graphics.drawable.Drawable>) ColorDrawable.class);
   }
 }

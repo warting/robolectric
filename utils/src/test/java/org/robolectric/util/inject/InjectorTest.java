@@ -35,8 +35,7 @@ public class InjectorTest {
   public void whenImplSpecified_shouldProvideInstance() throws Exception {
     injector = builder.bind(Thing.class, MyThing.class).build();
 
-    assertThat(injector.getInstance(Thing.class))
-        .isInstanceOf(MyThing.class);
+    assertThat(injector.getInstance(Thing.class)).isInstanceOf(MyThing.class);
   }
 
   @Test
@@ -49,8 +48,7 @@ public class InjectorTest {
 
   @Test
   public void whenServiceSpecified_shouldProvideInstance() throws Exception {
-    assertThat(injector.getInstance(Thing.class))
-        .isInstanceOf(ThingFromServiceConfig.class);
+    assertThat(injector.getInstance(Thing.class)).isInstanceOf(ThingFromServiceConfig.class);
   }
 
   @Test
@@ -61,16 +59,14 @@ public class InjectorTest {
 
   @Test
   public void whenConcreteClassRequested_shouldProvideInstance() throws Exception {
-    assertThat(injector.getInstance(MyUmm.class))
-        .isInstanceOf(MyUmm.class);
+    assertThat(injector.getInstance(MyUmm.class)).isInstanceOf(MyUmm.class);
   }
 
   @Test
   public void whenDefaultSpecified_shouldProvideInstance() throws Exception {
     injector = builder.bindDefault(Umm.class, MyUmm.class).build();
 
-    assertThat(injector.getInstance(Umm.class))
-        .isInstanceOf(MyUmm.class);
+    assertThat(injector.getInstance(Umm.class)).isInstanceOf(MyUmm.class);
   }
 
   @Test
@@ -94,20 +90,15 @@ public class InjectorTest {
       throws Exception {
     builder.bindDefault(Thing.class, MyThing.class);
 
-    assertThat(injector.getInstance(Thing.class))
-        .isInstanceOf(ThingFromServiceConfig.class);
+    assertThat(injector.getInstance(Thing.class)).isInstanceOf(ThingFromServiceConfig.class);
 
     builder.bindDefault(Umm.class, MyUmm.class);
-    assertThat(injector.getInstance(Thing.class))
-        .isInstanceOf(ThingFromServiceConfig.class);
+    assertThat(injector.getInstance(Thing.class)).isInstanceOf(ThingFromServiceConfig.class);
   }
 
   @Test
   public void shouldPreferSingularPublicConstructorAnnotatedInject() throws Exception {
-    injector = builder
-        .bind(Thing.class, MyThing.class)
-        .bind(Umm.class, MyUmm.class)
-        .build();
+    injector = builder.bind(Thing.class, MyThing.class).bind(Umm.class, MyUmm.class).build();
 
     Umm umm = injector.getInstance(Umm.class);
     assertThat(umm).isNotNull();
@@ -122,10 +113,8 @@ public class InjectorTest {
 
   @Test
   public void shouldAcceptSingularPublicConstructorWithoutInjectAnnotation() throws Exception {
-    injector = builder
-        .bind(Thing.class, MyThing.class)
-        .bind(Umm.class, MyUmmNoInject.class)
-        .build();
+    injector =
+        builder.bind(Thing.class, MyThing.class).bind(Umm.class, MyUmmNoInject.class).build();
 
     Umm umm = injector.getInstance(Umm.class);
     assertThat(umm).isNotNull();
@@ -144,7 +133,8 @@ public class InjectorTest {
 
     // X comes first because it has a higher priority
     assertThat(classesOf(multiThings))
-        .containsExactly(MultiThingX.class, MultiThingA.class).inOrder();
+        .containsExactly(MultiThingX.class, MultiThingA.class)
+        .inOrder();
   }
 
   @Test
@@ -153,7 +143,8 @@ public class InjectorTest {
 
     // X comes first because it has a higher priority
     assertThat(classesOf(it.multiThings))
-        .containsExactly(MultiThingX.class, MultiThingA.class).inOrder();
+        .containsExactly(MultiThingX.class, MultiThingA.class)
+        .inOrder();
   }
 
   @Test
@@ -168,7 +159,8 @@ public class InjectorTest {
     }
   }
 
-  @Test public void autoFactory_factoryMethodsCreateNewInstances() throws Exception {
+  @Test
+  public void autoFactory_factoryMethodsCreateNewInstances() throws Exception {
     injector = builder.bind(Umm.class, MyUmm.class).build();
     FooFactory factory = injector.getInstance(FooFactory.class);
     Foo chauncey = factory.create("Chauncey");
@@ -178,14 +170,16 @@ public class InjectorTest {
     assertThat(anotherChauncey).isNotSameInstanceAs(chauncey);
   }
 
-  @Test public void autoFactory_injectedValuesComeFromSuperInjector() throws Exception {
+  @Test
+  public void autoFactory_injectedValuesComeFromSuperInjector() throws Exception {
     injector = builder.bind(Umm.class, MyUmm.class).build();
     FooFactory factory = injector.getInstance(FooFactory.class);
     Foo chauncey = factory.create("Chauncey");
     assertThat(chauncey.thing).isSameInstanceAs(injector.getInstance(Thing.class));
   }
 
-  @Test public void whenFactoryRequested_createsInjectedFactory() throws Exception {
+  @Test
+  public void whenFactoryRequested_createsInjectedFactory() throws Exception {
     injector = builder.bind(Umm.class, MyUmm.class).build();
     FooFactory factory = injector.getInstance(FooFactory.class);
     Foo chauncey = factory.create("Chauncey");
@@ -197,7 +191,8 @@ public class InjectorTest {
     assertThat(chauncey.thing).isSameInstanceAs(injector.getInstance(Thing.class));
   }
 
-  @Test public void scopedInjector_shouldCheckParentBeforeProvidingDefault() throws Exception {
+  @Test
+  public void scopedInjector_shouldCheckParentBeforeProvidingDefault() throws Exception {
     injector = builder.build();
     Injector subInjector = new Injector.Builder(injector).build();
 
@@ -205,17 +200,20 @@ public class InjectorTest {
     assertThat(injector.getInstance(MyUmm.class)).isSameInstanceAs(subUmm);
   }
 
-  @Test public void shouldInjectByNamedKeys() throws Exception {
-    injector = builder
-        .bind(new Injector.Key<>(String.class, "namedThing"), "named value")
-        .bind(String.class, "unnamed value")
-        .build();
+  @Test
+  public void shouldInjectByNamedKeys() throws Exception {
+    injector =
+        builder
+            .bind(new Injector.Key<>(String.class, "namedThing"), "named value")
+            .bind(String.class, "unnamed value")
+            .build();
     NamedParams namedParams = injector.getInstance(NamedParams.class);
     assertThat(namedParams.withName).isEqualTo("named value");
     assertThat(namedParams.withoutName).isEqualTo("unnamed value");
   }
 
-  @Test public void shouldPreferPluginsOverConcreteClass() throws Exception {
+  @Test
+  public void shouldPreferPluginsOverConcreteClass() throws Exception {
     PluginFinder pluginFinder = new PluginFinder(new MyServiceFinderAdapter(pluginClasses));
     Injector injector = new Builder(null, pluginFinder).build();
     pluginClasses.add(SubclassOfConcreteThing.class);
@@ -233,7 +231,8 @@ public class InjectorTest {
     assertThat(sandbox.compileSdk).isSameInstanceAs(compileSdk);
   }
 
-  @Test @Ignore("todo")
+  @Test
+  @Ignore("todo")
   public void objectsCreatedByFactoryShareTransitiveDependencies() throws Exception {
     FakeSandboxManager sandboxManager = injector.getInstance(FakeSandboxManager.class);
     FakeSdk runtimeSdk = new FakeSdk("runtime");
@@ -258,9 +257,9 @@ public class InjectorTest {
         .contains("Failed to resolve dependency: FakeSandbox/FakeSdk/String");
   }
 
-  @Test @Ignore("todo")
-  public void shouldOnlyAttemptToResolveTypesKnownToClassLoader() throws Exception {
-  }
+  @Test
+  @Ignore("todo")
+  public void shouldOnlyAttemptToResolveTypesKnownToClassLoader() throws Exception {}
 
   /////////////////////////////
 
@@ -273,26 +272,19 @@ public class InjectorTest {
   }
 
   /** A thing. */
-  public interface Thing {
-  }
+  public interface Thing {}
 
-  public static class MyThing implements Thing {
-  }
+  public static class MyThing implements Thing {}
 
-  public static class ConcreteThing {
-  }
+  public static class ConcreteThing {}
 
-  public static class SubclassOfConcreteThing extends ConcreteThing {
-  }
+  public static class SubclassOfConcreteThing extends ConcreteThing {}
 
   /** Class for test. */
   @AutoService(Thing.class)
-  public static class ThingFromServiceConfig implements Thing {
-  }
+  public static class ThingFromServiceConfig implements Thing {}
 
-  private interface Umm {
-
-  }
+  private interface Umm {}
 
   public static class MyUmm implements Umm {
 
@@ -319,20 +311,16 @@ public class InjectorTest {
     }
   }
 
-  private interface MultiThing {
-
-  }
+  private interface MultiThing {}
 
   /** Class for test. */
   @Priority(-5)
   @AutoService(MultiThing.class)
-  public static class MultiThingA implements MultiThing {
-  }
+  public static class MultiThingA implements MultiThing {}
 
   /** Class for test. */
   @AutoService(MultiThing.class)
-  public static class MultiThingX implements MultiThing {
-  }
+  public static class MultiThingX implements MultiThing {}
 
   /** Class for test. */
   public static class ThingRequiringMultiThings {
@@ -426,8 +414,9 @@ public class InjectorTest {
 
   @AutoFactory
   private interface FakeSandboxFactory {
-    FakeSandbox createSandbox(@Named("runtimeSdk") FakeSdk runtimeSdk,
-        @Named("compileSdk") FakeSdk compileSdk);
+    FakeSandbox createSandbox(
+        @Named("runtimeSdk") FakeSdk runtimeSdk, @Named("compileSdk") FakeSdk compileSdk);
+
     FakeSandbox createSandbox();
   }
 }

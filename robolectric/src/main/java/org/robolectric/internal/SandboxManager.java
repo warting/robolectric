@@ -16,9 +16,7 @@ import org.robolectric.util.inject.AutoFactory;
 @SuppressLint("NewApi")
 public class SandboxManager {
 
-  /**
-   * The factor for cache size. See {@link #sandboxesByKey} for details.
-   */
+  /** The factor for cache size. See {@link #sandboxesByKey} for details. */
   private static final int CACHE_SIZE_FACTOR = 3;
 
   private final SandboxBuilder sandboxBuilder;
@@ -35,12 +33,13 @@ public class SandboxManager {
     // We need to set the cache size of class loaders more than the number of supported APIs as
     // different tests may have different configurations.
     final int cacheSize = sdkCollection.getSupportedSdks().size() * CACHE_SIZE_FACTOR;
-    sandboxesByKey = new LinkedHashMap<SandboxKey, AndroidSandbox>() {
-      @Override
-      protected boolean removeEldestEntry(Map.Entry<SandboxKey, AndroidSandbox> eldest) {
-        return size() > cacheSize;
-      }
-    };
+    sandboxesByKey =
+        new LinkedHashMap<SandboxKey, AndroidSandbox>() {
+          @Override
+          protected boolean removeEldestEntry(Map.Entry<SandboxKey, AndroidSandbox> eldest) {
+            return size() > cacheSize;
+          }
+        };
   }
 
   public synchronized AndroidSandbox getAndroidSandbox(
@@ -54,8 +53,7 @@ public class SandboxManager {
     if (androidSandbox == null) {
       Sdk compileSdk = sdkCollection.getMaxSupportedSdk();
       androidSandbox =
-          sandboxBuilder.build(
-              instrumentationConfig, sdk, compileSdk, resourcesMode, looperMode);
+          sandboxBuilder.build(instrumentationConfig, sdk, compileSdk, resourcesMode, looperMode);
       sandboxesByKey.put(key, androidSandbox);
     }
     return androidSandbox;

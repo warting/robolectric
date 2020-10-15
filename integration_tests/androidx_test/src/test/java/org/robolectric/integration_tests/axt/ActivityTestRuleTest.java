@@ -16,8 +16,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-/** Integration tests for {@link ActivityTestRule} that verify it behaves consistently on device and
- * Robolectric. */
+/**
+ * Integration tests for {@link ActivityTestRule} that verify it behaves consistently on device and
+ * Robolectric.
+ */
 @RunWith(AndroidJUnit4.class)
 public class ActivityTestRuleTest {
 
@@ -58,7 +60,7 @@ public class ActivityTestRuleTest {
     @Override
     public void onStart() {
       super.onStart();
-     callbacks.add("onStart");
+      callbacks.add("onStart");
     }
 
     @Override
@@ -109,8 +111,12 @@ public class ActivityTestRuleTest {
     assertThat(activity).isNotNull();
     assertThat(callbacks)
         .containsExactly(
-            "beforeActivityLaunched", "onCreate", "onStart", "onResume",
-            "onWindowFocusChanged true", "afterActivityLaunched");
+            "beforeActivityLaunched",
+            "onCreate",
+            "onStart",
+            "onResume",
+            "onWindowFocusChanged true",
+            "afterActivityLaunched");
   }
 
   /**
@@ -123,7 +129,8 @@ public class ActivityTestRuleTest {
     assertThat(activity.receivedBundle).isNull();
   }
 
-  @Test public void launchActivity_intentExtras() {
+  @Test
+  public void launchActivity_intentExtras() {
     Intent intent = new Intent();
     intent.putExtra("Key", "Value");
 

@@ -85,8 +85,10 @@ public class ShadowDisplayTest {
     assertEquals("another name", display.getName());
   }
 
-  @Test @Config(minSdk = LOLLIPOP)
-  public void stateChangeShouldApplyToOtherInstancesOfSameDisplay_postKitKatFields() throws Exception {
+  @Test
+  @Config(minSdk = LOLLIPOP)
+  public void stateChangeShouldApplyToOtherInstancesOfSameDisplay_postKitKatFields()
+      throws Exception {
     shadow.setState(Display.STATE_DOZE_SUSPEND);
 
     display = DisplayManagerGlobal.getInstance().getRealDisplay(Display.DEFAULT_DISPLAY);
@@ -137,8 +139,8 @@ public class ShadowDisplayTest {
   }
 
   /**
-   * The {@link android.view.Display#getOrientation()} method is deprecated, but for
-   * testing purposes, return the value gotten from {@link android.view.Display#getRotation()}
+   * The {@link android.view.Display#getOrientation()} method is deprecated, but for testing
+   * purposes, return the value gotten from {@link android.view.Display#getRotation()}
    */
   @Test
   public void deprecatedGetOrientation_returnsGetRotation() {

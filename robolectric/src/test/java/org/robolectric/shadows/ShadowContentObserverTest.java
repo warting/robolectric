@@ -69,5 +69,4 @@ public class ShadowContentObserverTest {
       this.uri = uri;
     }
   }
-
 }

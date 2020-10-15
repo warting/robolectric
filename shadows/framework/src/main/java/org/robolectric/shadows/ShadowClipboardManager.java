@@ -20,7 +20,8 @@ import org.robolectric.util.ReflectionHelpers;
 @Implements(ClipboardManager.class)
 public class ShadowClipboardManager {
   @RealObject private ClipboardManager realClipboardManager;
-  private final Collection<OnPrimaryClipChangedListener> listeners = new CopyOnWriteArrayList<OnPrimaryClipChangedListener>();
+  private final Collection<OnPrimaryClipChangedListener> listeners =
+      new CopyOnWriteArrayList<OnPrimaryClipChangedListener>();
   private ClipData clip;
 
   @Implementation

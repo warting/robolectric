@@ -13,7 +13,8 @@ import android.os.IBinder;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.util.ReflectionHelpers;
 
-public class ServiceController<T extends Service> extends ComponentController<ServiceController<T>, T> {
+public class ServiceController<T extends Service>
+    extends ComponentController<ServiceController<T>, T> {
 
   public static <T extends Service> ServiceController<T> of(T service, Intent intent) {
     ServiceController<T> controller = new ServiceController<>(service, intent);
@@ -37,7 +38,10 @@ public class ServiceController<T extends Service> extends ComponentController<Se
         .getPackageManager()
         .setComponentEnabledSetting(name, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 0);
 
-    ReflectionHelpers.callInstanceMethod(Service.class, component, "attach",
+    ReflectionHelpers.callInstanceMethod(
+        Service.class,
+        component,
+        "attach",
         from(Context.class, RuntimeEnvironment.application.getBaseContext()),
         from(ActivityThread.class, null),
         from(String.class, component.getClass().getSimpleName()),
@@ -55,13 +59,15 @@ public class ServiceController<T extends Service> extends ComponentController<Se
     return this;
   }
 
-  @Override public ServiceController<T> create() {
+  @Override
+  public ServiceController<T> create() {
     invokeWhilePaused("onCreate");
     shadowMainLooper.idleIfPaused();
     return this;
   }
 
-  @Override public ServiceController<T> destroy() {
+  @Override
+  public ServiceController<T> destroy() {
     invokeWhilePaused("onDestroy");
     shadowMainLooper.idleIfPaused();
     return this;
@@ -74,7 +80,11 @@ public class ServiceController<T extends Service> extends ComponentController<Se
   }
 
   public ServiceController<T> startCommand(int flags, int startId) {
-    invokeWhilePaused("onStartCommand", from(Intent.class, getIntent()), from(int.class, flags), from(int.class, startId));
+    invokeWhilePaused(
+        "onStartCommand",
+        from(Intent.class, getIntent()),
+        from(int.class, flags),
+        from(int.class, startId));
     shadowMainLooper.idleIfPaused();
     return this;
   }
@@ -87,8 +97,7 @@ public class ServiceController<T extends Service> extends ComponentController<Se
 
   /**
    * @deprecated Use the appropriate builder in {@link org.robolectric.Robolectric} instead.
-   *
-   * This method will be removed in Robolectric 3.6.
+   *     <p>This method will be removed in Robolectric 3.6.
    */
   @Deprecated
   public ServiceController<T> withIntent(Intent intent) {

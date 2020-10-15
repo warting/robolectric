@@ -10,8 +10,7 @@ import org.robolectric.annotation.RealObject;
 @Implements(GradientDrawable.class)
 public class ShadowGradientDrawable extends ShadowDrawable {
 
-  @RealObject
-  private GradientDrawable realGradientDrawable;
+  @RealObject private GradientDrawable realGradientDrawable;
 
   private int color;
   private int strokeColor;
@@ -29,7 +28,6 @@ public class ShadowGradientDrawable extends ShadowDrawable {
     this.strokeColor = color;
     directlyOn(realGradientDrawable, GradientDrawable.class).setStroke(width, color);
   }
-
 
   /**
    * Returns the color of this drawable as set by the last call to {@link #setColor(int color)}.

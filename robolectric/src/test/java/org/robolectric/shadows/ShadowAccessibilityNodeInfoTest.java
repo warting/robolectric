@@ -136,7 +136,8 @@ public class ShadowAccessibilityNodeInfoTest {
     shadow.setPasteable(false);
     node.removeAction(AccessibilityNodeInfo.ACTION_PASTE);
     node.addAction(AccessibilityNodeInfo.ACTION_CLEAR_ACCESSIBILITY_FOCUS);
-    assertThat(shadow.getActions()).isEqualTo(AccessibilityNodeInfo.ACTION_CLEAR_ACCESSIBILITY_FOCUS);
+    assertThat(shadow.getActions())
+        .isEqualTo(AccessibilityNodeInfo.ACTION_CLEAR_ACCESSIBILITY_FOCUS);
     node.removeAction(AccessibilityNodeInfo.ACTION_CLEAR_ACCESSIBILITY_FOCUS);
   }
 
@@ -145,16 +146,17 @@ public class ShadowAccessibilityNodeInfoTest {
     node.setClickable(true);
     node.addAction(AccessibilityNodeInfo.ACTION_CLICK);
     shadow = shadowOf(node);
-    shadow.setOnPerformActionListener(new ShadowAccessibilityNodeInfo.OnPerformActionListener() {
-      @Override
-      public boolean onPerformAccessibilityAction(int action, Bundle arguments) {
-        if (action == AccessibilityNodeInfo.ACTION_CLICK) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-    });
+    shadow.setOnPerformActionListener(
+        new ShadowAccessibilityNodeInfo.OnPerformActionListener() {
+          @Override
+          public boolean onPerformAccessibilityAction(int action, Bundle arguments) {
+            if (action == AccessibilityNodeInfo.ACTION_CLICK) {
+              return true;
+            } else {
+              return false;
+            }
+          }
+        });
 
     boolean clickResult = node.performAction(AccessibilityNodeInfo.ACTION_CLICK);
     assertThat(clickResult).isEqualTo(true);

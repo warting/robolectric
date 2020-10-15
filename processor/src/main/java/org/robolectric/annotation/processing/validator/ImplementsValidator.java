@@ -31,9 +31,7 @@ import org.robolectric.annotation.processing.DocumentedMethod;
 import org.robolectric.annotation.processing.Helpers;
 import org.robolectric.annotation.processing.RobolectricModel;
 
-/**
- * Validator that checks usages of {@link org.robolectric.annotation.Implements}.
- */
+/** Validator that checks usages of {@link org.robolectric.annotation.Implements}. */
 public class ImplementsValidator extends Validator {
 
   public static final String IMPLEMENTS_CLASS = "org.robolectric.annotation.Implements";
@@ -46,17 +44,18 @@ public class ImplementsValidator extends Validator {
   private final SdkCheckMode sdkCheckMode;
   private final SdkStore sdkStore;
 
-  /**
-   * Supported modes for validation of {@link Implementation} methods against SDKs.
-   */
+  /** Supported modes for validation of {@link Implementation} methods against SDKs. */
   public enum SdkCheckMode {
     OFF,
     WARN,
     ERROR
   }
 
-  public ImplementsValidator(RobolectricModel.Builder modelBuilder, ProcessingEnvironment env,
-      SdkCheckMode sdkCheckMode, SdkStore sdkStore) {
+  public ImplementsValidator(
+      RobolectricModel.Builder modelBuilder,
+      ProcessingEnvironment env,
+      SdkCheckMode sdkCheckMode,
+      SdkStore sdkStore) {
     super(modelBuilder, env, IMPLEMENTS_CLASS);
 
     this.env = env;
@@ -90,11 +89,9 @@ public class ImplementsValidator extends Validator {
     AnnotationValue maxSdkVal = Helpers.getAnnotationTypeMirrorValue(am, "maxSdk");
     int maxSdk = maxSdkVal == null ? -1 : Helpers.getAnnotationIntValue(maxSdkVal);
 
-    AnnotationValue shadowPickerValue =
-        Helpers.getAnnotationTypeMirrorValue(am, "shadowPicker");
-    TypeMirror shadowPickerTypeMirror = shadowPickerValue == null
-        ? null
-        : Helpers.getAnnotationTypeMirrorValue(shadowPickerValue);
+    AnnotationValue shadowPickerValue = Helpers.getAnnotationTypeMirrorValue(am, "shadowPicker");
+    TypeMirror shadowPickerTypeMirror =
+        shadowPickerValue == null ? null : Helpers.getAnnotationTypeMirrorValue(shadowPickerValue);
 
     // This shadow doesn't apply to the current SDK. todo: check each SDK.
     if (maxSdk != -1 && maxSdk < MAX_SUPPORTED_ANDROID_SDK) {
@@ -141,7 +138,8 @@ public class ImplementsValidator extends Validator {
       } else if (typeTP.isEmpty()) {
         message.append("Shadow type has type parameters but real type does not");
       } else {
-        message.append("Shadow type must have same type parameters as its real counterpart: expected <");
+        message.append(
+            "Shadow type must have same type parameters as its real counterpart: expected <");
         helpers.appendParameterList(message, actualType.getTypeParameters());
         message.append(">, was <");
         helpers.appendParameterList(message, shadowType.getTypeParameters());
@@ -157,7 +155,9 @@ public class ImplementsValidator extends Validator {
         looseSignaturesAttr == null ? false : (Boolean) looseSignaturesAttr.getValue();
     validateShadowMethods(actualType, shadowType, minSdk, maxSdk, looseSignatures);
 
-    modelBuilder.addShadowType(shadowType, actualType,
+    modelBuilder.addShadowType(
+        shadowType,
+        actualType,
         shadowPickerTypeMirror == null
             ? null
             : (TypeElement) types.asElement(shadowPickerTypeMirror));
@@ -205,8 +205,12 @@ public class ImplementsValidator extends Validator {
     return kind == ElementKind.CLASS || kind == ElementKind.INTERFACE;
   }
 
-  private void validateShadowMethods(TypeElement sdkClassElem, TypeElement shadowClassElem,
-      int classMinSdk, int classMaxSdk, boolean looseSignatures) {
+  private void validateShadowMethods(
+      TypeElement sdkClassElem,
+      TypeElement shadowClassElem,
+      int classMinSdk,
+      int classMaxSdk,
+      boolean looseSignatures) {
     for (Element memberElement : ElementFilter.methodsIn(shadowClassElem.getEnclosedElements())) {
       ExecutableElement methodElement = (ExecutableElement) memberElement;
 
@@ -229,17 +233,19 @@ public class ImplementsValidator extends Validator {
     }
   }
 
-  private void verifySdkMethod(TypeElement sdkClassElem, ExecutableElement methodElement,
-      int classMinSdk, int classMaxSdk, boolean looseSignatures) {
+  private void verifySdkMethod(
+      TypeElement sdkClassElem,
+      ExecutableElement methodElement,
+      int classMinSdk,
+      int classMaxSdk,
+      boolean looseSignatures) {
     if (sdkCheckMode == SdkCheckMode.OFF) {
       return;
     }
 
     Implementation implementation = methodElement.getAnnotation(Implementation.class);
     if (implementation != null) {
-      Kind kind = sdkCheckMode == SdkCheckMode.WARN
-          ? Kind.WARNING
-          : Kind.ERROR;
+      Kind kind = sdkCheckMode == SdkCheckMode.WARN ? Kind.WARNING : Kind.ERROR;
       Problems problems = new Problems(kind);
 
       for (SdkStore.Sdk sdk : sdkStore.sdksMatching(implementation, classMinSdk, classMaxSdk)) {
@@ -340,9 +346,7 @@ public class ImplementsValidator extends Validator {
         Set<Integer> sdks = e.getValue();
 
         StringBuilder buf = new StringBuilder();
-        buf.append(problem)
-            .append(" for ")
-            .append(sdks.size() == 1 ? "SDK " : "SDKs ");
+        buf.append(problem).append(" for ").append(sdks.size() == 1 ? "SDK " : "SDKs ");
 
         Integer previousSdk = null;
         Integer lastSdk = null;

@@ -32,44 +32,48 @@ public class ShadowContentProviderOperationBuilderTest {
     assertThat(op.getUri()).isEqualTo(uri);
 
     final ContentRequest request = new ContentRequest();
-    ContentProvider provider = new ContentProvider() {
-      @Override
-      public boolean onCreate() {
-        return true;
-      }
+    ContentProvider provider =
+        new ContentProvider() {
+          @Override
+          public boolean onCreate() {
+            return true;
+          }
 
-      @Override
-      public Cursor query(Uri uri, String[] projection, String selection,
-          String[] selectionArgs, String sortOrder) {
-        return null;
-      }
+          @Override
+          public Cursor query(
+              Uri uri,
+              String[] projection,
+              String selection,
+              String[] selectionArgs,
+              String sortOrder) {
+            return null;
+          }
 
-      @Override
-      public String getType(Uri uri) {
-        return null;
-      }
+          @Override
+          public String getType(Uri uri) {
+            return null;
+          }
 
-      @Override
-      public Uri insert(Uri uri, ContentValues values) {
-        return null;
-      }
+          @Override
+          public Uri insert(Uri uri, ContentValues values) {
+            return null;
+          }
 
-      @Override
-      public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return 0;
-      }
+          @Override
+          public int delete(Uri uri, String selection, String[] selectionArgs) {
+            return 0;
+          }
 
-      @Override
-      public int update(Uri uri, ContentValues values, String selection,
-          String[] selectionArgs) {
-        request.uri = uri;
-        request.values = values;
-        request.selection = selection;
-        request.selectionArgs = selectionArgs;
-        return 0;
-      }
-
-    };
+          @Override
+          public int update(
+              Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+            request.uri = uri;
+            request.values = values;
+            request.selection = selection;
+            request.selectionArgs = selectionArgs;
+            return 0;
+          }
+        };
 
     op.apply(provider, null, 0);
 
@@ -79,7 +83,6 @@ public class ShadowContentProviderOperationBuilderTest {
 
     assertThat(request.values.containsKey("k1")).isTrue();
     assertThat(request.values.containsKey("k2")).isTrue();
-
   }
 
   static class ContentRequest {
@@ -88,5 +91,4 @@ public class ShadowContentProviderOperationBuilderTest {
     String[] selectionArgs;
     ContentValues values;
   }
-
 }

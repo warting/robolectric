@@ -63,11 +63,12 @@ public class ShadowDrawable {
     if (opts == null) opts = new BitmapFactory.Options();
     opts.inScreenDensity = DisplayMetrics.DENSITY_DEFAULT;
 
-    Bitmap  bm = BitmapFactory.decodeResourceStream(res, value, is, pad, opts);
+    Bitmap bm = BitmapFactory.decodeResourceStream(res, value, is, pad, opts);
     if (bm != null) {
       boolean isNinePatch = srcName != null && srcName.contains(".9.");
       if (isNinePatch) {
-        ReflectionHelpers.callInstanceMethod(bm, "setNinePatchChunk", ClassParameter.from(byte[].class, new byte[0]));
+        ReflectionHelpers.callInstanceMethod(
+            bm, "setNinePatchChunk", ClassParameter.from(byte[].class, new byte[0]));
       }
       byte[] np = bm.getNinePatchChunk();
       if (np == null || !NinePatch.isNinePatchChunk(np)) {

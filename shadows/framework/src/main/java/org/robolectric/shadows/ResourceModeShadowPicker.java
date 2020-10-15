@@ -11,7 +11,8 @@ public class ResourceModeShadowPicker<T> implements ShadowPicker<T> {
   private Class<? extends T> binary9ShadowClass;
   private Class<? extends T> binary10ShadowClass;
 
-  public ResourceModeShadowPicker(Class<? extends T> legacyShadowClass,
+  public ResourceModeShadowPicker(
+      Class<? extends T> legacyShadowClass,
       Class<? extends T> binaryShadowClass,
       Class<? extends T> binary9ShadowClass) {
     this.legacyShadowClass = legacyShadowClass;
@@ -20,10 +21,11 @@ public class ResourceModeShadowPicker<T> implements ShadowPicker<T> {
     this.binary10ShadowClass = binary9ShadowClass;
   }
 
-  public ResourceModeShadowPicker(Class<? extends T> legacyShadowClass,
-          Class<? extends T> binaryShadowClass,
-          Class<? extends T> binary9ShadowClass,
-          Class<? extends T> binary10ShadowClass) {
+  public ResourceModeShadowPicker(
+      Class<? extends T> legacyShadowClass,
+      Class<? extends T> binaryShadowClass,
+      Class<? extends T> binary9ShadowClass,
+      Class<? extends T> binary10ShadowClass) {
     this.legacyShadowClass = legacyShadowClass;
     this.binaryShadowClass = binaryShadowClass;
     this.binary9ShadowClass = binary9ShadowClass;
@@ -37,8 +39,7 @@ public class ResourceModeShadowPicker<T> implements ShadowPicker<T> {
     } else {
       if (RuntimeEnvironment.getApiLevel() >= Build.VERSION_CODES.Q) {
         return binary10ShadowClass;
-      } else
-      if (RuntimeEnvironment.getApiLevel() >= Build.VERSION_CODES.P) {
+      } else if (RuntimeEnvironment.getApiLevel() >= Build.VERSION_CODES.P) {
         return binary9ShadowClass;
       } else {
         return binaryShadowClass;

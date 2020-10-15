@@ -76,5 +76,4 @@ public class BuildCompatTest {
   public void isAtLeastQ_preQ() {
     assertThat(BuildCompat.isAtLeastQ()).isFalse();
   }
-
 }

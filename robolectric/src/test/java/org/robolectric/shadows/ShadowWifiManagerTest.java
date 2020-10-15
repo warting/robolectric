@@ -245,7 +245,6 @@ public class ShadowWifiManagerTest {
     List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
     assertThat(list.size()).isEqualTo(1);
 
-
     wifiManager.removeNetwork(0);
 
     list = wifiManager.getConfiguredNetworks();
@@ -389,10 +388,12 @@ public class ShadowWifiManagerTest {
   @Test
   public void shouldThrowRuntimeExceptionIfMulticastLockisUnderlocked() throws Exception {
     MulticastLock lock = wifiManager.createMulticastLock("TAG");
-    try{
+    try {
       lock.release();
       fail("Expected exception");
-    } catch (RuntimeException expected) {};
+    } catch (RuntimeException expected) {
+    }
+    ;
   }
 
   @Test

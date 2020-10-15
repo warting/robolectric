@@ -14,9 +14,7 @@ import java.util.concurrent.TimeoutException;
 import org.robolectric.shadows.ShadowApplication;
 import org.robolectric.util.Scheduler;
 
-/**
- * Executor service that runs all operations on the background scheduler.
- */
+/** Executor service that runs all operations on the background scheduler. */
 public class RoboExecutorService implements ExecutorService {
   private final Scheduler scheduler;
   private boolean isShutdown;
@@ -97,13 +95,14 @@ public class RoboExecutorService implements ExecutorService {
   }
 
   private <T> Future<T> schedule(final FutureTask<T> futureTask) {
-    Runnable runnable = new Runnable() {
-      @Override
-      public void run() {
-        futureTask.run();
-        runnables.remove(this);
-      }
-    };
+    Runnable runnable =
+        new Runnable() {
+          @Override
+          public void run() {
+            futureTask.run();
+            runnables.remove(this);
+          }
+        };
     runnables.add(runnable);
     scheduler.post(runnable);
 
@@ -111,22 +110,27 @@ public class RoboExecutorService implements ExecutorService {
   }
 
   @Override
-  public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> callables) throws InterruptedException {
+  public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> callables)
+      throws InterruptedException {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> callables, long l, TimeUnit timeUnit) throws InterruptedException {
+  public <T> List<Future<T>> invokeAll(
+      Collection<? extends Callable<T>> callables, long l, TimeUnit timeUnit)
+      throws InterruptedException {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public <T> T invokeAny(Collection<? extends Callable<T>> callables) throws InterruptedException, ExecutionException {
+  public <T> T invokeAny(Collection<? extends Callable<T>> callables)
+      throws InterruptedException, ExecutionException {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public <T> T invokeAny(Collection<? extends Callable<T>> callables, long l, TimeUnit timeUnit) throws InterruptedException, ExecutionException, TimeoutException {
+  public <T> T invokeAny(Collection<? extends Callable<T>> callables, long l, TimeUnit timeUnit)
+      throws InterruptedException, ExecutionException, TimeoutException {
     throw new UnsupportedOperationException();
   }
 

@@ -9,16 +9,18 @@ public class InvocationProfile {
   public final String[] paramTypes;
   private final boolean isDeclaredOnObject;
 
-  public InvocationProfile(String methodSignatureString, boolean isStatic, ClassLoader classLoader) {
+  public InvocationProfile(
+      String methodSignatureString, boolean isStatic, ClassLoader classLoader) {
     MethodSignature methodSignature = MethodSignature.parse(methodSignatureString);
     this.clazz = loadClass(classLoader, methodSignature.className);
     this.methodName = methodSignature.methodName;
     this.paramTypes = methodSignature.paramTypes;
     this.isStatic = isStatic;
 
-    this.isDeclaredOnObject = methodSignatureString.endsWith("/equals(Ljava/lang/Object;)Z")
-        || methodSignatureString.endsWith("/hashCode()I")
-        || methodSignatureString.endsWith("/toString()Ljava/lang/String;");
+    this.isDeclaredOnObject =
+        methodSignatureString.endsWith("/equals(Ljava/lang/Object;)Z")
+            || methodSignatureString.endsWith("/hashCode()I")
+            || methodSignatureString.endsWith("/toString()Ljava/lang/String;");
   }
 
   public Class<?>[] getParamClasses(ClassLoader classLoader) throws ClassNotFoundException {
@@ -62,7 +64,8 @@ public class InvocationProfile {
     if (isDeclaredOnObject != that.isDeclaredOnObject) return false;
     if (isStatic != that.isStatic) return false;
     if (clazz != null ? !clazz.equals(that.clazz) : that.clazz != null) return false;
-    if (methodName != null ? !methodName.equals(that.methodName) : that.methodName != null) return false;
+    if (methodName != null ? !methodName.equals(that.methodName) : that.methodName != null)
+      return false;
     if (!Arrays.equals(paramTypes, that.paramTypes)) return false;
 
     return true;

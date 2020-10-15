@@ -62,10 +62,7 @@ public abstract class ShadowMessage {
    */
   public abstract void setNext(Message next);
 
-  /**
-   * Resets the static state of the {@link Message} class by
-   * emptying the message pool.
-   */
+  /** Resets the static state of the {@link Message} class by emptying the message pool. */
   @Resetter
   public static void reset() {
     Object lock = reflector(ReflectorMessage.class).getPoolSync();

@@ -45,12 +45,12 @@ public class ShadowViewRootImpl {
   }
 
   @Implementation
-  public void playSoundEffect(int effectId) {
-  }
+  public void playSoundEffect(int effectId) {}
 
   @Implementation
-  protected int relayoutWindow(WindowManager.LayoutParams params, int viewVisibility,
-      boolean insetsPending) throws RemoteException {
+  protected int relayoutWindow(
+      WindowManager.LayoutParams params, int viewVisibility, boolean insetsPending)
+      throws RemoteException {
     // TODO(christianw): probably should return WindowManagerGlobal.RELAYOUT_RES_SURFACE_RESIZED?
     return 0;
   }
@@ -91,8 +91,9 @@ public class ShadowViewRootImpl {
     if (RuntimeEnvironment.getApiLevel() > VERSION_CODES.JELLY_BEAN_MR1) {
       return reflector(ViewRootImplReflector.class, realObject).getDisplay();
     } else {
-      WindowManager windowManager = (WindowManager) realObject.getView().getContext()
-          .getSystemService(Context.WINDOW_SERVICE);
+      WindowManager windowManager =
+          (WindowManager)
+              realObject.getView().getContext().getSystemService(Context.WINDOW_SERVICE);
       return windowManager.getDefaultDisplay();
     }
   }
@@ -143,16 +144,20 @@ public class ShadowViewRootImpl {
   /** Accessor interface for {@link ViewRootImpl}'s internals. */
   @ForType(ViewRootImpl.class)
   protected interface ViewRootImplReflector {
-    @Static @Accessor("sRunQueues")
+    @Static
+    @Accessor("sRunQueues")
     void setRunQueues(ThreadLocal<HandlerActionQueue> threadLocal);
 
-    @Static @Accessor("sFirstDrawHandlers")
+    @Static
+    @Accessor("sFirstDrawHandlers")
     void setFirstDrawHandlers(ArrayList<Runnable> handlers);
 
-    @Static @Accessor("sFirstDrawComplete")
+    @Static
+    @Accessor("sFirstDrawComplete")
     void setFirstDrawComplete(boolean isComplete);
 
-    @Static @Accessor("sConfigCallbacks")
+    @Static
+    @Accessor("sConfigCallbacks")
     void setConfigCallbacks(ArrayList<ViewRootImpl.ConfigChangedCallback> callbacks);
 
     @Accessor("mWinFrame")
@@ -163,56 +168,95 @@ public class ShadowViewRootImpl {
 
     // <= JELLY_BEAN
     void dispatchResized(
-        int w, int h, Rect contentInsets,
-        Rect visibleInsets, boolean reportDraw, Configuration newConfig);
+        int w,
+        int h,
+        Rect contentInsets,
+        Rect visibleInsets,
+        boolean reportDraw,
+        Configuration newConfig);
 
     // <= JELLY_BEAN_MR1
     void dispatchResized(
-        Rect frame, Rect contentInsets,
-        Rect visibleInsets, boolean reportDraw, Configuration newConfig);
+        Rect frame,
+        Rect contentInsets,
+        Rect visibleInsets,
+        boolean reportDraw,
+        Configuration newConfig);
 
     // <= KITKAT
     void dispatchResized(
-        Rect frame, Rect overscanInsets, Rect contentInsets,
-        Rect visibleInsets, boolean reportDraw, Configuration newConfig);
+        Rect frame,
+        Rect overscanInsets,
+        Rect contentInsets,
+        Rect visibleInsets,
+        boolean reportDraw,
+        Configuration newConfig);
 
     // <= LOLLIPOP_MR1
     void dispatchResized(
-        Rect frame, Rect overscanInsets, Rect contentInsets,
-        Rect visibleInsets, Rect stableInsets, boolean reportDraw, Configuration newConfig);
+        Rect frame,
+        Rect overscanInsets,
+        Rect contentInsets,
+        Rect visibleInsets,
+        Rect stableInsets,
+        boolean reportDraw,
+        Configuration newConfig);
 
     // <= M
     void dispatchResized(
-        Rect frame, Rect overscanInsets, Rect contentInsets,
-        Rect visibleInsets, Rect stableInsets, Rect outsets, boolean reportDraw,
+        Rect frame,
+        Rect overscanInsets,
+        Rect contentInsets,
+        Rect visibleInsets,
+        Rect stableInsets,
+        Rect outsets,
+        boolean reportDraw,
         Configuration newConfig);
 
     // <= N_MR1
     void dispatchResized(
-        Rect frame, Rect overscanInsets, Rect contentInsets,
-        Rect visibleInsets, Rect stableInsets, Rect outsets, boolean reportDraw,
-        Configuration newConfig, Rect backDropFrame, boolean forceLayout,
+        Rect frame,
+        Rect overscanInsets,
+        Rect contentInsets,
+        Rect visibleInsets,
+        Rect stableInsets,
+        Rect outsets,
+        boolean reportDraw,
+        Configuration newConfig,
+        Rect backDropFrame,
+        boolean forceLayout,
         boolean alwaysConsumeNavBar);
 
     // <= O_MR1
-    void dispatchResized(Rect frame, Rect overscanInsets, Rect contentInsets,
-        Rect visibleInsets, Rect stableInsets, Rect outsets, boolean reportDraw,
-        @WithType("android.util.MergedConfiguration")
-            Object mergedConfiguration,
-        Rect backDropFrame, boolean forceLayout,
-        boolean alwaysConsumeNavBar, int displayId);
+    void dispatchResized(
+        Rect frame,
+        Rect overscanInsets,
+        Rect contentInsets,
+        Rect visibleInsets,
+        Rect stableInsets,
+        Rect outsets,
+        boolean reportDraw,
+        @WithType("android.util.MergedConfiguration") Object mergedConfiguration,
+        Rect backDropFrame,
+        boolean forceLayout,
+        boolean alwaysConsumeNavBar,
+        int displayId);
 
     // >= P
     void dispatchResized(
-        Rect frame, Rect overscanInsets, Rect contentInsets,
-        Rect visibleInsets, Rect stableInsets, Rect outsets, boolean reportDraw,
-        @WithType("android.util.MergedConfiguration")
-            Object mergedConfiguration,
-        Rect backDropFrame, boolean forceLayout,
-        boolean alwaysConsumeNavBar, int displayId,
-        @WithType("android.view.DisplayCutout$ParcelableWrapper")
-            Object displayCutout);
-
+        Rect frame,
+        Rect overscanInsets,
+        Rect contentInsets,
+        Rect visibleInsets,
+        Rect stableInsets,
+        Rect outsets,
+        boolean reportDraw,
+        @WithType("android.util.MergedConfiguration") Object mergedConfiguration,
+        Rect backDropFrame,
+        boolean forceLayout,
+        boolean alwaysConsumeNavBar,
+        int displayId,
+        @WithType("android.view.DisplayCutout$ParcelableWrapper") Object displayCutout);
 
     default void dispatchResized(Rect frame) {
       Rect emptyRect = new Rect(0, 0, 0, 0);
@@ -229,17 +273,39 @@ public class ShadowViewRootImpl {
       } else if (apiLevel <= Build.VERSION_CODES.M) {
         dispatchResized(frame, emptyRect, emptyRect, emptyRect, emptyRect, emptyRect, true, null);
       } else if (apiLevel <= Build.VERSION_CODES.N_MR1) {
-        dispatchResized(frame, emptyRect, emptyRect, emptyRect, emptyRect, emptyRect, true, null,
-            frame, false, false);
+        dispatchResized(
+            frame, emptyRect, emptyRect, emptyRect, emptyRect, emptyRect, true, null, frame, false,
+            false);
       } else if (apiLevel <= Build.VERSION_CODES.O_MR1) {
-        dispatchResized(frame, emptyRect, emptyRect, emptyRect, emptyRect, emptyRect, true,
-            new MergedConfiguration(), frame, false, false, 0);
+        dispatchResized(
+            frame,
+            emptyRect,
+            emptyRect,
+            emptyRect,
+            emptyRect,
+            emptyRect,
+            true,
+            new MergedConfiguration(),
+            frame,
+            false,
+            false,
+            0);
       } else { // apiLevel >= Build.VERSION_CODES.P
-        dispatchResized(frame, emptyRect, emptyRect, emptyRect, emptyRect, emptyRect, true,
-            new MergedConfiguration(), frame, false, false, 0,
+        dispatchResized(
+            frame,
+            emptyRect,
+            emptyRect,
+            emptyRect,
+            emptyRect,
+            emptyRect,
+            true,
+            new MergedConfiguration(),
+            frame,
+            false,
+            false,
+            0,
             new android.view.DisplayCutout.ParcelableWrapper());
       }
     }
-
   }
 }

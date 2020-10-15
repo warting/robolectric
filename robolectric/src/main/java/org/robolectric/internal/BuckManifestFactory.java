@@ -20,7 +20,8 @@ import org.robolectric.util.Util;
 public class BuckManifestFactory implements ManifestFactory {
 
   private static final String BUCK_ROBOLECTRIC_RES_DIRECTORIES = "buck.robolectric_res_directories";
-  private static final String BUCK_ROBOLECTRIC_ASSETS_DIRECTORIES = "buck.robolectric_assets_directories";
+  private static final String BUCK_ROBOLECTRIC_ASSETS_DIRECTORIES =
+      "buck.robolectric_assets_directories";
   private static final String BUCK_ROBOLECTRIC_MANIFEST = "buck.robolectric_manifest";
 
   @Override
@@ -45,7 +46,8 @@ public class BuckManifestFactory implements ManifestFactory {
       libraries = new ArrayList<>();
 
       for (int i = 0; i < buckResources.size() - 1; i++) {
-        libraries.add(new ManifestIdentifier((String) null, null, buckResources.get(i), null, null));
+        libraries.add(
+            new ManifestIdentifier((String) null, null, buckResources.get(i), null, null));
       }
 
       for (int i = 0; i < buckAssets.size() - 1; i++) {
@@ -70,8 +72,9 @@ public class BuckManifestFactory implements ManifestFactory {
     if (property.startsWith("@")) {
       String filename = property.substring(1);
       try {
-        dirs = Arrays.asList(
-            new String(Util.readBytes(new FileInputStream(filename)), UTF_8).split("\\n"));
+        dirs =
+            Arrays.asList(
+                new String(Util.readBytes(new FileInputStream(filename)), UTF_8).split("\\n"));
       } catch (IOException e) {
         throw new RuntimeException("Cannot read file " + filename);
       }

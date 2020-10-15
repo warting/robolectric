@@ -1,9 +1,10 @@
 package org.robolectric.res.android;
 
-// transliterated from https://android.googlesource.com/platform/frameworks/base/+/android-9.0.0_r12/libs/androidfw/include/androidfw/ByteBucketArray.h
+// transliterated from
+// https://android.googlesource.com/platform/frameworks/base/+/android-9.0.0_r12/libs/androidfw/include/androidfw/ByteBucketArray.h
 /**
- * Stores a sparsely populated array. Has a fixed size of 256
- * (number of entries that a byte can represent).
+ * Stores a sparsely populated array. Has a fixed size of 256 (number of entries that a byte can
+ * represent).
  */
 public abstract class ByteBucketArray<T> {
   public ByteBucketArray(T mDefault) {
@@ -14,16 +15,16 @@ public abstract class ByteBucketArray<T> {
     return NUM_BUCKETS * BUCKET_SIZE;
   }
 
-//  inline const T& get(size_t index) const {
-//    return (*this)[index];
-//  }
+  //  inline const T& get(size_t index) const {
+  //    return (*this)[index];
+  //  }
 
   final T get(int index) {
     if (index >= size()) {
       return mDefault;
     }
 
-//    byte bucketIndex = static_cast<byte>(index) >> 4;
+    //    byte bucketIndex = static_cast<byte>(index) >> 4;
     byte bucketIndex = (byte) (index >> 4);
     T[] bucket = (T[]) mBuckets[bucketIndex];
     if (bucket == null) {
@@ -34,16 +35,16 @@ public abstract class ByteBucketArray<T> {
   }
 
   T editItemAt(int index) {
-//    ALOG_ASSERT(index < size(), "ByteBucketArray.getOrCreate(index=%u) with size=%u",
-//        (uint32_t) index, (uint32_t) size());
+    //    ALOG_ASSERT(index < size(), "ByteBucketArray.getOrCreate(index=%u) with size=%u",
+    //        (uint32_t) index, (uint32_t) size());
 
-//    uint8_t bucketIndex = static_cast<uint8_t>(index) >> 4;
+    //    uint8_t bucketIndex = static_cast<uint8_t>(index) >> 4;
     byte bucketIndex = (byte) (((byte) index) >> 4);
     Object[] bucket = mBuckets[bucketIndex];
     if (bucket == null) {
       bucket = mBuckets[bucketIndex] = new Object[BUCKET_SIZE];
     }
-//    return bucket[0x0f & static_cast<uint8_t>(index)];
+    //    return bucket[0x0f & static_cast<uint8_t>(index)];
     T t = (T) bucket[0x0f & ((byte) index)];
     if (t == null) {
       t = newInstance();
@@ -59,7 +60,7 @@ public abstract class ByteBucketArray<T> {
       return false;
     }
 
-//    editItemAt(index) = value;
+    //    editItemAt(index) = value;
     byte bucketIndex = (byte) (((byte) index) >> 4);
     Object[] bucket = mBuckets[bucketIndex];
     if (bucket == null) {
@@ -74,5 +75,4 @@ public abstract class ByteBucketArray<T> {
 
   Object[][] mBuckets = new Object[NUM_BUCKETS][];
   T mDefault;
-
 }

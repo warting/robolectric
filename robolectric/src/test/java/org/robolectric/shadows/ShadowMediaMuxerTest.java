@@ -39,8 +39,8 @@ public final class ShadowMediaMuxerTest {
   @Config(minSdk = LOLLIPOP)
   public void basicMuxingFlow() throws IOException {
     int inputSize = 512;
-    String tempFilePath = tempDirectory.create("dir")
-        .resolve(UUID.randomUUID().toString()).toString();
+    String tempFilePath =
+        tempDirectory.create("dir").resolve(UUID.randomUUID().toString()).toString();
     MediaMuxer muxer = new MediaMuxer(tempFilePath, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);
 
     MediaFormat format = new MediaFormat();

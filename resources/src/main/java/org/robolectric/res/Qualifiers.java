@@ -71,9 +71,7 @@ public class Qualifiers {
     }
   }
 
-  /**
-   * @deprecated Use {@link android.os.Build.VERSION#SDK_INT} instead.
-   */
+  /** @deprecated Use {@link android.os.Build.VERSION#SDK_INT} instead. */
   @Deprecated
   public static int getPlatformVersion(String qualifiers) {
     Matcher m = VERSION_QUALIFIER_PATTERN.matcher(qualifiers);
@@ -83,9 +81,7 @@ public class Qualifiers {
     return -1;
   }
 
-  /**
-   * @deprecated Use {@link android.content.res.Configuration#smallestScreenWidthDp} instead.
-   */
+  /** @deprecated Use {@link android.content.res.Configuration#smallestScreenWidthDp} instead. */
   @Deprecated
   public static int getSmallestScreenWidth(String qualifiers) {
     for (String qualifier : qualifiers.split("-", 0)) {
@@ -99,8 +95,8 @@ public class Qualifiers {
   }
 
   /**
-   * If the Config already has a version qualifier, do nothing. Otherwise, add a version
-   * qualifier for the target api level (which comes from the manifest or Config.sdk()).
+   * If the Config already has a version qualifier, do nothing. Otherwise, add a version qualifier
+   * for the target api level (which comes from the manifest or Config.sdk()).
    *
    * @deprecated Figure something else out.
    */
@@ -134,9 +130,7 @@ public class Qualifiers {
     return qualifiers;
   }
 
-  /**
-   * @deprecated Use {@link android.content.res.Configuration#screenWidthDp} instead.
-   */
+  /** @deprecated Use {@link android.content.res.Configuration#screenWidthDp} instead. */
   @Deprecated
   public static int getScreenWidth(String qualifiers) {
     for (String qualifier : qualifiers.split("-", 0)) {
@@ -149,9 +143,7 @@ public class Qualifiers {
     return -1;
   }
 
-  /**
-   * @deprecated Use {@link android.content.res.Configuration#screenWidthDp} instead.
-   */
+  /** @deprecated Use {@link android.content.res.Configuration#screenWidthDp} instead. */
   @Deprecated
   public static String addScreenWidth(String qualifiers, int screenWidth) {
     int qualifiersScreenWidth = Qualifiers.getScreenWidth(qualifiers);
@@ -164,9 +156,7 @@ public class Qualifiers {
     return qualifiers;
   }
 
-  /**
-   * @deprecated Use {@link android.content.res.Configuration#orientation} instead.
-   */
+  /** @deprecated Use {@link android.content.res.Configuration#orientation} instead. */
   @Deprecated
   public static String getOrientation(String qualifiers) {
     for (String qualifier : qualifiers.split("-", 0)) {

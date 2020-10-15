@@ -8,6 +8,5 @@ import com.example.objects.UniqueDummy;
 @Implements(Dummy.class)
 public class ShadowRealObjectWithWrongType {
 
-  @RealObject
-  UniqueDummy someField;
+  @RealObject UniqueDummy someField;
 }

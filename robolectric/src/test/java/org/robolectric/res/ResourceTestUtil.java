@@ -19,16 +19,17 @@ public class ResourceTestUtil {
 
   static String stringify(ResourceTable resourceTable) {
     final HashMap<String, List<TypedResource>> map = new HashMap<>();
-    resourceTable.receive(new ResourceTable.Visitor() {
-      @Override
-      public void visit(ResName key, Iterable<TypedResource> values) {
-        List<TypedResource> v = new ArrayList<>();
-        for (TypedResource value : values) {
-          v.add(value);
-        }
-        map.put(key.getFullyQualifiedName(), v);
-      }
-    });
+    resourceTable.receive(
+        new ResourceTable.Visitor() {
+          @Override
+          public void visit(ResName key, Iterable<TypedResource> values) {
+            List<TypedResource> v = new ArrayList<>();
+            for (TypedResource value : values) {
+              v.add(value);
+            }
+            map.put(key.getFullyQualifiedName(), v);
+          }
+        });
     StringBuilder buf = new StringBuilder();
     TreeSet<String> keys = new TreeSet<>(map.keySet());
     for (String key : keys) {
@@ -40,7 +41,11 @@ public class ResourceTestUtil {
           for (Object item : ((List) data)) {
             if (item.getClass().equals(TypedResource.class)) {
               TypedResource typedResourceItem = (TypedResource) item;
-              newList.add(typedResourceItem.getData().toString() + " (" + typedResourceItem.getResType() + ")");
+              newList.add(
+                  typedResourceItem.getData().toString()
+                      + " ("
+                      + typedResourceItem.getResType()
+                      + ")");
             } else {
               newList.add(item.toString());
             }
@@ -49,23 +54,35 @@ public class ResourceTestUtil {
         } else if (data instanceof StyleData) {
           StyleData styleData = (StyleData) data;
           final Map<String, String> attrs = new TreeMap<>();
-          styleData.visit(new StyleData.Visitor() {
-            @Override
-            public void visit(AttributeResource attributeResource) {
-              attrs.put(attributeResource.resName.getFullyQualifiedName(), attributeResource.value);
-            }
-          });
+          styleData.visit(
+              new StyleData.Visitor() {
+                @Override
+                public void visit(AttributeResource attributeResource) {
+                  attrs.put(
+                      attributeResource.resName.getFullyQualifiedName(), attributeResource.value);
+                }
+              });
           data = data.toString() + "^" + styleData.getParent() + " " + attrs;
         }
-        buf.append("  ").append(data).append(" {").append(typedResource.getResType())
-            .append("/").append(typedResource.getConfig()).append(": ")
-            .append(shortContext(typedResource)).append("}").append("\n");
+        buf.append("  ")
+            .append(data)
+            .append(" {")
+            .append(typedResource.getResType())
+            .append("/")
+            .append(typedResource.getConfig())
+            .append(": ")
+            .append(shortContext(typedResource))
+            .append("}")
+            .append("\n");
       }
     }
     return buf.toString();
   }
 
   static String shortContext(TypedResource typedResource) {
-    return typedResource.getXmlContext().toString().replaceAll("jar:/usr/local/google/home/.*\\.jar\\!", "jar:");
+    return typedResource
+        .getXmlContext()
+        .toString()
+        .replaceAll("jar:/usr/local/google/home/.*\\.jar\\!", "jar:");
   }
 }

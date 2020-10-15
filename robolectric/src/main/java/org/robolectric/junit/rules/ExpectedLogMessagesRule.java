@@ -99,10 +99,9 @@ public final class ExpectedLogMessagesRule implements TestRule {
   /**
    * Adds an expected log statement. If this log is not printed during test execution, the test case
    * will fail. This will also match any log statement which contain a throwable as well. For
-   * verifying the throwable, please see
-   * {@link #expectLogMessageWithThrowable(int, String, String, Throwable)}.
-   * Do not use this to suppress failures. Use this to test that expected error cases in
-   * your code cause log messages to be printed.
+   * verifying the throwable, please see {@link #expectLogMessageWithThrowable(int, String, String,
+   * Throwable)}. Do not use this to suppress failures. Use this to test that expected error cases
+   * in your code cause log messages to be printed.
    */
   public void expectLogMessage(int level, String tag, String message) {
     expectLogMessageInternal(tag, new ExpectedLogItem(level, tag, message));

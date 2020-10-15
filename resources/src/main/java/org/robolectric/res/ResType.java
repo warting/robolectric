@@ -40,9 +40,7 @@ public enum ResType {
     return itemResType;
   }
 
-  /**
-   * Parses a resource value to infer the type
-   */
+  /** Parses a resource value to infer the type */
   public static ResType inferFromValue(String value) {
     if (value.startsWith("#")) {
       return COLOR;
@@ -54,13 +52,14 @@ public enum ResType {
       try {
         Integer.parseInt(value);
         return INTEGER;
-      } catch (NumberFormatException nfe) {}
+      } catch (NumberFormatException nfe) {
+      }
 
       try {
         Float.parseFloat(value);
         return FRACTION;
-      } catch (NumberFormatException nfe) {}
-
+      } catch (NumberFormatException nfe) {
+      }
 
       return CHAR_SEQUENCE;
     }

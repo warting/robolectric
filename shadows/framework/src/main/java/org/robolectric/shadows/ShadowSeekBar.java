@@ -9,8 +9,7 @@ import org.robolectric.shadow.api.Shadow;
 @Implements(SeekBar.class)
 public class ShadowSeekBar extends ShadowAbsSeekBar {
 
-  @RealObject
-  private SeekBar realSeekBar;
+  @RealObject private SeekBar realSeekBar;
 
   private SeekBar.OnSeekBarChangeListener listener;
 

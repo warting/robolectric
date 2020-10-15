@@ -34,7 +34,8 @@ public class ShadowSettings {
 
   @Implements(value = Settings.System.class)
   public static class ShadowSystem {
-    private static final WeakHashMap<ContentResolver, Map<String, Object>> dataMap = new WeakHashMap<ContentResolver, Map<String, Object>>();
+    private static final WeakHashMap<ContentResolver, Map<String, Object>> dataMap =
+        new WeakHashMap<ContentResolver, Map<String, Object>>();
 
     @Implementation
     protected static boolean putInt(ContentResolver cr, String name, int value) {

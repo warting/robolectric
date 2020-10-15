@@ -14,9 +14,11 @@ import android.os.IBinder;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.util.ReflectionHelpers;
 
-public class IntentServiceController<T extends IntentService> extends ComponentController<IntentServiceController<T>, T> {
+public class IntentServiceController<T extends IntentService>
+    extends ComponentController<IntentServiceController<T>, T> {
 
-  public static <T extends IntentService> IntentServiceController<T> of(final T service, final Intent intent) {
+  public static <T extends IntentService> IntentServiceController<T> of(
+      final T service, final Intent intent) {
     final IntentServiceController<T> controller = new IntentServiceController<>(service, intent);
     controller.attach();
     return controller;
@@ -37,13 +39,16 @@ public class IntentServiceController<T extends IntentService> extends ComponentC
     context
         .getPackageManager()
         .setComponentEnabledSetting(name, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 0);
-    ReflectionHelpers.callInstanceMethod(Service.class, component, "attach",
-       from(Context.class, RuntimeEnvironment.application.getBaseContext()),
-       from(ActivityThread.class, null),
-       from(String.class, component.getClass().getSimpleName()),
-       from(IBinder.class, null),
-       from(Application.class, RuntimeEnvironment.application),
-       from(Object.class, null));
+    ReflectionHelpers.callInstanceMethod(
+        Service.class,
+        component,
+        "attach",
+        from(Context.class, RuntimeEnvironment.application.getBaseContext()),
+        from(ActivityThread.class, null),
+        from(String.class, component.getClass().getSimpleName()),
+        from(IBinder.class, null),
+        from(Application.class, RuntimeEnvironment.application),
+        from(Object.class, null));
 
     attached = true;
     return this;
@@ -55,13 +60,15 @@ public class IntentServiceController<T extends IntentService> extends ComponentC
     return this;
   }
 
-  @Override public IntentServiceController<T> create() {
+  @Override
+  public IntentServiceController<T> create() {
     invokeWhilePaused("onCreate");
     shadowMainLooper.idleIfPaused();
     return this;
   }
 
-  @Override public IntentServiceController<T> destroy() {
+  @Override
+  public IntentServiceController<T> destroy() {
     invokeWhilePaused("onDestroy");
     shadowMainLooper.idleIfPaused();
     return this;

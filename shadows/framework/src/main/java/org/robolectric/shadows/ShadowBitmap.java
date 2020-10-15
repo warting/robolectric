@@ -30,8 +30,7 @@ public class ShadowBitmap {
   /** Number of bytes used internally to represent each pixel (in the {@link #colors} array) */
   private static final int INTERNAL_BYTES_PER_PIXEL = 4;
 
-  @RealObject
-  private Bitmap realBitmap;
+  @RealObject private Bitmap realBitmap;
 
   int createdFromResId = -1;
   String createdFromPath;
@@ -81,8 +80,8 @@ public class ShadowBitmap {
   }
 
   /**
-   * Resource ID from which this Bitmap was created. {@code 0} if this Bitmap was not created
-   * from a resource.
+   * Resource ID from which this Bitmap was created. {@code 0} if this Bitmap was not created from a
+   * resource.
    *
    * @return Resource ID from which this Bitmap was created.
    */
@@ -142,8 +141,8 @@ public class ShadowBitmap {
    * Width from {@link #getCreatedFromX()} within {@link #getCreatedFromBitmap()} of this Bitmap's
    * content, or -1.
    *
-   * @return Width from {@link #getCreatedFromX()} within {@link #getCreatedFromBitmap()} of this Bitmap's
-   * content, or -1.
+   * @return Width from {@link #getCreatedFromX()} within {@link #getCreatedFromBitmap()} of this
+   *     Bitmap's content, or -1.
    */
   public int getCreatedFromWidth() {
     return createdFromWidth;
@@ -152,8 +151,9 @@ public class ShadowBitmap {
   /**
    * Height from {@link #getCreatedFromX()} within {@link #getCreatedFromBitmap()} of this Bitmap's
    * content, or -1.
-   * @return Height from {@link #getCreatedFromX()} within {@link #getCreatedFromBitmap()} of this Bitmap's
-   * content, or -1.
+   *
+   * @return Height from {@link #getCreatedFromX()} within {@link #getCreatedFromBitmap()} of this
+   *     Bitmap's content, or -1.
    */
   public int getCreatedFromHeight() {
     return createdFromHeight;
@@ -162,6 +162,7 @@ public class ShadowBitmap {
   /**
    * Color array from which this Bitmap was created. {@code null} if this Bitmap was not created
    * from a color array.
+   *
    * @return Color array from which this Bitmap was created.
    */
   public int[] getCreatedFromColors() {
@@ -170,6 +171,7 @@ public class ShadowBitmap {
 
   /**
    * Matrix from which this Bitmap's content was transformed, or {@code null}.
+   *
    * @return Matrix from which this Bitmap's content was transformed, or {@code null}.
    */
   public Matrix getCreatedFromMatrix() {
@@ -178,6 +180,7 @@ public class ShadowBitmap {
 
   /**
    * {@code true} if this Bitmap was created with filtering.
+   *
    * @return {@code true} if this Bitmap was created with filtering.
    */
   public boolean getCreatedFromFilter() {
@@ -222,7 +225,14 @@ public class ShadowBitmap {
     if (displayMetrics != null) {
       shadowBitmap.density = displayMetrics.densityDpi;
     }
-    shadowBitmap.setPixels(new int[shadowBitmap.getHeight() * shadowBitmap.getWidth()], 0, shadowBitmap.getWidth(), 0, 0, shadowBitmap.getWidth(), shadowBitmap.getHeight());
+    shadowBitmap.setPixels(
+        new int[shadowBitmap.getHeight() * shadowBitmap.getWidth()],
+        0,
+        shadowBitmap.getWidth(),
+        0,
+        0,
+        shadowBitmap.getWidth(),
+        shadowBitmap.getHeight());
     return scaledBitmap;
   }
 
@@ -254,7 +264,14 @@ public class ShadowBitmap {
     shadowBitmap.createdFromFilter = filter;
     shadowBitmap.width = dstWidth;
     shadowBitmap.height = dstHeight;
-    shadowBitmap.setPixels(new int[shadowBitmap.getHeight() * shadowBitmap.getWidth()], 0, 0, 0, 0, shadowBitmap.getWidth(), shadowBitmap.getHeight());
+    shadowBitmap.setPixels(
+        new int[shadowBitmap.getHeight() * shadowBitmap.getWidth()],
+        0,
+        0,
+        0,
+        0,
+        shadowBitmap.getWidth(),
+        shadowBitmap.getHeight());
     return scaledBitmap;
   }
 
@@ -291,7 +308,11 @@ public class ShadowBitmap {
   @Implementation
   protected static Bitmap createBitmap(
       Bitmap src, int x, int y, int width, int height, Matrix matrix, boolean filter) {
-    if (x == 0 && y == 0 && width == src.getWidth() && height == src.getHeight() && (matrix == null || matrix.isIdentity())) {
+    if (x == 0
+        && y == 0
+        && width == src.getWidth()
+        && height == src.getHeight()
+        && (matrix == null || matrix.isIdentity())) {
       return src; // Return the original.
     }
 
@@ -396,11 +417,11 @@ public class ShadowBitmap {
   @Implementation
   protected void getPixels(
       int[] pixels, int offset, int stride, int x, int y, int width, int height) {
-    if (x != 0 ||
-        y != 0 ||
-        width != getWidth() ||
-        height != getHeight() ||
-        pixels.length != colors.length) {
+    if (x != 0
+        || y != 0
+        || width != getWidth()
+        || height != getHeight()
+        || pixels.length != colors.length) {
       for (int y0 = 0; y0 < height; y0++) {
         for (int x0 = 0; x0 < width; x0++) {
           pixels[offset + y0 * stride + x0] = colors[(y0 + y) * getWidth() + x0 + x];
@@ -597,7 +618,9 @@ public class ShadowBitmap {
 
     // See the related comment in #copyPixelsToBuffer(Buffer).
     if (getBytesPerPixel(config) != INTERNAL_BYTES_PER_PIXEL) {
-      throw new RuntimeException("Not implemented: only Bitmaps with " + INTERNAL_BYTES_PER_PIXEL
+      throw new RuntimeException(
+          "Not implemented: only Bitmaps with "
+              + INTERNAL_BYTES_PER_PIXEL
               + " bytes per pixel are supported");
     }
     if (!(dst instanceof ByteBuffer)) {
@@ -621,7 +644,9 @@ public class ShadowBitmap {
     // getByteCount(), but if we don't enforce this restriction then for RGB_4444 and other
     // configs that value would be smaller then the buffer size we actually need.
     if (getBytesPerPixel(config) != INTERNAL_BYTES_PER_PIXEL) {
-      throw new RuntimeException("Not implemented: only Bitmaps with " + INTERNAL_BYTES_PER_PIXEL
+      throw new RuntimeException(
+          "Not implemented: only Bitmaps with "
+              + INTERNAL_BYTES_PER_PIXEL
               + " bytes per pixel are supported");
     }
 

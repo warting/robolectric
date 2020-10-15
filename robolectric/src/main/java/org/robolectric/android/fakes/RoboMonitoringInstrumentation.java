@@ -49,8 +49,10 @@ public class RoboMonitoringInstrumentation extends MonitoringInstrumentation {
   public ActivityController<? extends Activity> startActivitySyncInternal(Intent intent) {
     ActivityInfo ai = intent.resolveActivityInfo(getTargetContext().getPackageManager(), 0);
     if (ai == null) {
-      throw new RuntimeException("Unable to resolve activity for " + intent
-          + " -- see https://github.com/robolectric/robolectric/pull/4736 for details");
+      throw new RuntimeException(
+          "Unable to resolve activity for "
+              + intent
+              + " -- see https://github.com/robolectric/robolectric/pull/4736 for details");
     }
 
     Class<? extends Activity> activityClass;
@@ -61,17 +63,12 @@ public class RoboMonitoringInstrumentation extends MonitoringInstrumentation {
       throw new RuntimeException("Could not load activity " + ai.name, e);
     }
 
-    ActivityController<? extends Activity> controller = Robolectric
-        .buildActivity(activityClass, intent)
-        .create();
+    ActivityController<? extends Activity> controller =
+        Robolectric.buildActivity(activityClass, intent).create();
     if (controller.get().isFinishing()) {
       controller.destroy();
     } else {
-      controller.start()
-          .postCreate(null)
-          .resume()
-          .visible()
-          .windowFocusChanged(true);
+      controller.start().postCreate(null).resume().visible().windowFocusChanged(true);
     }
     return controller;
   }

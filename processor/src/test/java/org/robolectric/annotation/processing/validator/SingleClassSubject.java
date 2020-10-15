@@ -24,10 +24,9 @@ public final class SingleClassSubject extends Subject {
     return SingleClassSubject::new;
   }
 
-
   JavaFileObject source;
   CompileTester tester;
-  
+
   public SingleClassSubject(FailureMetadata failureMetadata, String subject) {
     super(failureMetadata, subject);
     source = JavaFileObjects.forResource(Utils.toResourcePath(subject));
@@ -45,7 +44,7 @@ public final class SingleClassSubject extends Subject {
     }
     return null;
   }
-  
+
   public SingleFileClause failsToCompile() {
     try {
       return new SingleFileClause(tester.failsToCompile(), source);
@@ -54,17 +53,17 @@ public final class SingleClassSubject extends Subject {
     }
     return null;
   }
-  
+
   final class SingleFileClause implements CompileTester.ChainingClause<SingleFileClause> {
 
     UnsuccessfulCompilationClause unsuccessful;
     JavaFileObject source;
-    
+
     public SingleFileClause(UnsuccessfulCompilationClause unsuccessful, JavaFileObject source) {
       this.unsuccessful = unsuccessful;
       this.source = source;
     }
-    
+
     public SingleLineClause withErrorContaining(final String messageFragment) {
       try {
         return new SingleLineClause(unsuccessful.withErrorContaining(messageFragment).in(source));
@@ -86,7 +85,7 @@ public final class SingleClassSubject extends Subject {
 
       return this;
     }
-    
+
     @Override
     public SingleFileClause and() {
       return this;
@@ -95,11 +94,11 @@ public final class SingleClassSubject extends Subject {
     final class SingleLineClause implements CompileTester.ChainingClause<SingleFileClause> {
 
       LineClause lineClause;
-      
+
       public SingleLineClause(LineClause lineClause) {
         this.lineClause = lineClause;
       }
-      
+
       public CompileTester.ChainingClause<SingleFileClause> onLine(long lineNumber) {
         try {
           lineClause.onLine(lineNumber);
@@ -114,12 +113,11 @@ public final class SingleClassSubject extends Subject {
         }
         return null;
       }
-      
+
       @Override
       public SingleFileClause and() {
         return SingleFileClause.this;
       }
-    
     }
   }
 }

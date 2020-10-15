@@ -66,12 +66,13 @@ public class ShadowPackageInstaller {
     sessionInfos.put(sessionInfo.getSessionId(), sessionInfo);
 
     for (final CallbackInfo callbackInfo : callbackInfos) {
-      callbackInfo.handler.post(new Runnable() {
-        @Override
-        public void run() {
-          callbackInfo.callback.onCreated(sessionInfo.sessionId);
-        }
-      });
+      callbackInfo.handler.post(
+          new Runnable() {
+            @Override
+            public void run() {
+              callbackInfo.callback.onCreated(sessionInfo.sessionId);
+            }
+          });
     }
 
     return sessionInfo.sessionId;
@@ -83,12 +84,13 @@ public class ShadowPackageInstaller {
     sessions.remove(sessionId);
 
     for (final CallbackInfo callbackInfo : callbackInfos) {
-      callbackInfo.handler.post(new Runnable() {
-        @Override
-        public void run() {
-          callbackInfo.callback.onFinished(sessionId, false);
-        }
-      });
+      callbackInfo.handler.post(
+          new Runnable() {
+            @Override
+            public void run() {
+              callbackInfo.callback.onFinished(sessionId, false);
+            }
+          });
     }
   }
 
@@ -108,18 +110,19 @@ public class ShadowPackageInstaller {
 
   public void setSessionProgress(final int sessionId, final float progress) {
     for (final CallbackInfo callbackInfo : callbackInfos) {
-      callbackInfo.handler.post(new Runnable() {
-        @Override
-        public void run() {
-          callbackInfo.callback.onProgressChanged(sessionId, progress);
-        }
-      });
+      callbackInfo.handler.post(
+          new Runnable() {
+            @Override
+            public void run() {
+              callbackInfo.callback.onProgressChanged(sessionId, progress);
+            }
+          });
     }
   }
 
   /**
-   * Prefer instead to use the Android APIs to close the session
-   * {@link android.content.pm.PackageInstaller.Session#commit(IntentSender)}
+   * Prefer instead to use the Android APIs to close the session {@link
+   * android.content.pm.PackageInstaller.Session#commit(IntentSender)}
    */
   @Deprecated
   public void setSessionSucceeds(int sessionId) {
@@ -132,20 +135,21 @@ public class ShadowPackageInstaller {
 
   private void setSessionFinishes(final int sessionId, final boolean success) {
     for (final CallbackInfo callbackInfo : callbackInfos) {
-      callbackInfo.handler.post(new Runnable() {
-        @Override
-        public void run() {
-          callbackInfo.callback.onFinished(sessionId, success);
-        }
-      });
+      callbackInfo.handler.post(
+          new Runnable() {
+            @Override
+            public void run() {
+              callbackInfo.callback.onFinished(sessionId, success);
+            }
+          });
     }
 
     PackageInstaller.Session session = sessions.get(sessionId);
     ShadowSession shadowSession = Shadow.extract(session);
     if (success) {
       try {
-        shadowSession.statusReceiver
-            .sendIntent(RuntimeEnvironment.application, 0, null, null, null, null);
+        shadowSession.statusReceiver.sendIntent(
+            RuntimeEnvironment.application, 0, null, null, null, null);
       } catch (SendIntentException e) {
         throw new RuntimeException(e);
       }
@@ -168,17 +172,16 @@ public class ShadowPackageInstaller {
     @NonNull
     protected OutputStream openWrite(@NonNull String name, long offsetBytes, long lengthBytes)
         throws IOException {
-      outputStream = new OutputStream() {
-        @Override
-        public void write(int aByte) throws IOException {
+      outputStream =
+          new OutputStream() {
+            @Override
+            public void write(int aByte) throws IOException {}
 
-        }
-
-        @Override
-        public void close() throws IOException {
-          outputStreamOpen = false;
-        }
-      };
+            @Override
+            public void close() throws IOException {
+              outputStreamOpen = false;
+            }
+          };
       outputStreamOpen = true;
       return outputStream;
     }
@@ -204,8 +207,8 @@ public class ShadowPackageInstaller {
       shadowPackageInstaller.abandonSession(sessionId);
     }
 
-    private void setShadowPackageInstaller(int sessionId,
-        ShadowPackageInstaller shadowPackageInstaller) {
+    private void setShadowPackageInstaller(
+        int sessionId, ShadowPackageInstaller shadowPackageInstaller) {
       this.sessionId = sessionId;
       this.shadowPackageInstaller = shadowPackageInstaller;
     }

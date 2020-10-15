@@ -20,29 +20,42 @@ public class SupportFragmentTestUtil {
 
   public static void startFragment(Fragment fragment) {
     buildSupportFragmentManager(FragmentUtilActivity.class)
-        .beginTransaction().add(fragment, null).commitNow();
+        .beginTransaction()
+        .add(fragment, null)
+        .commitNow();
     shadowMainLooper().idleIfPaused();
   }
 
-  public static void startFragment(Fragment fragment, Class<? extends FragmentActivity> fragmentActivityClass) {
+  public static void startFragment(
+      Fragment fragment, Class<? extends FragmentActivity> fragmentActivityClass) {
     buildSupportFragmentManager(fragmentActivityClass)
-        .beginTransaction().add(fragment, null).commitNow();
+        .beginTransaction()
+        .add(fragment, null)
+        .commitNow();
     shadowMainLooper().idleIfPaused();
   }
 
   public static void startVisibleFragment(Fragment fragment) {
     buildSupportFragmentManager(FragmentUtilActivity.class)
-        .beginTransaction().add(1, fragment, null).commitNow();
+        .beginTransaction()
+        .add(1, fragment, null)
+        .commitNow();
     shadowMainLooper().idleIfPaused();
   }
 
-  public static void startVisibleFragment(Fragment fragment, Class<? extends FragmentActivity> fragmentActivityClass, int containerViewId) {
+  public static void startVisibleFragment(
+      Fragment fragment,
+      Class<? extends FragmentActivity> fragmentActivityClass,
+      int containerViewId) {
     buildSupportFragmentManager(fragmentActivityClass)
-        .beginTransaction().add(containerViewId, fragment, null).commitNow();
+        .beginTransaction()
+        .add(containerViewId, fragment, null)
+        .commitNow();
     shadowMainLooper().idle();
   }
 
-  private static FragmentManager buildSupportFragmentManager(Class<? extends FragmentActivity> fragmentActivityClass) {
+  private static FragmentManager buildSupportFragmentManager(
+      Class<? extends FragmentActivity> fragmentActivityClass) {
     FragmentActivity activity = Robolectric.setupActivity(fragmentActivityClass);
     return activity.getSupportFragmentManager();
   }

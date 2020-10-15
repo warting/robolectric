@@ -98,52 +98,61 @@ public class RobolectricTestRunnerTest {
   @Test
   public void ignoredTestCanSpecifyUnsupportedSdkWithoutExploding() throws Exception {
     RobolectricTestRunner runner =
-        new RobolectricTestRunner(TestWithOldSdk.class,
+        new RobolectricTestRunner(
+            TestWithOldSdk.class,
             org.robolectric.RobolectricTestRunner.defaultInjector()
                 .bind(org.robolectric.pluginapi.SdkPicker.class, AllEnabledSdkPicker.class)
                 .build());
     runner.run(notifier);
-    assertThat(events).containsExactly(
-        "started: oldSdkMethod",
-        "failure: API level 11 is not available",
-        "finished: oldSdkMethod",
-        "ignored: ignoredOldSdkMethod"
-    ).inOrder();
+    assertThat(events)
+        .containsExactly(
+            "started: oldSdkMethod",
+            "failure: API level 11 is not available",
+            "finished: oldSdkMethod",
+            "ignored: ignoredOldSdkMethod")
+        .inOrder();
   }
 
   @Test
   public void testsWithUnsupportedSdkShouldBeIgnored() throws Exception {
-    RobolectricTestRunner runner = new RobolectricTestRunner(
-        TestWithTwoMethods.class,
-        defaultInjector()
-            .bind(SdkProvider.class, () ->
-                Arrays.asList(TestUtil.getSdkCollection().getSdk(17),
-                    new StubSdk(18, false)))
-            .build());
+    RobolectricTestRunner runner =
+        new RobolectricTestRunner(
+            TestWithTwoMethods.class,
+            defaultInjector()
+                .bind(
+                    SdkProvider.class,
+                    () ->
+                        Arrays.asList(
+                            TestUtil.getSdkCollection().getSdk(17), new StubSdk(18, false)))
+                .build());
     runner.run(notifier);
-    assertThat(events).containsExactly(
-        "started: first[17]", "finished: first[17]",
-        "started: first",
-        "ignored: first: Failed to create a Robolectric sandbox: unsupported",
-        "finished: first",
-        "started: second[17]", "finished: second[17]",
-        "started: second",
-        "ignored: second: Failed to create a Robolectric sandbox: unsupported",
-        "finished: second"
-    ).inOrder();
+    assertThat(events)
+        .containsExactly(
+            "started: first[17]",
+            "finished: first[17]",
+            "started: first",
+            "ignored: first: Failed to create a Robolectric sandbox: unsupported",
+            "finished: first",
+            "started: second[17]",
+            "finished: second[17]",
+            "started: second",
+            "ignored: second: Failed to create a Robolectric sandbox: unsupported",
+            "finished: second")
+        .inOrder();
   }
 
   @Test
   public void supportsOldGetConfigUntil4dot3() throws Exception {
     Implementation overriddenConfig = Config.Builder.defaults().build();
-    List<FrameworkMethod> children = new SingleSdkRobolectricTestRunner(TestWithTwoMethods.class) {
-      @Override
-      public Config getConfig(Method method) {
-        return overriddenConfig;
-      }
-    }.getChildren();
-    Config config = ((RobolectricFrameworkMethod) children.get(0))
-        .getConfiguration().get(Config.class);
+    List<FrameworkMethod> children =
+        new SingleSdkRobolectricTestRunner(TestWithTwoMethods.class) {
+          @Override
+          public Config getConfig(Method method) {
+            return overriddenConfig;
+          }
+        }.getChildren();
+    Config config =
+        ((RobolectricFrameworkMethod) children.get(0)).getConfiguration().get(Config.class);
     assertThat(config).isSameInstanceAs(overriddenConfig);
   }
 
@@ -153,23 +162,26 @@ public class RobolectricTestRunnerTest {
         new SingleSdkRobolectricTestRunner(
             TestWithTwoMethods.class,
             SingleSdkRobolectricTestRunner.defaultInjector()
-                .bind(TestEnvironmentSpec.class,
+                .bind(
+                    TestEnvironmentSpec.class,
                     new TestEnvironmentSpec(AndroidTestEnvironmentWithFailingSetUp.class))
                 .build());
     runner.run(notifier);
-    assertThat(events).containsExactly(
-        "started: first",
-        "failure: fake error in setUpApplicationState",
-        "finished: first",
-        "started: second",
-        "failure: fake error in setUpApplicationState",
-        "finished: second"
-    ).inOrder();
+    assertThat(events)
+        .containsExactly(
+            "started: first",
+            "failure: fake error in setUpApplicationState",
+            "finished: first",
+            "started: second",
+            "failure: fake error in setUpApplicationState",
+            "finished: second")
+        .inOrder();
   }
 
   @Test
   public void failureInAppOnCreateDoesntBreakAllTests() throws Exception {
-    RobolectricTestRunner runner = new SingleSdkRobolectricTestRunner(TestWithBrokenAppCreate.class);
+    RobolectricTestRunner runner =
+        new SingleSdkRobolectricTestRunner(TestWithBrokenAppCreate.class);
     runner.run(notifier);
     assertThat(events)
         .containsExactly(
@@ -178,13 +190,14 @@ public class RobolectricTestRunnerTest {
             "finished: first",
             "started: second",
             "failure: fake error in application.onCreate",
-            "finished: second"
-        ).inOrder();
+            "finished: second")
+        .inOrder();
   }
 
   @Test
   public void failureInAppOnTerminateDoesntBreakAllTests() throws Exception {
-    RobolectricTestRunner runner = new SingleSdkRobolectricTestRunner(TestWithBrokenAppTerminate.class);
+    RobolectricTestRunner runner =
+        new SingleSdkRobolectricTestRunner(TestWithBrokenAppTerminate.class);
     runner.run(notifier);
     assertThat(events)
         .containsExactly(
@@ -193,8 +206,8 @@ public class RobolectricTestRunnerTest {
             "finished: first",
             "started: second",
             "failure: fake error in application.onTerminate",
-            "finished: second"
-        ).inOrder();
+            "finished: second")
+        .inOrder();
   }
 
   @Test
@@ -253,7 +266,7 @@ public class RobolectricTestRunnerTest {
         new SingleSdkRobolectricTestRunner(
             TestWithTwoMethods.class,
             RobolectricTestRunner.defaultInjector()
-                .bind(PerfStatsReporter[].class, new PerfStatsReporter[]{reporter})
+                .bind(PerfStatsReporter[].class, new PerfStatsReporter[] {reporter})
                 .build());
 
     runner.run(notifier);
@@ -266,13 +279,13 @@ public class RobolectricTestRunnerTest {
   public void shouldResetThreadInterrupted() throws Exception {
     RobolectricTestRunner runner = new SingleSdkRobolectricTestRunner(TestWithInterrupt.class);
     runner.run(notifier);
-    assertThat(events).containsExactly(
-        "started: first",
-        "finished: first",
-        "started: second",
-        "failure: failed for the right reason",
-        "finished: second"
-    );
+    assertThat(events)
+        .containsExactly(
+            "started: first",
+            "finished: first",
+            "started: second",
+            "failure: failed for the right reason",
+            "finished: second");
   }
 
   @Test
@@ -305,14 +318,16 @@ public class RobolectricTestRunnerTest {
     public AndroidTestEnvironmentWithFailingSetUp(
         @Named("runtimeSdk") Sdk runtimeSdk,
         @Named("compileSdk") Sdk compileSdk,
-        ResourcesMode resourcesMode, ApkLoader apkLoader, ShadowProvider[] shadowProviders,
+        ResourcesMode resourcesMode,
+        ApkLoader apkLoader,
+        ShadowProvider[] shadowProviders,
         TestEnvironmentLifecyclePlugin[] lifecyclePlugins) {
       super(runtimeSdk, compileSdk, resourcesMode, apkLoader, shadowProviders, lifecyclePlugins);
     }
 
     @Override
-    public void setUpApplicationState(Method method,
-        Configuration configuration, AndroidManifest appManifest) {
+    public void setUpApplicationState(
+        Method method, Configuration configuration, AndroidManifest appManifest) {
       throw new RuntimeException("fake error in setUpApplicationState");
     }
   }
@@ -338,12 +353,10 @@ public class RobolectricTestRunnerTest {
   @Config(qualifiers = "w123dp-h456dp-land-hdpi")
   public static class TestWithTwoMethods {
     @Test
-    public void first() throws Exception {
-    }
+    public void first() throws Exception {}
 
     @Test
-    public void second() throws Exception {
-    }
+    public void second() throws Exception {}
   }
 
   @Ignore
@@ -403,8 +416,11 @@ public class RobolectricTestRunnerTest {
           out.write("hi!".getBytes());
         }
 
-        FileSystemProvider jarFSP = FileSystemProvider.installedProviders().stream()
-            .filter(p -> p.getScheme().equals("jar")).findFirst().get();
+        FileSystemProvider jarFSP =
+            FileSystemProvider.installedProviders().stream()
+                .filter(p -> p.getScheme().equals("jar"))
+                .findFirst()
+                .get();
         Path fakeJarFile = Paths.get(jarPath.toUri());
 
         // if Thread.interrupted() was true, this would fail in AbstractInterruptibleChannel:

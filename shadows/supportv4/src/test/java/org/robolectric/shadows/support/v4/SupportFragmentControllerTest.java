@@ -67,7 +67,9 @@ public class SupportFragmentControllerTest {
   @Test
   public void attachedAfterCreate_customizedViewId() {
     final LoginFragment fragment = new LoginFragment();
-    SupportFragmentController.of(fragment, CustomizedViewIdLoginActivity.class).create(VIEW_ID_CUSTOMIZED_LOGIN_ACTIVITY, null).start();
+    SupportFragmentController.of(fragment, CustomizedViewIdLoginActivity.class)
+        .create(VIEW_ID_CUSTOMIZED_LOGIN_ACTIVITY, null)
+        .start();
 
     assertThat(fragment.getView()).isNotNull();
     assertThat(fragment.getActivity()).isNotNull();
@@ -112,7 +114,12 @@ public class SupportFragmentControllerTest {
   @Test
   public void isStopped() {
     final LoginFragment fragment = new LoginFragment();
-    SupportFragmentController.of(fragment, LoginActivity.class).create().start().resume().pause().stop();
+    SupportFragmentController.of(fragment, LoginActivity.class)
+        .create()
+        .start()
+        .resume()
+        .pause()
+        .stop();
 
     assertThat(fragment.getView()).isNotNull();
     assertThat(fragment.getActivity()).isNotNull();
@@ -138,7 +145,8 @@ public class SupportFragmentControllerTest {
   @Test
   public void visible() {
     final LoginFragment fragment = new LoginFragment();
-    final SupportFragmentController<LoginFragment> controller = SupportFragmentController.of(fragment, LoginActivity.class);
+    final SupportFragmentController<LoginFragment> controller =
+        SupportFragmentController.of(fragment, LoginActivity.class);
 
     controller.create().start().resume();
     assertThat(fragment.isVisible()).isFalse();
@@ -168,7 +176,8 @@ public class SupportFragmentControllerTest {
     public List<String> transcript = new ArrayList<>();
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(
+        LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
       return inflater.inflate(R.layout.fragment_contents, container, false);
     }
 

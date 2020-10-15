@@ -28,9 +28,7 @@ import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.Implements;
 import org.robolectric.annotation.RealObject;
 
-/**
- * The shadow only supports straight-line paths.
- */
+/** The shadow only supports straight-line paths. */
 @SuppressWarnings({"UnusedDeclaration"})
 @Implements(Path.class)
 public class ShadowPath {
@@ -152,9 +150,7 @@ public class ShadowPath {
     return result;
   }
 
-  /**
-   * @return all the points that have been added to the {@code Path}
-   */
+  /** @return all the points that have been added to the {@code Path} */
   public List<Point> getPoints() {
     return points;
   }

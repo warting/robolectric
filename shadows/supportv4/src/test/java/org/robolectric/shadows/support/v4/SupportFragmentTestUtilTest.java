@@ -71,7 +71,8 @@ public class SupportFragmentTestUtilTest {
   }
 
   @Test
-  public void startVisibleFragment_shouldAttachSupportFragmentToActivityWithSpecifiedActivityClass() {
+  public void
+      startVisibleFragment_shouldAttachSupportFragmentToActivityWithSpecifiedActivityClass() {
     final LoginSupportFragment fragment = new LoginSupportFragment();
     startVisibleFragment(fragment, LoginFragmentActivity.class, 1);
 
@@ -81,7 +82,8 @@ public class SupportFragmentTestUtilTest {
 
   public static class LoginSupportFragment extends Fragment {
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(
+        LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
       return inflater.inflate(R.layout.fragment_contents, container, false);
     }
   }

@@ -11,8 +11,7 @@ import org.robolectric.shadow.api.Shadow;
 
 @Implements(AppWidgetHost.class)
 public class ShadowAppWidgetHost {
-  @RealObject
-  private AppWidgetHost realAppWidgetHost;
+  @RealObject private AppWidgetHost realAppWidgetHost;
 
   private Context context;
   private int hostId;
